@@ -1,0 +1,25 @@
+
+.client-block{
+    margin-top:25px;
+    padding-top: 25px;
+    padding-bottom: 25px;
+    background:#fff;
+
+}
+.service-container{
+    position:relative;
+    height:500px;
+    overflow:hidden;
+}
+.bottom-buttons{
+    position:absolute;
+    left:10px;
+    right:10px;
+    bottom:10px;
+}
+.link-to-cart{
+    display:none;
+}
+.form-horizontal .control-label{
+    text-align: left;
+}
