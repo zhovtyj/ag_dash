@@ -13,26 +13,47 @@
     <hr>
     <div class="row">
         <div class="col-md-12">
-            <?php $i=0?>
             @foreach($services as $service)
-                <?php $i++?>
-                @if($i==1 || ($i%3)==0)
+                @if($loop->iteration == 1 || ($loop->iteration%3) == 0)
                     <div class="row">
                         @endif
                         <div class="col-sm-6 col-md-4">
                             <div class="thumbnail service-container">
+                                <div class="service-header">
+                                    <div class="service-header-name">{{$service->name}}</div>
+                                    <div class="service-header-price">
+                                        <span class="glyphicon glyphicon-usd"></span>
+                                        {{$service->price}}
+                                    </div>
+                                    @if(($service->old_price) && ($service->old_price != $service->price))
+                                        <div class="service-header-old-price">
+                                            <span class="glyphicon glyphicon-usd"></span>
+                                            {{$service->old_price}}
+                                        </div>
+                                    @endif
+                                </div>
                                 <img src="/upload_images/services/{{$service->image}}" >
                                 <div class="caption">
-                                    <h3>{{$service->name}}</h3>
                                     <p>{!! mb_substr(strip_tags($service->short_description), 0, 150) !!}{{ strlen(strip_tags($service->short_description)) > 150 ? "..." : "" }}</p>
-                                    <p>
-                                        Old price:{{$service->old_price}}<span class="glyphicon glyphicon-usd"></span>
-                                        <br>Price:{{$service->price}}<span class="glyphicon glyphicon-usd"></span>
-                                    </p>
+                                    <hr>
+                                    <ul class="additional-services">
+                                        @foreach($service->serviceoptionals as $serviceoptional)
+                                            <h4><strong>{{$serviceoptional->name}} ({{$serviceoptional->service->name}})</strong></h4>
+                                                @foreach($serviceoptional->serviceOptionalDescriptions as $description)
+                                                <div class="checkbox">
+                                                    <label class="additional-services-label"><input type="checkbox" value="">
+                                                        {{$description->description}}
+                                                        <span class="additional-services-span badge"><span class="glyphicon glyphicon-usd"></span> {{$description->price}}</span>
+                                                    </label>
+                                                </div>
+
+                                                @endforeach
+                                        @endforeach
+                                    </ul>
                                     <div class="bottom-buttons">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <a href="" class="btn btn-primary btn-block" role="button">
+                                                <a href="{{ route('agency.service.show', $service->id) }}" class="btn btn-primary btn-block" role="button">
                                                     <span class="glyphicon glyphicon-eye-open"> </span>
                                                     Read more
                                                 </a>
@@ -48,7 +69,7 @@
                                 </div>
                             </div>
                         </div>
-                        @if(($i%3)==0)
+                        @if(($loop->iteration % 3) == 0)
                     </div>
                 @endif
             @endforeach

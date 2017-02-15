@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateServicesTable extends Migration
+class CreateServiceOptionalDescriptionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,11 @@ class CreateServicesTable extends Migration
      */
     public function up()
     {
-        Schema::create('services', function (Blueprint $table) {
+        Schema::create('service_optional_descriptions', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->integer('price');
-            $table->string('old_price');
-            $table->string('image')->default('');
-            $table->text('short_description');
+            $table->integer('service_optional_id')->unsigned();
             $table->text('description');
-            $table->boolean('active');
+            $table->integer('price');
             $table->timestamps();
         });
     }
@@ -33,6 +29,6 @@ class CreateServicesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('services');
+        Schema::dropIfExists('service_optional_descriptions');
     }
 }

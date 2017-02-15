@@ -9,7 +9,13 @@ class ServiceController extends Controller
 {
     public function index()
     {
-        $services = Service::where('active', '=', '1')->get();
+        $services = Service::orderBy('id', 'desc')->paginate(100);
         return view('agency.service.index')->withServices($services);
+    }
+
+    public function show($id)
+    {
+        $service = Service::find($id);
+        return view('agency.service.show')->withService($service);
     }
 }

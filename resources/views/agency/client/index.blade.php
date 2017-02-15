@@ -52,7 +52,7 @@
                                     <td>{{$client->business_website}}</td>
                                     <td>
                                         <button class="btn btn-success btn-block">
-                                            <a href="{{route('service.index', $client->id)}}" title="Order New Service"><span class="glyphicon glyphicon-plus" style="color:#fff"></span></a>
+                                            <a href="{{route('agency.service.index', $client->id)}}" title="Order New Service"><span class="glyphicon glyphicon-plus" style="color:#fff"></span></a>
                                         </button>
                                         <button class="btn btn-success btn-block">
                                             <a href="#" title="See all projects"><span class="glyphicon glyphicon-th-list" style="color:#fff"></span></a>
