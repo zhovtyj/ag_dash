@@ -10,4 +10,9 @@ class Client extends Model
     {
         return $this->belongsTo('App\User');
     }
+
+    public function cart()
+    {
+        return $this->hasMany('App\Cart');
+    }
 }

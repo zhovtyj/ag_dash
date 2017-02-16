@@ -24,8 +24,11 @@ Route::group(['middleware'=>'roles', 'roles'=> ['agency']], function(){
     Route::resource('client', 'ClientController');
 
     //Service
-    Route::get('client/{id}/service', ['uses' => 'ServiceController@index', 'as' => 'agency.service.index']);
+    Route::get('client/{client_id}/service', ['uses' => 'ServiceController@index', 'as' => 'agency.service.index']);
     Route::get('client/service/{service_id}', ['uses' => 'ServiceController@show', 'as' => 'agency.service.show']);
+
+    //Add to cart Ajax
+    Route::post('/addtocart/{client_id}', ['uses' => 'CartController@addToCartAjax', 'as' => 'agency.addtocart' ]);
 
 
 

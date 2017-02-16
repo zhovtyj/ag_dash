@@ -36,12 +36,13 @@
                                 <div class="caption">
                                     <p>{!! mb_substr(strip_tags($service->short_description), 0, 150) !!}{{ strlen(strip_tags($service->short_description)) > 150 ? "..." : "" }}</p>
                                     <hr>
-                                    <ul class="additional-services">
+                                    <ul data-service-id="{{$service->id}}" class="additional-services">
                                         @foreach($service->serviceoptionals as $serviceoptional)
-                                            <h4><strong>{{$serviceoptional->name}} ({{$serviceoptional->service->name}})</strong></h4>
+                                            <h4><strong>{{$serviceoptional->name}}</strong></h4>
                                                 @foreach($serviceoptional->serviceOptionalDescriptions as $description)
                                                 <div class="checkbox">
-                                                    <label class="additional-services-label"><input type="checkbox" value="">
+                                                    <label class="additional-services-label">
+                                                        <input type="checkbox" name="serviceOptionalDescription{{$description->id}}" id="serviceOptionalDescription{{$description->id}}" value="{{$description->id}}">
                                                         {{$description->description}}
                                                         <span class="additional-services-span badge"><span class="glyphicon glyphicon-usd"></span> {{$description->price}}</span>
                                                     </label>
@@ -80,15 +81,20 @@
 @section('javascript')
     <script>
         //Add Service to the cart
-        var url = "";
+        var url = "{{route('agency.addtocart', $client->id)}}";
         var token = "{{ csrf_token() }}";
         $('.add-to-cart').on('click', function(){
             var  id = $(this).attr("id");
+            var description_ids = [];
+            $('[data-service-id='+id+'] input:checkbox:checked').each(function(){
+                description_ids.push($(this).val());
+            });
             console.log(id);
+            console.log(description_ids);
             $.ajax({
                 type: "POST",
                 url: url,
-                data: {id:id, _token:token},
+                data: {id:id, description_ids:description_ids, _token:token},
                 success: function(data) {
                     //Inc Cart count
                     var cartCount = $('#cart-count').text();
