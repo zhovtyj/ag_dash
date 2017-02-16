@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Session;
 use App\Cart;
 use App\CartServiceOptional;
 use App\Client;
@@ -11,18 +12,26 @@ use App\Service;
 
 class CartController extends Controller
 {
-    public function addToCartAjax(Request $request, $client_id){
+    public function index($client_id)
+    {
+        $client = Client::find($client_id);
+        $cart = Cart::where('client_id', $client_id)->get();
+        //return view('agency.cart.index')->withCart($cart);
+        return view('agency.cart.index')->withClient($client)->withCart($cart);
+    }
 
-//        $user = User::find(Auth::user()->id);
-//        $service = Service::find($request->id);
-//        $cart = New Cart;
-//
-//        $cart->user()->associate($user);
-//        $cart->service()->associate($service);
-//        $cart->price = $service->price;
-//        $cart->count = 1;
-//
-//        $cart->save();
+    public function destroy($client_id, $id)
+    {
+        $cart = Cart::find($id);
+        $cart->cartServiceOptionals()->delete();
+        $cart->delete();
+
+        Session::flash('success', 'Service was deleted from the cart!');
+
+        return redirect()->route('cart.index', $client_id);
+    }
+
+    public function addToCartAjax(Request $request, $client_id){
 
         $client = Client::find($client_id);
         $service = Service::find($request->id);

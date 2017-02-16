@@ -89,7 +89,7 @@
                         <div class="panel-footer">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <a class="btn btn-success btn-block" href="{{route('service.index', $client->id)}}" title="Order New Service">
+                                    <a class="btn btn-success btn-block" href="{{route('agency.service.index', $client->id)}}" title="Order New Service">
                                         <span class="glyphicon glyphicon-plus" style="color:#fff"></span>
                                         New Service
                                     </a>

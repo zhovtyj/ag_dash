@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Client;
 use Session;
+use App\CartServiceOptional;
 
 class ClientController extends Controller
 {
@@ -97,6 +98,8 @@ class ClientController extends Controller
     public function destroy($id)
     {
         $client = Client::find($id);
+        //$client->cart()->cartserviceoptionals()->delete();
+        $client->cart()->delete();
         $client->delete();
         Session::flash('success', 'Client was deleted!');
 

@@ -42,7 +42,7 @@
                                                 @foreach($serviceoptional->serviceOptionalDescriptions as $description)
                                                 <div class="checkbox">
                                                     <label class="additional-services-label">
-                                                        <input type="checkbox" name="serviceOptionalDescription{{$description->id}}" id="serviceOptionalDescription{{$description->id}}" value="{{$description->id}}">
+                                                        <input type="checkbox" name="serviceOptionalDescription{{$description->id}}" id="serviceOptionalDescription{{$description->id}}" value="{{$description->id}}" data-price="{{$description->price}}">
                                                         {{$description->description}}
                                                         <span class="additional-services-span badge"><span class="glyphicon glyphicon-usd"></span> {{$description->price}}</span>
                                                     </label>
@@ -84,12 +84,15 @@
         var url = "{{route('agency.addtocart', $client->id)}}";
         var token = "{{ csrf_token() }}";
         $('.add-to-cart').on('click', function(){
-            var  id = $(this).attr("id");
+            var id = $(this).attr("id");
             var description_ids = [];
+            var total_service_price = 0;
             $('[data-service-id='+id+'] input:checkbox:checked').each(function(){
                 description_ids.push($(this).val());
+                total_service_price = total_service_price + Number($(this).attr('data-price'));
             });
             console.log(id);
+            //console.log(total_service_price);
             console.log(description_ids);
             $.ajax({
                 type: "POST",
@@ -99,21 +102,23 @@
                     //Inc Cart count
                     var cartCount = $('#cart-count').text();
                     cartCount = Number(cartCount)+1;
+                    var service_price=total_service_price+data.service.price;
                     $('#cart-count').html(cartCount);
                     $('.cart-empty').hide();
                     $('.link-to-cart').show();
                     $('.append-before').before('' +
                         '<li>' +
-                        '<a href="/services/'+data.id+'">' +
+                        '<a href="/services/'+data.service.id+'">' +
                         '<div>' +
-                        '<i class="glyphicon glyphicon-check"></i>'+data.name+'' +
-                        '<span class="pull-right text-muted small">'+data.price+'$</span>' +
+                        '<i class="glyphicon glyphicon-check"></i>'+data.service.name+'' +
+                        '<span class="pull-right text-muted small">'+service_price+'$</span>' +
                         '</div>' +
                         '</a>' +
                         '</li>');
                     console.log(data);
                 }
             });
+            $(this).html('<span class="glyphicon glyphicon-shopping-cart"> </span> Added in cart')
         });
     </script>
 @endsection

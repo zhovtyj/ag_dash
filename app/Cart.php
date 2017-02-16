@@ -16,7 +16,7 @@ class Cart extends Model
         return $this->belongsTo('App\Service');
     }
 
-    public function cartServiceOptional()
+    public function cartServiceOptionals()
     {
         return $this->hasMany('App\CartServiceOptional');
     }

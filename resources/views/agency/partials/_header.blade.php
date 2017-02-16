@@ -23,34 +23,51 @@
                 </span>
             </a>
             <ul class="dropdown-menu dropdown-alerts" id="cart-items-container">
-            @if(isset($cart) && $cart->count() > 0)
+            @if(isset($client) && isset($cart) && ($cart->count() > 0))
                 @foreach($cart as $cart_item)
                     <li>
-                        <a href="{{ route('client.services.show', $cart_item->service->id) }}">
+                        <a href="{{ route('agency.service.show', $cart_item->service->id) }}">
                             <div>
                                 <i class="glyphicon glyphicon-check"></i> {{$cart_item->service->name}}
-                                <span class="pull-right text-muted small">{{$cart_item->service->price}}$</span>
+                                <span class="pull-right text-muted small">
+                                    <?php $cart_item_total_price = 0;?>
+                                    @if(isset($cart_item->cartServiceOptionals))
+                                        @foreach($cart_item->cartServiceOptionals as $cartServiceOptional)
+                                            <?php $cart_item_total_price += $cartServiceOptional->serviceOptionalDescription->price; ?>
+                                        @endforeach
+                                    @endif
+                                    {{$cart_item_total_price+$cart_item->service->price}}$
+                                </span>
                             </div>
                         </a>
                     </li>
                 @endforeach
                 <li class="divider append-before"></li>
                 <li>
-                    <a href="{{route('cart.index')}}">
+                    <a href="{{route('cart.index', $client->id)}}">
                         <div>
                             <i class="glyphicon glyphicon-arrow-right"></i> Go to the cart
+                        </div>
+                    </a>
+                </li>
+            @elseif(isset($client))
+                <li class="divider append-before link-to-cart"></li>
+                <li class="link-to-cart">
+                    <a href="{{route('cart.index', $client->id)}}">
+                        <div>
+                            <i class="glyphicon glyphicon-arrow-right"></i> Go to the cart
+                        </div>
+                    </a>
+                </li>
+                <li class="cart-empty">
+                    <a href="#">
+                        <div>
+                            <i class="glyphicon glyphicon-check"></i> Cart is empty
                         </div>
                     </a>
                 </li>
             @else
                 <li class="divider append-before link-to-cart"></li>
-                <li class="link-to-cart">
-                    <a href="#">
-                        <div>
-                            <i class="glyphicon glyphicon-arrow-right"></i> Go to the cart
-                        </div>
-                    </a>
-                </li>
                 <li class="cart-empty">
                     <a href="#">
                         <div>

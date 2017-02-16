@@ -261,7 +261,7 @@ background-color: #225081;
 color: #fff;
 }
 .top-navbar .dropdown-menu{
-min-width: 230px;
+min-width: 260px;
 border-radius: 0 0 4px 4px;
 }
 .top-navbar .dropdown-menu > li > a:hover, .top-navbar .dropdown-menu > li > a:focus{

@@ -27,6 +27,10 @@ Route::group(['middleware'=>'roles', 'roles'=> ['agency']], function(){
     Route::get('client/{client_id}/service', ['uses' => 'ServiceController@index', 'as' => 'agency.service.index']);
     Route::get('client/service/{service_id}', ['uses' => 'ServiceController@show', 'as' => 'agency.service.show']);
 
+    //Cart
+    Route::get('/cart/{client_id}', ['uses' => 'CartController@index', 'as' => 'cart.index' ]);
+    Route::delete('/cart/{client_id}/{id}', ['uses' => 'CartController@destroy', 'as' => 'cart.destroy' ]);
+
     //Add to cart Ajax
     Route::post('/addtocart/{client_id}', ['uses' => 'CartController@addToCartAjax', 'as' => 'agency.addtocart' ]);
 

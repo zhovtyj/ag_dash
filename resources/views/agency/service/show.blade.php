@@ -1,4 +1,4 @@
-@extends('main')
+@extends('agency.main')
 
 @section('title', $service->name)
 

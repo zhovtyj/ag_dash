@@ -26,7 +26,7 @@
             @if(isset($cart) && $cart->count() > 0)
                 @foreach($cart as $cart_item)
                     <li>
-                        <a href="{{ route('client.services.show', $cart_item->service->id) }}">
+                        <a href="{{ route('agency.service.show', $cart_item->service->id) }}">
                             <div>
                                 <i class="glyphicon glyphicon-check"></i> {{$cart_item->service->name}}
                                 <span class="pull-right text-muted small">{{$cart_item->service->price}}$</span>
@@ -36,7 +36,7 @@
                 @endforeach
                 <li class="divider append-before"></li>
                 <li>
-                    <a href="{{route('cart.index')}}">
+                    <a href="{{route('cart.index', $client->id) }}">
                         <div>
                             <i class="glyphicon glyphicon-arrow-right"></i> Go to the cart
                         </div>
