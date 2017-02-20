@@ -25,6 +25,7 @@
                 </tr>
                 </thead>
                 <tbody>
+                <?php $total_price = 0;?>
                 @foreach($cart as $cart_item)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
@@ -34,7 +35,7 @@
                             @foreach($cart_item->cartServiceOptionals as $cartServiceOptional)
                                 <div class="row" style="position:relative">
                                     {{$cartServiceOptional->serviceOptionalDescription->description}}
-                                    <span class="badge">
+                                    <span class="badge" style="float:right;">
                                         <span class="glyphicon glyphicon-usd"></span>
                                         {{$cartServiceOptional->serviceOptionalDescription->price}}
                                     </span>
@@ -50,6 +51,7 @@
                                 @endforeach
                             @endif
                             <strong>{{$cart_item_total_price+$cart_item->service->price}}</strong>
+                            <?php $total_price += $cart_item_total_price+$cart_item->service->price ?>
                         </td>
                         <td>
                             {{ Form::open(['route' => ['cart.destroy', $client->id, $cart_item->id], 'method' =>'DELETE']) }}
@@ -59,9 +61,28 @@
                     </tr>
 
                 @endforeach
+                <tr>
+                    <td colspan="4"></td>
+                    <td>
+                        Total:<br>
+                        <span class="glyphicon glyphicon-usd"></span>
+                        <strong>{{$total_price}}</strong>
+                    </td>
+                    <td></td>
+                </tr>
                 </tbody>
             </table>
-
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-md-offset-6">
+            <button class="btn btn-success btn-block">Pay from Deposit</button>
+        </div>
+        <div class="col-md-3">
+            {!! Form::open(['route' => ['getCheckout', $client->id], 'method' =>'POST']) !!}
+                {!! Form::hidden('pay', $total_price) !!}
+                <button type="submit" class="btn btn-success btn-block">Pay with PayPal</button>
+            {!! Form::close() !!}
         </div>
     </div>
 @endsection

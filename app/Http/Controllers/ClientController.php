@@ -3,16 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Client;
 use Session;
-use App\CartServiceOptional;
+use Auth;
+use App\Client;
+use App\User;
 
 class ClientController extends Controller
 {
 
     public function index()
     {
-        $clients = Client::all();
+        $user = User::find(Auth::user()->id);
+        $clients = Client::where('user_id', '=', $user->id)->get();
         return view('agency.client.index')->withClients($clients);
     }
 
@@ -24,7 +26,9 @@ class ClientController extends Controller
     public function store(Request $request)
     {
         $client = new Client;
+        $user = User::find(Auth::user()->id);
 
+        $client->user()->associate($user);
         $client->business_name = $request->business_name;
         $client->address1 = $request->address1;
         $client->address2 = $request->address2;

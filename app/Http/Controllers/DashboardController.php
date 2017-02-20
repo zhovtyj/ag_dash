@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use App\Client;
+use App\User;
+
 class DashboardController extends Controller
 {
     /**
@@ -28,7 +30,8 @@ class DashboardController extends Controller
             return redirect()->route('admin.index');
         }
 
-        $clients = Client::all();
+        $user = User::find(Auth::user()->id);
+        $clients = Client::where('user_id', '=', $user->id)->get();
         return view('agency.dashboard.index')->withClients($clients);
     }
 }

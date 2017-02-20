@@ -34,6 +34,13 @@ Route::group(['middleware'=>'roles', 'roles'=> ['agency']], function(){
     //Add to cart Ajax
     Route::post('/addtocart/{client_id}', ['uses' => 'CartController@addToCartAjax', 'as' => 'agency.addtocart' ]);
 
+    //PayPal
+    Route::post('/cart/{client_id}/getCheckout', ['as'=>'getCheckout','uses'=>'PaypalController@getCheckout']);
+    Route::get('/cart/{client_id}/getDone', ['as'=>'getDone','uses'=>'PaypalController@getDone']);
+    Route::get('/cart/{client_id}/getCancel', ['as'=>'getCancel','uses'=>'PaypalController@getCancel']);
+
+    Route::get('/client/{client_id}/orders', ['uses' => 'OrderController@getClientOrders', 'as' => 'order.orders' ]);
+
 
 
 });

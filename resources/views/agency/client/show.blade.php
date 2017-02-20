@@ -95,7 +95,7 @@
                                     </a>
                                 </div>
                                 <div class="col-md-6">
-                                    <a class="btn btn-success btn-block" href="#" title="See all projects">
+                                    <a class="btn btn-success btn-block" href="{{route('order.orders', $client->id)}}" title="See all projects">
                                         <span class="glyphicon glyphicon-th-list" style="color:#fff"></span>
                                         All projects
                                     </a>

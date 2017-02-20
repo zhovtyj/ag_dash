@@ -55,7 +55,7 @@
                                             <a href="{{route('agency.service.index', $client->id)}}" title="Order New Service"><span class="glyphicon glyphicon-plus" style="color:#fff"></span></a>
                                         </button>
                                         <button class="btn btn-success btn-block">
-                                            <a href="#" title="See all projects"><span class="glyphicon glyphicon-th-list" style="color:#fff"></span></a>
+                                            <a href="{{route('order.orders', $client->id)}}" title="See all projects"><span class="glyphicon glyphicon-th-list" style="color:#fff"></span></a>
                                         </button>
                                         <button class="btn btn-primary btn-block">
                                             <a href="{{route('client.show', $client->id)}}" title="Show"><span class="glyphicon glyphicon-eye-open" style="color:#fff"> </span> </a>
@@ -96,5 +96,3 @@
         });
     </script>
 @endsection
-
-
