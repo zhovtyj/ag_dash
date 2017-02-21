@@ -14,18 +14,15 @@
                     Clients
                 </a>
             </li>
-            {{--<li>--}}
-            {{--<a class="{{ Request::is('services') ? 'active-menu' : '' }}" href="{{route('client.services')}}"><i class="fa fa-qrcode"></i> Services</a>--}}
-            {{--</li>--}}
             <li>
-                <a href="tab-panel.html"><i class="fa fa-qrcode"></i> Example</a>
+                <a class="{{ Request::is('orders') ? 'active-menu' : '' }}" href="{{route('order.index')}}"><i class="fa fa-edit"></i> Orders </a>
+            </li>
+            <li>
+                <a class="{{ Request::is('deposit') ? 'active-menu' : '' }}" href="{{route('deposit.index')}}"><i class="glyphicon glyphicon-usd"></i> Deposit Funds</a>
             </li>
 
             <li>
-                <a href="table.html"><i class="fa fa-table"></i> Example</a>
-            </li>
-            <li>
-                <a href="form.html"><i class="fa fa-edit"></i> Example </a>
+                <a class="{{ Request::is('transactions') ? 'active-menu' : '' }}" href="{{route('transaction.index')}}"><i class="glyphicon glyphicon-transfer"></i> Transactions</a>
             </li>
 
 

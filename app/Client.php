@@ -16,7 +16,7 @@ class Client extends Model
         return $this->hasMany('App\Cart');
     }
 
-    public function order()
+    public function orders()
     {
         return $this->hasMany('App\Order');
     }

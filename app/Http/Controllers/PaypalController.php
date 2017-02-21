@@ -30,11 +30,6 @@ class PaypalController extends Controller
 
     }
 
-    public function payPremium()
-    {
-        return view('agency.paypal.index');
-    }
-
     public function getCheckout(Request $request, $client_id)
     {
         $payer = PayPal::Payer();
@@ -109,11 +104,15 @@ class PaypalController extends Controller
 
         }
 
+        Session::flash('success', 'New Order was payed successfully with PayPal!');
+
         return redirect()->route('order.orders', $client_id);
     }
 
     public function getCancel($client_id)
     {
-        return redirect()->route('payPremium');
+        Session::flash('error', 'Operation is not completed!');
+
+        return redirect()->route('cart.index', $client_id);
     }
 }

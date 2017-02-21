@@ -9,6 +9,19 @@
                 <span class="glyphicon glyphicon-shopping-cart"></span> Cart
             </h1>
         </div>
+        <div class="col-md-3">
+            <button class="btn btn-block btn-danger" style="margin-top:20px;">
+                Balance:
+                <span class="glyphicon glyphicon-usd"></span>
+                <strong>
+                    @if(isset(Auth::user()->deposit->balance ))
+                        {{Auth::user()->deposit->balance }}
+                    @else
+                        0.00
+                    @endif
+                </strong>
+            </button>
+        </div>
     </div>
     <hr>
     <div class="row">
@@ -76,12 +89,25 @@
     </div>
     <div class="row">
         <div class="col-md-3 col-md-offset-6">
-            <button class="btn btn-success btn-block">Pay from Deposit</button>
+
+            @if(isset(Auth::user()->deposit->balance ) && Auth::user()->deposit->balance >= $total_price && $total_price !=0 )
+                {!! Form::open(['route' => ['cart.deposit', $client->id], 'method' =>'POST']) !!}
+
+                {!! Form::hidden('pay', $total_price) !!}
+                <button type="submit" id="pay-fron-deposit" class="btn btn-success btn-block">Pay from Deposit</button>
+
+                {!! Form::close() !!}
+            @else
+                <button id="pay-fron-deposit" class="btn btn-success btn-block">Pay from Deposit</button>
+            @endif
+
         </div>
         <div class="col-md-3">
             {!! Form::open(['route' => ['getCheckout', $client->id], 'method' =>'POST']) !!}
+
                 {!! Form::hidden('pay', $total_price) !!}
                 <button type="submit" class="btn btn-success btn-block">Pay with PayPal</button>
+
             {!! Form::close() !!}
         </div>
     </div>

@@ -39,8 +39,19 @@ Route::group(['middleware'=>'roles', 'roles'=> ['agency']], function(){
     Route::get('/cart/{client_id}/getDone', ['as'=>'getDone','uses'=>'PaypalController@getDone']);
     Route::get('/cart/{client_id}/getCancel', ['as'=>'getCancel','uses'=>'PaypalController@getCancel']);
 
+    //Orders
     Route::get('/client/{client_id}/orders', ['uses' => 'OrderController@getClientOrders', 'as' => 'order.orders' ]);
+    Route::get('/orders', ['uses' => 'OrderController@index', 'as' => 'order.index' ]);
 
+    //Deposit
+    Route::get('/deposit', ['uses' => 'DepositController@index', 'as' => 'deposit.index' ]);
+    Route::post('/deposit/depositCheckout', ['uses'=>'DepositController@depositCheckout', 'as'=>'deposit.Checkout']);
+    Route::get('/deposit/depositDone', ['uses'=>'DepositController@depositDone', 'as'=>'depositDone']);
+    Route::get('/deposit/depositCancel', ['uses'=>'DepositController@depositCancel', 'as'=>'depositCancel']);
+    Route::post('/cart/{client_id}/pay-from-deposit', ['uses'=>'DepositController@payFromDeposit', 'as'=>'cart.deposit']);
+
+    //Transaction
+    Route::get('/transactions', ['uses'=>'TransactionController@index', 'as'=>'transaction.index']);
 
 
 });

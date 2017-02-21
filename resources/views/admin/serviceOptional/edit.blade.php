@@ -18,7 +18,7 @@
             <label for="service_id">Choose the Service</label>
             <select name="service_id" class="form-control">
                 @foreach($services as $service)
-                    <option value="{{$service->id}}">{{$service->name}}</option>>
+                    <option @if($serviceoptional->service->name == $service->name) selected @endif value="{{$service->id}}">{{$service->name}}</option>
                 @endforeach
             </select>
 

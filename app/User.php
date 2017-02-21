@@ -18,6 +18,16 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Client');
     }
+
+    public function deposit()
+    {
+        return $this->hasOne('App\Deposit');
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany('App\Transaction');
+    }
     /**
      * $roles - array which we receive from middleware
      * Check if the user has a role from roles array - so we will know if user has access to the page
