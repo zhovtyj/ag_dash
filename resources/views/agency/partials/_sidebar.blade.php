@@ -24,9 +24,7 @@
             <li>
                 <a class="{{ Request::is('transactions') ? 'active-menu' : '' }}" href="{{route('transaction.index')}}"><i class="glyphicon glyphicon-transfer"></i> Transactions</a>
             </li>
-
-
-            <li>
+            <!--<li>
                 <a href="#"><i class="fa fa-sitemap"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li>
@@ -55,9 +53,8 @@
             </li>
             <li>
                 <a href="empty.html"><i class="fa fa-fw fa-file"></i> Empty Page</a>
-            </li>
+            </li>-->
+
         </ul>
-
     </div>
-
 </nav>

@@ -94,11 +94,11 @@
                 {!! Form::open(['route' => ['cart.deposit', $client->id], 'method' =>'POST']) !!}
 
                 {!! Form::hidden('pay', $total_price) !!}
-                <button type="submit" id="pay-fron-deposit" class="btn btn-success btn-block">Pay from Deposit</button>
+                <button type="submit" id="pay-fron-deposit" class="btn btn-success btn-block">Pay from Balance</button>
 
                 {!! Form::close() !!}
             @else
-                <button id="pay-fron-deposit" class="btn btn-success btn-block">Pay from Deposit</button>
+                <button id="pay-fron-deposit" class="btn btn-success btn-block">Pay from Balance</button>
             @endif
 
         </div>

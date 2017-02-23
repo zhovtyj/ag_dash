@@ -99,9 +99,8 @@
                         </a>
                     </li>
                     <li class="divider"></li>
-                @endif
 
-                @if (count($errors)>0)
+                @elseif (count($errors)>0)
                     <li>
                         <a href="#">
                             <div>
@@ -116,13 +115,14 @@
                         </a>
                     </li>
                     <li class="divider"></li>
-                @endif
-                <li>
+                @else
+                    <li>
                     <a class="text-center" href="#">
-                        <strong>Read All Messages</strong>
-                        <i class="fa fa-angle-right"></i>
+                        <strong>No Messages</strong>
+                        <!--<i class="fa fa-angle-right"></i>-->
                     </a>
                 </li>
+                @endif
             </ul>
             <!-- /.dropdown-messages -->
         </li>
@@ -133,10 +133,12 @@
                 <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
             </a>
             <ul class="dropdown-menu dropdown-user">
-                <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
+                <li>
+                    <a href="{{route('user.edit')}}"><i class="fa fa-user fa-fw"></i> Agency Profile</a>
                 </li>
-                <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                </li>
+                <!--<li>
+                    <a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                </li>-->
                 <li class="divider"></li>
                 <li>
                     <a href="{{ url('/logout') }}"

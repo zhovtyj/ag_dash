@@ -42,6 +42,7 @@ Route::group(['middleware'=>'roles', 'roles'=> ['agency']], function(){
     //Orders
     Route::get('/client/{client_id}/orders', ['uses' => 'OrderController@getClientOrders', 'as' => 'order.orders' ]);
     Route::get('/orders', ['uses' => 'OrderController@index', 'as' => 'order.index' ]);
+    Route::get('/orders/pdf-{order_id}', ['uses' => 'OrderController@pdf', 'as' => 'order.pdf' ]);
 
     //Deposit
     Route::get('/deposit', ['uses' => 'DepositController@index', 'as' => 'deposit.index' ]);
@@ -52,6 +53,11 @@ Route::group(['middleware'=>'roles', 'roles'=> ['agency']], function(){
 
     //Transaction
     Route::get('/transactions', ['uses'=>'TransactionController@index', 'as'=>'transaction.index']);
+
+    //Edit User Info
+    Route::get('/profile', ['uses'=>'UserController@edit', 'as'=>'user.edit']);
+    Route::put('/profile/update', ['uses'=>'UserController@update', 'as'=>'user.update']);
+    Route::put('/profile/password-update', ['uses'=>'UserController@passwordUpdate', 'as'=>'password.update']);
 
 
 });

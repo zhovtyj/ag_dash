@@ -6,6 +6,7 @@ use App\Client;
 use Illuminate\Http\Request;
 use Auth;
 use App\Order;
+use PDF;
 
 class OrderController extends Controller
 {
@@ -20,5 +21,12 @@ class OrderController extends Controller
         $client = Client::find($client_id);
         $orders = Order::where('client_id', '=', $client_id)->orderBy('id', 'desc')->paginate(20);
         return view('agency.order.orders')->withOrders($orders)->withClient($client);
+    }
+
+    public function pdf($order_id)
+    {
+        $order = Order::find($order_id);
+        $pdf = PDF::loadView('agency.order.pdf', ['order'=>$order]);
+        return $pdf->stream('order.pdf');
     }
 }
