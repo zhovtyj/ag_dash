@@ -171,7 +171,7 @@
                                 <label for="business_owners_fax" class="col-md-12 control-label">Business Fax</label>
 
                                 <div class="col-md-12">
-                                    <input id="business_owners_fax" type="text" class="form-control" name="business_owners_fax" value="{{ old('business_owners_fax') }}">
+                                    <input id="business_owners_fax" type="text" class="form-control" name="business_owners_fax" value="{{ old('business_owners_fax') }}" required>
 
                                     @if ($errors->has('business_owners_fax'))
                                         <span class="help-block">
@@ -200,7 +200,7 @@
                                 <label for="business_website" class="col-md-12 control-label">Business Website</label>
 
                                 <div class="col-md-12">
-                                    <input id="business_website" type="text" class="form-control" name="business_website" value="{{ old('business_website') }}">
+                                    <input id="business_website" type="text" class="form-control" name="business_website" value="{{ old('business_website') }}" required>
 
                                     @if ($errors->has('business_website'))
                                         <span class="help-block">
@@ -228,7 +228,7 @@
                                 <label for="years_in_business" class="col-md-12 control-label">Years in Business</label>
 
                                 <div class="col-md-12">
-                                    <input id="years_in_business" type="text" class="form-control" name="years_in_business" value="{{ old('years_in_business') }}">
+                                    <input id="years_in_business" type="text" class="form-control" name="years_in_business" value="{{ old('years_in_business') }}" required>
 
                                     @if ($errors->has('years_in_business'))
                                         <span class="help-block">
@@ -324,5 +324,3 @@
     </div>
 
 @endsection
-
-
