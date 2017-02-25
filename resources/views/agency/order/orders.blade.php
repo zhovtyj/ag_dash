@@ -5,10 +5,15 @@
 @section('content')
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-9">
             <h1 class="page-header">
                 {{$client->business_name}} Orders
             </h1>
+        </div>
+        <div class="col-md-3">
+            <a href="{{route('agency.service.index', $client->id)}}" class="btn btn-lg btn-block btn-primary" style="margin-top:20px;">
+                <span class="glyphicon glyphicon-plus" style="color:#fff"></span> Order New Service
+            </a>
         </div>
     </div>
 
@@ -70,4 +75,41 @@
         </div>
     </div>
 
+@endsection
+
+@section('breadcrumbs')
+    <div id="breadcrumbs-container">
+        <div class="container-small">
+            <ol vocab="http://schema.org/" typeof="BreadcrumbList" class="breadcrumbs">
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{route('home')}}">
+                        <span property="name">Dashboard</span>
+                    </a>
+                    <meta property="position" content="1">
+
+                </li>
+                <span> › </span>
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{ route('client.index') }}">
+                        <span property="name">All Clients</span>
+                    </a>
+                    <meta property="position" content="2">
+                </li>
+                <span> › </span>
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{ route('client.show', $client->id) }}">
+                        <span property="name">{{$client->business_name}}</span>
+                    </a>
+                    <meta property="position" content="3">
+                </li>
+                <span> › </span>
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{ route('order.orders', $client->id) }}">
+                        <span property="name">All Orders</span>
+                    </a>
+                    <meta property="position" content="4">
+                </li>
+            </ol>
+        </div>
+    </div>
 @endsection

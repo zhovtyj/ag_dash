@@ -12,6 +12,8 @@
     <div id="page-wrapper">
         <div id="page-inner">
 
+            @yield('breadcrumbs')
+
             @yield('content')
 
             @include('agency.partials._footer')

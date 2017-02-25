@@ -16,7 +16,7 @@
             @foreach($services as $service)
                 @if($loop->iteration == 1 || ($loop->iteration%3) == 0)
                     <div class="row">
-                        @endif
+                @endif
                         <div class="col-sm-6 col-md-4">
                             <div class="thumbnail service-container">
                                 <div class="service-header">
@@ -51,10 +51,11 @@
                                                 @endforeach
                                         @endforeach
                                     </ul>
+                                    <hr>
                                     <div class="bottom-buttons">
                                         <div class="row">
                                             <div class="col-md-6">
-                                                <a href="{{ route('agency.service.show', $service->id) }}" class="btn btn-primary btn-block" role="button">
+                                                <a href="{{ route('agency.service.show', [$client->id, $service->id]) }}" class="btn btn-primary btn-block" role="button">
                                                     <span class="glyphicon glyphicon-eye-open"> </span>
                                                     Read more
                                                 </a>
@@ -72,7 +73,7 @@
                         </div>
                         @if(($loop->iteration % 3) == 0)
                     </div>
-                @endif
+                        @endif
             @endforeach
         </div>
     </div>
@@ -153,4 +154,41 @@
             $(this).html('<span class="glyphicon glyphicon-shopping-cart"> </span> Added in cart')
         });
     </script>
+@endsection
+
+@section('breadcrumbs')
+    <div id="breadcrumbs-container">
+        <div class="container-small">
+            <ol vocab="http://schema.org/" typeof="BreadcrumbList" class="breadcrumbs">
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{route('home')}}">
+                        <span property="name">Dashboard</span>
+                    </a>
+                    <meta property="position" content="1">
+
+                </li>
+                <span> › </span>
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{ route('client.index') }}">
+                        <span property="name">All Clients</span>
+                    </a>
+                    <meta property="position" content="2">
+                </li>
+                <span> › </span>
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{ route('client.show', $client->id) }}">
+                        <span property="name">{{$client->business_name}}</span>
+                    </a>
+                    <meta property="position" content="3">
+                </li>
+                <span> › </span>
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{ route('agency.service.index', $client->id) }}">
+                        <span property="name">All Services</span>
+                    </a>
+                    <meta property="position" content="4">
+                </li>
+            </ol>
+        </div>
+    </div>
 @endsection

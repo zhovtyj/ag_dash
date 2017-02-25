@@ -2,6 +2,36 @@
 
 @section('title', 'Add New Client')
 
+@section('breadcrumbs')
+    <div id="breadcrumbs-container">
+        <div class="container-small">
+            <ol vocab="http://schema.org/" typeof="BreadcrumbList" class="breadcrumbs">
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{route('home')}}">
+                        <span property="name">Dashboard</span>
+                    </a>
+                    <meta property="position" content="1">
+
+                </li>
+                <span> › </span>
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{ route('client.index') }}">
+                        <span property="name">All Clients</span>
+                    </a>
+                    <meta property="position" content="2">
+                </li>
+                <span> › </span>
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{ route('client.create') }}">
+                        <span property="name">Add New Client</span>
+                    </a>
+                    <meta property="position" content="3">
+                </li>
+            </ol>
+        </div>
+    </div>
+@endsection
+
 @section('content')
 
     <div class="row">
@@ -47,7 +77,7 @@
                                     @endif
                                 </div>
                                 <div class="col-md-12">
-                                    <input id="address2" type="text" class="form-control" name="address2" value="{{ old('address2') }}" required>
+                                    <input id="address2" type="text" class="form-control" name="address2" value="{{ old('address2') }}">
 
                                     @if ($errors->has('address2'))
                                         <span class="help-block">
@@ -72,10 +102,10 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('state') ? ' has-error' : '' }}">
-                                <label for="state" class="col-md-12 control-label">State / Province</label>
+                                <label for="state" class="col-md-12 control-label">State / Province*</label>
 
                                 <div class="col-md-12">
-                                    <input id="state" type="text" class="form-control" name="state" value="{{ old('state') }}" >
+                                    <input id="state" type="text" class="form-control" name="state" value="{{ old('state') }}" required>
 
                                     @if ($errors->has('state'))
                                         <span class="help-block">
@@ -86,9 +116,9 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('postcode') ? ' has-error' : '' }}">
-                                <label for="postcode" class="col-md-12 control-label">Postal Code</label>
+                                <label for="postcode" class="col-md-12 control-label">Postal Code*</label>
                                 <div class="col-md-12">
-                                    <input id="postcode" type="text" class="form-control" name="postcode" value="{{ old('postcode') }}">
+                                    <input id="postcode" type="text" class="form-control" name="postcode" value="{{ old('postcode') }}" required>
 
                                     @if ($errors->has('postcode'))
                                         <span class="help-block">
@@ -171,7 +201,7 @@
                                 <label for="business_owners_fax" class="col-md-12 control-label">Business Fax</label>
 
                                 <div class="col-md-12">
-                                    <input id="business_owners_fax" type="text" class="form-control" name="business_owners_fax" value="{{ old('business_owners_fax') }}" required>
+                                    <input id="business_owners_fax" type="text" class="form-control" name="business_owners_fax" value="{{ old('business_owners_fax') }}">
 
                                     @if ($errors->has('business_owners_fax'))
                                         <span class="help-block">
@@ -197,7 +227,7 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('business_website') ? ' has-error' : '' }}">
-                                <label for="business_website" class="col-md-12 control-label">Business Website</label>
+                                <label for="business_website" class="col-md-12 control-label">Business Website*</label>
 
                                 <div class="col-md-12">
                                     <input id="business_website" type="text" class="form-control" name="business_website" value="{{ old('business_website') }}" required>
@@ -257,7 +287,7 @@
                                 <label for="payment_types_accepted" class="col-md-12 control-label">Payment Types Accepted</label>
 
                                 <div class="col-md-12">
-                                    <input id="payment_types_accepted" type="text" class="form-control" name="payment_types_accepted" value="{{ old('payment_types_accepted') }}" required>
+                                    <input id="payment_types_accepted" type="text" class="form-control" name="payment_types_accepted" value="{{ old('payment_types_accepted') }}">
 
                                     @if ($errors->has('payment_types_accepted'))
                                         <span class="help-block">
@@ -282,10 +312,10 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('business_description') ? ' has-error' : '' }}">
-                                <label for="business_description" class="col-md-12 control-label">Business Description</label>
+                                <label for="business_description" class="col-md-12 control-label">Business Description*</label>
 
                                 <div class="col-md-12">
-                                    <textarea id="business_description" class="form-control" name="business_description">{{ old('business_description') }}</textarea>
+                                    <textarea id="business_description" class="form-control" name="business_description" required>{{ old('business_description') }}</textarea>
 
                                     @if ($errors->has('business_description'))
                                         <span class="help-block">
@@ -296,10 +326,10 @@
                             </div>
 
                             <div class="form-group{{ $errors->has('business_hours') ? ' has-error' : '' }}">
-                                <label for="business_hours" class="col-md-12 control-label">Business Hours</label>
+                                <label for="business_hours" class="col-md-12 control-label">Business Hours*</label>
 
                                 <div class="col-md-12">
-                                    <input id="business_hours" type="text" class="form-control" name="business_hours" value="{{ old('business_hours') }}">
+                                    <input id="business_hours" type="text" class="form-control" name="business_hours" value="{{ old('business_hours') }}" required>
 
                                     @if ($errors->has('business_hours'))
                                         <span class="help-block">

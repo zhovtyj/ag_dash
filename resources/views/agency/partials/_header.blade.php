@@ -26,7 +26,7 @@
             @if(isset($client) && isset($cart) && ($cart->count() > 0))
                 @foreach($cart as $cart_item)
                     <li>
-                        <a href="{{ route('agency.service.show', $cart_item->service->id) }}">
+                        <a href="{{ route('agency.service.show', [$client->id, $service->id]) }}">
                             <div>
                                 <i class="glyphicon glyphicon-check"></i> {{$cart_item->service->name}}
                                 <span class="pull-right text-muted small">

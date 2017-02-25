@@ -2,6 +2,29 @@
 
 @section('title', 'All Orders')
 
+@section('breadcrumbs')
+    <div id="breadcrumbs-container">
+        <div class="container-small">
+            <ol vocab="http://schema.org/" typeof="BreadcrumbList" class="breadcrumbs">
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{route('home')}}">
+                        <span property="name">Dashboard</span>
+                    </a>
+                    <meta property="position" content="1">
+
+                </li>
+                <span> › </span>
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{ route('order.index') }}">
+                        <span property="name">All Orders</span>
+                    </a>
+                    <meta property="position" content="2">
+                </li>
+            </ol>
+        </div>
+    </div>
+@endsection
+
 @section('content')
 
     <div class="row">

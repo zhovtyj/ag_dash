@@ -17,10 +17,11 @@ class ServiceController extends Controller
         return view('agency.service.index')->withServices($services)->withClient($client)->withCart($this->cart($client->id));
     }
 
-    public function show($id)
+    public function show($client_id, $service_id)
     {
-        $service = Service::find($id);
-        return view('agency.service.show')->withService($service);
+        $client = Client::find($client_id);
+        $service = Service::find($service_id);
+        return view('agency.service.show')->withService($service)->withClient($client)->withCart($this->cart($client->id));
     }
 
     private function cart($client_id){

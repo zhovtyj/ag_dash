@@ -141,7 +141,7 @@ class DepositController extends Controller
         //Update User Balance
         $user = User::find(Auth::user()->id);
         $deposit = Deposit::where('user_id', '=', $user->id)->first();
-        if($deposit->count() > 0){
+        if(isset($deposit) && $deposit->count() > 0){
             $balanceBefore = $deposit->balance;
             $deposit->balance = $deposit->balance + $executePayment->transactions[0]->amount->total;
         }

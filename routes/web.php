@@ -25,7 +25,7 @@ Route::group(['middleware'=>'roles', 'roles'=> ['agency']], function(){
 
     //Service
     Route::get('client/{client_id}/service', ['uses' => 'ServiceController@index', 'as' => 'agency.service.index']);
-    Route::get('client/service/{service_id}', ['uses' => 'ServiceController@show', 'as' => 'agency.service.show']);
+    Route::get('client/{client_id}/service/{service_id}', ['uses' => 'ServiceController@show', 'as' => 'agency.service.show']);
 
     //Cart
     Route::get('/cart/{client_id}', ['uses' => 'CartController@index', 'as' => 'cart.index' ]);

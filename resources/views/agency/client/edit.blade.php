@@ -2,6 +2,36 @@
 
 @section('title', 'Edit Client'.$client->business_name)
 
+@section('breadcrumbs')
+    <div id="breadcrumbs-container">
+        <div class="container-small">
+            <ol vocab="http://schema.org/" typeof="BreadcrumbList" class="breadcrumbs">
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{route('home')}}">
+                        <span property="name">Dashboard</span>
+                    </a>
+                    <meta property="position" content="1">
+
+                </li>
+                <span> › </span>
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{ route('client.index') }}">
+                        <span property="name">All Clients</span>
+                    </a>
+                    <meta property="position" content="2">
+                </li>
+                <span> › </span>
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{ route('client.show', $client->id) }}">
+                        <span property="name">{{$client->business_name}}</span>
+                    </a>
+                    <meta property="position" content="3">
+                </li>
+            </ol>
+        </div>
+    </div>
+@endsection
+
 @section('content')
 
     <div class="row">
