@@ -128,3 +128,63 @@ label.additional-services-label{
     color:#da3300;
 }
 /******END BREADCRUMBS**********/
+
+/******EDIT AGENCY LOGO**********/
+.agency-logo{
+    width:266px;
+    height:266px;
+    background: #fff;
+    border:5px solid #fff;
+    border-radius:1000px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    overflow: hidden;
+}
+.agency-logo-shadow{
+    position:relative;
+    width:256px;
+    height:256px;
+    border-radius:1000px;
+    box-shadow: inset 0px 0px 10px rgba(0,0,0,0.3);
+}
+.agency-logo-back{
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:0%;
+    height:0%;
+    background:rgba(0,0,0,0);
+    border-radius:1000px;
+}
+.agency-logo-shadow:hover .agency-logo-back{
+    transition-property: background, padding,top,left,right,bottom,width,height;
+    transition-duration: 0.5s;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    padding:0;
+    width:100%;
+    height:100%;
+    background:rgba(0,0,0,0.7);
+}
+.change-logo-button{
+    display:none;
+    position:absolute;
+    top:50%;
+    left:50%;
+    width:150px;
+    margin-left:-75px;
+    margin-top:-25px;
+    padding:10px 20px;
+    font-size:1.1em;
+    color:#fff;
+    text-decoration:none;
+    text-align: center;
+    background:rgba(0,0,0,0.7);
+    border:1px solid #fff;
+    cursor:pointer;
+}
+.agency-logo-shadow:hover .change-logo-button{
+    display:block;
+}
+/******EDIT AGENCY LOGO**********/

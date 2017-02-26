@@ -46,11 +46,140 @@
                 </div>
             </div>
 
+            <div class="form-group{{ $errors->has('agency_email') ? ' has-error' : '' }}">
+                <label for="agency_email" class="col-md-4 control-label">Agency Business Email: <br>(Can be the same as main email)</label>
+
+                <div class="col-md-6">
+                    <input id="agency_email" type="agency_email" class="form-control" name="agency_email" value="{{ isset($user->userInfo->agency_email) ? $user->userInfo->agency_email : '' }}">
+
+                    @if ($errors->has('agency_email'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('agency_email') }}</strong>
+                        </span>
+                    @endif
+                </div>
+            </div>
+
+            <div class="form-group{{ $errors->has('phone') ? ' has-error' : '' }}">
+                <label for="phone" class="col-md-4 control-label">Phone:</label>
+
+                <div class="col-md-6">
+                    <input id="phone" type="phone" class="form-control" name="phone" value="{{ isset($user->userInfo->phone) ? $user->userInfo->phone : '' }}">
+
+                    @if ($errors->has('phone'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('phone') }}</strong>
+                        </span>
+                    @endif
+                </div>
+            </div>
+
+            <div class="form-group{{ $errors->has('address1') ? ' has-error' : '' }}">
+                <label for="address1" class="col-md-4 control-label">Address:</label>
+
+                <div class="col-md-6">
+                    <input id="address1" type="address1" class="form-control" name="address1" value="{{ isset($user->userInfo->address1) ? $user->userInfo->address1 : '' }}">
+
+                    @if ($errors->has('address1'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('address1') }}</strong>
+                        </span>
+                    @endif
+                </div>
+            </div>
+
+            <div class="form-group{{ $errors->has('city') ? ' has-error' : '' }}">
+                <label for="city" class="col-md-4 control-label">City:</label>
+
+                <div class="col-md-6">
+                    <input id="city" type="city" class="form-control" name="city" value="{{ isset($user->userInfo->city) ? $user->userInfo->city : '' }}">
+
+                    @if ($errors->has('city'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('city') }}</strong>
+                        </span>
+                    @endif
+                </div>
+            </div>
+
+            <div class="form-group{{ $errors->has('state') ? ' has-error' : '' }}">
+                <label for="state" class="col-md-4 control-label">State:</label>
+
+                <div class="col-md-6">
+                    <input id="state" type="state" class="form-control" name="state" value="{{ isset($user->userInfo->state) ? $user->userInfo->state : '' }}">
+
+                    @if ($errors->has('state'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('state') }}</strong>
+                        </span>
+                    @endif
+                </div>
+            </div>
+
+            <div class="form-group{{ $errors->has('postcode') ? ' has-error' : '' }}">
+                <label for="postcode" class="col-md-4 control-label">Postcode:</label>
+
+                <div class="col-md-6">
+                    <input id="postcode" type="postcode" class="form-control" name="postcode" value="{{ isset($user->userInfo->postcode) ? $user->userInfo->postcode : '' }}">
+
+                    @if ($errors->has('postcode'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('postcode') }}</strong>
+                        </span>
+                    @endif
+                </div>
+            </div>
+
+            <div class="form-group{{ $errors->has('country') ? ' has-error' : '' }}">
+                <label for="country" class="col-md-4 control-label">Country:</label>
+
+                <div class="col-md-6">
+                    <input id="country" type="country" class="form-control" name="country" value="{{ isset($user->userInfo->country) ? $user->userInfo->country : '' }}">
+
+                    @if ($errors->has('country'))
+                        <span class="help-block">
+                            <strong>{{ $errors->first('country') }}</strong>
+                        </span>
+                    @endif
+                </div>
+            </div>
+
             <div class="col-md-6 col-md-offset-4">
                 {{ Form::submit('Save changes', ['class' => 'btn btn-success btn-block']) }}
             </div>
 
+            <!-- Modal Change LOGO -->
+            <div id="change-logo" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Change Agency Logo</h4>
+                        </div>
+                        <div class="modal-body">
+                            {{ Form::file('logo') }}
+                        </div>
+                        <div class="modal-footer">
+                            {{ Form::submit('Save', ['class' => 'btn btn-success']) }}
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
             {!! Form::close() !!}
+        </div>
+        <div class="col-md-4">
+            <div class="agency-logo">
+                <div class="agency-logo-shadow" style="background: url('/upload_images/users/{{isset($user->userInfo->logo) ? $user->userInfo->logo : 'no-logo.png'}}');background-size: cover;">
+                    <div class="agency-logo-back">
+                        <div class="change-logo-button" role="button" data-toggle="modal" data-target="#change-logo">Change Logo</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -103,6 +232,29 @@
         </div>
     </div>
 
+@endsection
+
+@section('breadcrumbs')
+    <div id="breadcrumbs-container">
+        <div class="container-small">
+            <ol vocab="http://schema.org/" typeof="BreadcrumbList" class="breadcrumbs">
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{route('home')}}">
+                        <span property="name">Dashboard</span>
+                    </a>
+                    <meta property="position" content="1">
+
+                </li>
+                <span> › </span>
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{ route('user.edit') }}">
+                        <span property="name">Edit Profile</span>
+                    </a>
+                    <meta property="position" content="2">
+                </li>
+            </ol>
+        </div>
+    </div>
 @endsection
 
 

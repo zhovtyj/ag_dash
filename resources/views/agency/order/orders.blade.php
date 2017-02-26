@@ -22,12 +22,18 @@
             @foreach($orders as $order)
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <div class="row">
+                        <div class="row" style="line-height: 32px;">
                             <div class="col-md-6">
-                                <span>Order #{{$order->id}}</span>
+                                <span>Order #{{$order->id}} (<strong>{{$client->business_name}}</strong>)</span>
                             </div>
-                            <div class="col-md-6" style="text-align: right">
-                                <span style="text-align:right">{{$order->created_at}}</span>
+                            <div class="col-md-4" style="text-align: right">
+                                    <span style="text-align:right">
+                                        <span class="glyphicon glyphicon-time"></span>
+                                        {{$order->created_at}}
+                                    </span>
+                            </div>
+                            <div class="col-md-2">
+                                <a target="_blank" href="{{route('order.pdf', $order->id)}}" class="btn btn-sm btn-block btn-primary"><span class="glyphicon glyphicon-print"></span> Generate PDF</a>
                             </div>
                         </div>
                     </div>
