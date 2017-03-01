@@ -5,22 +5,19 @@
 
 <body>
 
-<div id="wrapper">
-    @include('partials._header')
+@include('partials._header')
 
+<div class="login-page-container">
 
-    <div id="page-inner">
+    @yield('content')
 
-        @yield('content')
+    @include('partials._footer')
 
-        @include('partials._footer')
+    @include('partials._javascripts')
 
-    </div>
-    <!-- /. PAGE INNER  -->
+    @yield('javascripts')
 
 </div>
-@include('partials._javascripts')
-@yield('javascripts')
 
 </body>
 </html>

@@ -42,7 +42,6 @@ Route::group(['middleware'=>'roles', 'roles'=> ['agency']], function(){
     //Orders
     Route::get('/client/{client_id}/orders', ['uses' => 'OrderController@getClientOrders', 'as' => 'order.orders' ]);
     Route::get('/orders', ['uses' => 'OrderController@index', 'as' => 'order.index' ]);
-    Route::get('/orders/pdf-{order_id}', ['uses' => 'OrderController@pdf', 'as' => 'order.pdf' ]);
 
     //Deposit
     Route::get('/deposit', ['uses' => 'DepositController@index', 'as' => 'deposit.index' ]);
@@ -74,5 +73,26 @@ Route::group(['middleware'=>'roles', 'roles'=> ['admin']], function(){
     //OPTIONAL SERVICES
     Route::resource('admin/service-optional', 'Admin\ServiceOptionalController');
 
+    //USERS
+    Route::get('admin/agency', ['uses' => 'Admin\UserController@index', 'as' => 'admin.user']);
+
+    //CLIENTS
+    Route::get('admin/agency/{agency_id}/clients', ['uses'=>'Admin\ClientController@index', 'as'=>'admin.client']);
+    Route::get('admin/agency/{agency_id}/clients/create', ['uses'=>'Admin\ClientController@create', 'as'=>'admin.client.create']);
+    Route::post('admin/agency/{agency_id}/clients', ['uses'=>'Admin\ClientController@store', 'as'=>'admin.client.store']);
+    Route::get('admin/agency/{agency_id}/clients/{client_id}', ['uses'=>'Admin\ClientController@show', 'as'=>'admin.client.show']);
+    Route::get('admin/agency/{agency_id}/clients/{client_id}/edit', ['uses'=>'Admin\ClientController@edit', 'as'=>'admin.client.edit']);
+    Route::put('admin/agency/{agency_id}/clients/{client_id}', ['uses'=>'Admin\ClientController@update', 'as'=>'admin.client.update']);
+    Route::delete('admin/agency/{agency_id}/clients/{client_id}', ['uses'=>'Admin\ClientController@destroy', 'as'=>'admin.client.destroy']);
+
+    //ORDERS
+    Route::get('admin/agency/{agency_id}/orders', ['uses'=> 'Admin\OrderController@agency', 'as'=>'admin.order.agency']);
+
+    //TRANSACTIONS
+    Route::get('admin/agency/{agency_id}/transactions', ['uses'=> 'Admin\TransactionController@agency', 'as'=>'admin.transaction.agency']);
+
 
 });
+
+//Orders PDF availible for All
+Route::get('/orders/pdf-{order_id}', ['uses' => 'OrderController@pdf', 'as' => 'order.pdf' ]);

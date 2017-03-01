@@ -1,36 +1,6 @@
-@extends('agency.main')
+@extends('admin.main')
 
-@section('title', $client->business_name)
-
-@section('breadcrumbs')
-    <div id="breadcrumbs-container">
-        <div class="container-small">
-            <ol vocab="http://schema.org/" typeof="BreadcrumbList" class="breadcrumbs">
-                <li property="itemListElement" typeof="ListItem">
-                    <a property="item" typeof="WebPage" href="{{route('home')}}">
-                        <span property="name">Dashboard</span>
-                    </a>
-                    <meta property="position" content="1">
-
-                </li>
-                <span> › </span>
-                <li property="itemListElement" typeof="ListItem">
-                    <a property="item" typeof="WebPage" href="{{ route('client.index') }}">
-                        <span property="name">All Clients</span>
-                    </a>
-                    <meta property="position" content="2">
-                </li>
-                <span> › </span>
-                <li property="itemListElement" typeof="ListItem">
-                    <a property="item" typeof="WebPage" href="{{ route('client.show', $client->id) }}">
-                        <span property="name">{{$client->business_name}}</span>
-                    </a>
-                    <meta property="position" content="3">
-                </li>
-            </ol>
-        </div>
-    </div>
-@endsection
+@section('title', 'All Clients')
 
 @section('content')
 
@@ -119,10 +89,7 @@
                         <div class="panel-footer">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <a class="btn btn-success btn-block" href="{{route('agency.service.index', $client->id)}}" title="Order New Service">
-                                        <span class="glyphicon glyphicon-plus" style="color:#fff"></span>
-                                        New Service
-                                    </a>
+                                    <a href="{{ route('admin.client', $user->id) }}" class="btn btn-default btn-block"><span class="glyphicon glyphicon-arrow-left"></span> Back to all clients</a>
                                 </div>
                                 <div class="col-md-6">
                                     <a class="btn btn-success btn-block" href="{{route('order.orders', $client->id)}}" title="See all projects">
@@ -134,20 +101,15 @@
                             <div class="clearfix" style="margin-top:10px;"></div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <a href="{{ route('client.edit', [$user->id, $client->id]) }}" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+                                    <a href="{{ route('admin.client.edit', [$user->id, $client->id]) }}" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-edit"></span> Edit</a>
                                 </div>
                                 <div class="col-md-6">
-                                    {{ Form::open(['route' => ['client.destroy', $client->id], 'method' =>'DELETE']) }}
-                                        <button type="submit" class="btn btn-danger btn-block"><span class="glyphicon glyphicon-trash"> </span> Delete</button>
+                                    {{ Form::open(['route' => ['admin.client.destroy', $user->id, $client->id], 'method' =>'DELETE']) }}
+                                    <button type="submit" class="btn btn-danger btn-block"><span class="glyphicon glyphicon-trash"> </span> Delete</button>
                                     {{ Form::close() }}
                                 </div>
                             </div>
                             <hr>
-                            <div class="row">
-                                <div class="col-md-12 col-md-offset">
-                                    <a href="{{ route('client.index') }}" class="btn btn-default btn-block"><span class="glyphicon glyphicon-arrow-left"></span> Back to all clients</a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -281,6 +243,46 @@
     </div>
 @endsection
 
+@section('breadcrumbs')
+    <div id="breadcrumbs-container">
+        <div class="container-small">
+            <ol vocab="http://schema.org/" typeof="BreadcrumbList" class="breadcrumbs">
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{route('home')}}">
+                        <span property="name">Dashboard</span>
+                    </a>
+                    <meta property="position" content="1">
 
-
-
+                </li>
+                <span> › </span>
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{ route('admin.user') }}">
+                        <span property="name">All Agency</span>
+                    </a>
+                    <meta property="position" content="2">
+                </li>
+                <span> › </span>
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="#">
+                        <span property="name">{{$user->name}}</span>
+                    </a>
+                    <meta property="position" content="3">
+                </li>
+                <span> › </span>
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{ route('admin.client', $user->id) }}">
+                        <span property="name">All Clients</span>
+                    </a>
+                    <meta property="position" content="4">
+                </li>
+                <span> › </span>
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{ route('admin.client.show', [$user->id, $client->id]) }}">
+                        <span property="name">{{$client->business_name}}</span>
+                    </a>
+                    <meta property="position" content="5">
+                </li>
+            </ol>
+        </div>
+    </div>
+@endsection

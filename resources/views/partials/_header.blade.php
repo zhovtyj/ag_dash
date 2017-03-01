@@ -6,7 +6,11 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="{{ route('home') }}">Dashboard</a>
+        <a class="head-logo" href="{{ route('home') }}"></a>
+        <a class="navbar-brand" style="position:relative; top:3px; left:-20px;" href="{{ route('home') }}">
+            Dashboard
+        </a>
+        {{--<a class="head-logo-big" href="{{ route('home') }}"></a>--}}
     </div>
 
     @if (Auth::user())

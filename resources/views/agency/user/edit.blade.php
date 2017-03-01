@@ -46,15 +46,15 @@
                 </div>
             </div>
 
-            <div class="form-group{{ $errors->has('agency_email') ? ' has-error' : '' }}">
-                <label for="agency_email" class="col-md-4 control-label">Agency Business Email: <br>(Can be the same as main email)</label>
+            <div class="form-group{{ $errors->has('site') ? ' has-error' : '' }}">
+                <label for="site" class="col-md-4 control-label">Website:</label>
 
                 <div class="col-md-6">
-                    <input id="agency_email" type="agency_email" class="form-control" name="agency_email" value="{{ isset($user->userInfo->agency_email) ? $user->userInfo->agency_email : '' }}">
+                    <input id="site" type="text" class="form-control" name="site" value="{{ isset($user->userInfo->site) ? $user->userInfo->site : '' }}">
 
-                    @if ($errors->has('agency_email'))
+                    @if ($errors->has('site'))
                         <span class="help-block">
-                            <strong>{{ $errors->first('agency_email') }}</strong>
+                            <strong>{{ $errors->first('site') }}</strong>
                         </span>
                     @endif
                 </div>

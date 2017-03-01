@@ -25,7 +25,7 @@ class UserController extends Controller
         if($user->email == $request->email){
             $this->validate($request, array(
                 'name'              => 'required|max:255',
-                'agency_email'      => 'sometimes|email|max:255',
+                'site'              => 'max:255',
                 'phone'             => 'max:255',
                 'address1'          => 'max:255',
                 'city'              => 'max:255',
@@ -38,7 +38,7 @@ class UserController extends Controller
             $this->validate($request, array(
                 'name'      => 'required|max:255',
                 'email'     => 'required|email|max:255|unique:users',
-                'agency_email'      => 'sometimes|email|max:255',
+                'site'              => 'max:255',
                 'phone'             => 'max:255',
                 'address1'          => 'max:255',
                 'city'              => 'max:255',
@@ -52,7 +52,7 @@ class UserController extends Controller
         $user->email = $request->email;
         $user->save();
         if(isset($user->userInfo)){
-            $user->userInfo->agency_email = $request->agency_email;
+            $user->userInfo->site = $request->site;
             $user->userInfo->phone = $request->phone;
             $user->userInfo->address1 = $request->address1;
             $user->userInfo->city = $request->city;
@@ -77,7 +77,7 @@ class UserController extends Controller
         else{
             $userInfo = new UserInfo;
             $userInfo->user()->associate($user);
-            $userInfo->agency_email = $request->agency_email;
+            $userInfo->site = $request->site;
             $userInfo->phone = $request->phone;
             $userInfo->address1 = $request->address1;
             $userInfo->city = $request->city;

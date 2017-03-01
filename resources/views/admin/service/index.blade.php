@@ -2,6 +2,29 @@
 
 @section('title', 'Services')
 
+@section('breadcrumbs')
+    <div id="breadcrumbs-container">
+        <div class="container-small">
+            <ol vocab="http://schema.org/" typeof="BreadcrumbList" class="breadcrumbs">
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{route('home')}}">
+                        <span property="name">Dashboard</span>
+                    </a>
+                    <meta property="position" content="1">
+                </li>
+                <span> › </span>
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{ route('service.index') }}">
+                        <span property="name">All Services</span>
+                    </a>
+                    <meta property="position" content="2">
+                </li>
+
+            </ol>
+        </div>
+    </div>
+@endsection
+
 @section('content')
     <div class="row">
         <div class="col-md-9">
@@ -32,6 +55,22 @@
                                         Old price:{{$service->old_price}}<span class="glyphicon glyphicon-usd"></span>
                                         <br>Price:{{$service->price}}<span class="glyphicon glyphicon-usd"></span>
                                     </p>
+                                    <hr>
+                                    <ul data-service-id="{{$service->id}}" class="additional-services">
+                                        @foreach($service->serviceoptionals as $serviceoptional)
+                                            <h4><strong>{{$serviceoptional->name}}</strong></h4>
+                                            @foreach($serviceoptional->serviceOptionalDescriptions as $description)
+                                                <div class="checkbox">
+                                                    <label class="additional-services-label">
+                                                        <input type="checkbox" name="serviceOptionalDescription{{$description->id}}" id="serviceOptionalDescription{{$description->id}}" value="{{$description->id}}" data-price="{{$description->price}}">
+                                                        {{$description->description}}
+                                                        <span class="additional-services-span badge"><span class="glyphicon glyphicon-usd"></span> {{$description->price}}</span>
+                                                    </label>
+                                                </div>
+
+                                            @endforeach
+                                        @endforeach
+                                    </ul>
                                     <div class="bottom-buttons">
                                         <div class="row">
                                             <div class="col-md-6">

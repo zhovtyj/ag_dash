@@ -74,18 +74,23 @@
                                     <td>{{$client->business_owners_email}}</td>
                                     <td>{{$client->business_website}}</td>
                                     <td>
-                                        <button class="btn btn-success btn-block">
-                                            <a href="{{route('agency.service.index', $client->id)}}" title="Order New Service"><span class="glyphicon glyphicon-plus" style="color:#fff"></span></a>
-                                        </button>
-                                        <button class="btn btn-success btn-block">
-                                            <a href="{{route('order.orders', $client->id)}}" title="See all projects"><span class="glyphicon glyphicon-th-list" style="color:#fff"></span></a>
-                                        </button>
-                                        <button class="btn btn-primary btn-block">
-                                            <a href="{{route('client.show', $client->id)}}" title="Show"><span class="glyphicon glyphicon-eye-open" style="color:#fff"> </span> </a>
-                                        </button>
-                                        <button class="btn btn-primary btn-block">
-                                            <a href="{{route('client.edit', $client->id)}}" title="Edit"><span class="glyphicon glyphicon-edit" style="color:#fff"> </span> </a>
-                                        </button>
+
+                                        <a class="btn btn-success btn-block" href="{{route('agency.service.index', $client->id)}}" title="Order New Service">
+                                            <span class="glyphicon glyphicon-plus" style="color:#fff"></span>
+                                        </a>
+
+                                        <a class="btn btn-success btn-block" href="{{route('order.orders', $client->id)}}" title="See all projects">
+                                            <span class="glyphicon glyphicon-th-list" style="color:#fff"></span>
+                                        </a>
+
+                                        <a class="btn btn-primary btn-block" href="{{route('client.show', $client->id)}}" title="Show">
+                                            <span class="glyphicon glyphicon-eye-open" style="color:#fff"> </span>
+                                        </a>
+
+                                        <a class="btn btn-primary btn-block" href="{{route('client.edit', $client->id)}}" title="Edit">
+                                            <span class="glyphicon glyphicon-edit" style="color:#fff"> </span>
+                                        </a>
+
                                         {{ Form::open(['route' => ['client.destroy', $client->id], 'method' =>'DELETE']) }}
                                             <button type="submit" class="btn btn-danger btn-block" style="margin-top:5px;"><span class="glyphicon glyphicon-trash"> </span> </button>
                                         {{ Form::close() }}

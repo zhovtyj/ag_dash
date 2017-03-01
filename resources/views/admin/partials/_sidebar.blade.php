@@ -16,9 +16,9 @@
                     </li>
                 </ul>
             </li>
-            {{--<li>--}}
-                {{--<a class="{{ Request::is('admin/user') ? 'active-menu' : '' }}" href="{{ route('client.index') }}"><i class="glyphicon glyphicon-user"></i> Clients</a>--}}
-            {{--</li>--}}
+            <li>
+                <a class="{{ Request::is('admin/agency') ? 'active-menu' : '' }}" href="{{ route('admin.user') }}"><i class="fa fa-users"></i> Agency</a>
+            </li>
             {{--<li>--}}
                 {{--<a href="chart.html"><i class="glyphicon glyphicon-usd"></i> Payments</a>--}}
             {{--</li>--}}

@@ -37,7 +37,7 @@
                         {{$order->client->postcode}}
                     </div>
                     <div>
-                        <span>COUTRY</span>
+                        <span>COUNTRY</span>
                         {{$order->client->country}}
                     </div>
                     <div><span>PHONE</span> {{$order->client->business_owners_phone}}</div>

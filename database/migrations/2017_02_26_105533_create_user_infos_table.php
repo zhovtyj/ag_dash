@@ -17,7 +17,7 @@ class CreateUserInfosTable extends Migration
             $table->increments('id');
             $table->integer('user_id')->unsigned();
             $table->string('logo')->nullable();
-            $table->string('agency_email')->nullable();
+            $table->string('site')->nullable();
             $table->string('phone')->nullable();
             $table->string('address1')->nullable();
             $table->string('city')->nullable();

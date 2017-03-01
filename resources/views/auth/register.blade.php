@@ -6,8 +6,8 @@
     <div class="container">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
-                <div class="panel panel-default">
-                    <div class="panel-heading">Register New Agency</div>
+                <div class="panel panel-default panel-login">
+                    <div class="panel-heading">Sign Up to Access Your Agency Order Dashboard</div>
                     <div class="panel-body">
                         <form class="form-horizontal" role="form" method="POST" action="{{ route('register') }}">
                             {{ csrf_field() }}
@@ -75,4 +75,18 @@
             </div>
         </div>
     </div>
+
+    <style>
+        body{
+            overflow:hidden;
+        }
+        .panel-login{
+            margin-top:18vh;
+            background:rgba(255,255,255,0.9);
+        }
+        .panel-heading{
+            font-size:1.2em;
+            color:#c30000;
+        }
+    </style>
 @endsection
