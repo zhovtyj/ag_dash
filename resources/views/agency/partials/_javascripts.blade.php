@@ -1,5 +1,7 @@
 <!-- Jquery Js -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+{{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>--}}
+<!-- Laravel Js -->
+<script src="/js/app.js" charset="utf-8"></script>
 <!-- Bootstrap Js -->
 <script src="/admin-assets/js/bootstrap.min.js"></script>
 <!-- Metis Menu Js -->

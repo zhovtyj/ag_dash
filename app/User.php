@@ -33,6 +33,12 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Transaction');
     }
+
+    public function messages()
+    {
+        return $this->hasMany('App\Message');
+    }
+
     /**
      * $roles - array which we receive from middleware
      * Check if the user has a role from roles array - so we will know if user has access to the page

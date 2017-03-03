@@ -59,6 +59,7 @@ Route::group(['middleware'=>'roles', 'roles'=> ['agency']], function(){
     Route::put('/profile/password-update', ['uses'=>'UserController@passwordUpdate', 'as'=>'password.update']);
 
 
+
 });
 
 
@@ -92,7 +93,13 @@ Route::group(['middleware'=>'roles', 'roles'=> ['admin']], function(){
     Route::get('admin/agency/{agency_id}/transactions', ['uses'=> 'Admin\TransactionController@agency', 'as'=>'admin.transaction.agency']);
 
 
+
 });
+
+//MESSAGES
+Route::get('/admin/messages', ['uses'=>'Admin\MessagesController@index', 'as'=>'admin.messages.index']);
+Route::get('/admin/messages/all', ['uses'=>'Admin\MessagesController@messages', 'as'=>'admin.messages.all']);
+Route::post('/admin/messages', ['uses'=>'Admin\MessagesController@store', 'as'=>'admin.messages.store']);
 
 //Orders PDF availible for All
 Route::get('/orders/pdf-{order_id}', ['uses' => 'OrderController@pdf', 'as' => 'order.pdf' ]);
