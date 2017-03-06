@@ -14,7 +14,7 @@ class User extends Authenticatable
         return $this->belongsTo('App\Role');
     }
 
-    public function UserInfo()
+    public function userInfo()
     {
         return $this->hasOne('App\UserInfo');
     }

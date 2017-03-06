@@ -18,8 +18,10 @@ Vue.component('chat-message', require('./components/ChatMessage.vue'));
 Vue.component('chat-log', require('./components/ChatLog.vue'));
 Vue.component('chat-composer', require('./components/ChatComposer.vue'));
 
+console.log(window.agency_id);
+
 const app = new Vue({
-    el: '#app',
+    el: '#admin-chat',
     data: {
         messages: [],
         usersInRoom: []
@@ -29,17 +31,17 @@ const app = new Vue({
             // Add to existing messages
             //this.messages.push(message);
             // Persist to the database etc
-            axios.post('/admin/messages', message).then(response => {
+            axios.post('/admin/messages/'+agency_id, message).then(response => {
                 // Do whatever;
             })
         }
     },
     created(){
-        axios.get('/admin/messages/all').then(response => {
+        axios.get('/admin/messages/'+agency_id+'/all').then(response => {
             this.messages = response.data;
         });
 
-        Echo.join('chatroom')
+        Echo.join('chatroom'+agency_id)
             .here((users) => {
                 this.usersInRoom = users;
             })

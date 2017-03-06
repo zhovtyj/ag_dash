@@ -40,6 +40,7 @@ class MessagePosted implements ShouldBroadcast
     {
         $this->message = $message;
         $this->user = $user;
+
     }
 
     /**
@@ -49,6 +50,7 @@ class MessagePosted implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('chatroom');
+        return new PresenceChannel('chatroom'.$this->message->user2_id);
     }
+
 }

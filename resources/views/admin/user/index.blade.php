@@ -11,7 +11,6 @@
                         <span property="name">Dashboard</span>
                     </a>
                     <meta property="position" content="1">
-
                 </li>
                 <span> › </span>
                 <li property="itemListElement" typeof="ListItem">
@@ -66,25 +65,10 @@
                                     <td>{{ isset($user->userInfo->address1) ? $user->userInfo->address1 : ''}}</td>
                                     <td>${{ isset($user->deposit->balance) ? $user->deposit->balance : '0.00'}}</td>
                                     <td>
-                                        <a class="btn btn-block btn-primary" href="{{ route('admin.client', $user->id) }}"><span class="fa fa-users"></span> Clients</a>
-                                        <a class="btn btn-block btn-primary" href="{{ route('admin.order.agency', $user->id) }}"><span class="fa fa-edit"></span> Orders</a>
+                                        <a class="btn btn-block btn-primary" href="{{route('admin.client', $user->id)}}"><span class="fa fa-users"></span> Clients</a>
+                                        <a class="btn btn-block btn-primary" href="{{route('admin.order.agency', $user->id)}}"><span class="fa fa-edit"></span> Orders</a>
                                         <a class="btn btn-block btn-primary" href="{{route('admin.transaction.agency', $user->id)}}"><span class="glyphicon glyphicon-transfer"></span> Transactions</a>
-                                        <a class="btn btn-block btn-success" href="#"><span class="glyphicon glyphicon-envelope"></span> Message</a>
-                                        {{--<button class="btn btn-success btn-block">--}}
-                                            {{--<a href="{{route('agency.service.index', $client->id)}}" title="Order New Service"><span class="glyphicon glyphicon-plus" style="color:#fff"></span></a>--}}
-                                        {{--</button>--}}
-                                        {{--<button class="btn btn-success btn-block">--}}
-                                            {{--<a href="{{route('order.orders', $client->id)}}" title="See all projects"><span class="glyphicon glyphicon-th-list" style="color:#fff"></span></a>--}}
-                                        {{--</button>--}}
-                                        {{--<button class="btn btn-primary btn-block">--}}
-                                            {{--<a href="{{route('client.show', $client->id)}}" title="Show"><span class="glyphicon glyphicon-eye-open" style="color:#fff"> </span> </a>--}}
-                                        {{--</button>--}}
-                                        {{--<button class="btn btn-primary btn-block">--}}
-                                            {{--<a href="{{route('client.edit', $client->id)}}" title="Edit"><span class="glyphicon glyphicon-edit" style="color:#fff"> </span> </a>--}}
-                                        {{--</button>--}}
-                                        {{--{{ Form::open(['route' => ['client.destroy', $client->id], 'method' =>'DELETE']) }}--}}
-                                        {{--<button type="submit" class="btn btn-danger btn-block" style="margin-top:5px;"><span class="glyphicon glyphicon-trash"> </span> </button>--}}
-                                        {{--{{ Form::close() }}--}}
+                                        <a class="btn btn-block btn-success" href="{{route('admin.messages.index', $user->id)}}"><span class="glyphicon glyphicon-envelope"></span> Message</a>
                                     </td>
                                 </tr>
                             @endforeach

@@ -1,7 +1,8 @@
+<script>
+    window.Laravel = { csrfToken: '{{ csrf_token() }}' };
+</script>﻿
 <!-- Jquery Js -->
-{{--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>--}}
-<!-- Laravel Js -->
-<script src="/js/app.js" charset="utf-8"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <!-- Bootstrap Js -->
 <script src="/admin-assets/js/bootstrap.min.js"></script>
 <!-- Metis Menu Js -->
@@ -12,14 +13,36 @@
 {{--<!--Custom Js -->--}}
 {{--<script src="/admin-assets/js/custom-scripts.js"></script>--}}
 <script>
-    $('#main-menu').metisMenu();
+    (function ($) {
+        "use strict";
+        var mainApp = {
 
-    $(window).bind("load resize", function () {
-        if ($(this).width() < 768) {
-            $('div.sidebar-collapse').addClass('collapse')
-        } else {
-            $('div.sidebar-collapse').removeClass('collapse')
+            initFunction: function () {
+                /*MENU
+                 ------------------------------------*/
+                $('#main-menu').metisMenu();
+
+                $(window).bind("load resize", function () {
+                    if ($(this).width() < 768) {
+                        $('div.sidebar-collapse').addClass('collapse')
+                    } else {
+                        $('div.sidebar-collapse').removeClass('collapse')
+                    }
+                });
+            },
+
+            initialization: function () {
+                mainApp.initFunction();
+
+            }
         }
-    });
+        // Initializing ///
+
+        $(document).ready(function () {
+            mainApp.initFunction();
+        });
+
+    }(jQuery));
 </script>
+
 @yield('javascript')

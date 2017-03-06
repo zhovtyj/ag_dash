@@ -11254,8 +11254,10 @@ Vue.component('chat-message', __webpack_require__(41));
 Vue.component('chat-log', __webpack_require__(40));
 Vue.component('chat-composer', __webpack_require__(39));
 
+console.log(window.agency_id);
+
 var app = new Vue({
-    el: '#app',
+    el: '#admin-chat',
     data: {
         messages: [],
         usersInRoom: []
@@ -11265,7 +11267,7 @@ var app = new Vue({
             // Add to existing messages
             //this.messages.push(message);
             // Persist to the database etc
-            axios.post('/admin/messages', message).then(function (response) {
+            axios.post('/admin/messages/' + agency_id, message).then(function (response) {
                 // Do whatever;
             });
         }
@@ -11273,11 +11275,11 @@ var app = new Vue({
     created: function created() {
         var _this = this;
 
-        axios.get('/admin/messages/all').then(function (response) {
+        axios.get('/admin/messages/' + agency_id + '/all').then(function (response) {
             _this.messages = response.data;
         });
 
-        Echo.join('chatroom').here(function (users) {
+        Echo.join('chatroom' + agency_id).here(function (users) {
             _this.usersInRoom = users;
         }).joining(function (user) {
             _this.usersInRoom.push(user);
@@ -12160,6 +12162,11 @@ module.exports = function spread(callback) {
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = {
     data: function data() {
@@ -12214,6 +12221,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function($) {Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -36823,7 +36836,23 @@ module.exports = Component.exports
 module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
   return (_vm.username === _vm.message.user.name) ? _c('div', [_c('li', {
     staticClass: "right clearfix"
-  }, [_vm._m(0), _vm._v(" "), _c('div', {
+  }, [(_vm.message.user.name === 'Admin') ? _c('span', {
+    staticClass: "chat-img pull-right"
+  }, [_c('img', {
+    staticClass: "img-circle",
+    attrs: {
+      "src": "/upload_images/users/admin.png",
+      "alt": "User Avatar"
+    }
+  })]) : _c('span', {
+    staticClass: "chat-img pull-right"
+  }, [_c('img', {
+    staticClass: "img-circle",
+    attrs: {
+      "src": "/upload_images/users/no-logo.png",
+      "alt": "User Avatar"
+    }
+  })]), _vm._v(" "), _c('div', {
     staticClass: "chat-body clearfix"
   }, [_c('div', {
     staticClass: "header"
@@ -36833,14 +36862,30 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "glyphicon glyphicon-time"
   }), _vm._v(" "), (_vm.message.message.created_at) ? _c('span', [_vm._v(_vm._s(_vm.message.message.created_at))]) : _c('span', [_vm._v(_vm._s(_vm.message.created_at))])]), _vm._v(" "), _c('strong', {
     staticClass: "pull-right primary-font"
-  }, [_vm._v(_vm._s(_vm.message.user.name))])]), _vm._v(" "), (_vm.message.message.message) ? _c('p', [_vm._v(_vm._s(_vm.message.message.message))]) : _c('p', [_vm._v(_vm._s(_vm.message.message))])])])]) : _c('div', [_c('li', {
+  }, [_vm._v(_vm._s(_vm.message.user.name))])]), _vm._v(" "), (_vm.message.message.message) ? _c('p', [_c('span', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.message.message.message)
+    }
+  })]) : _c('p', [_c('span', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.message.message)
+    }
+  })])])])]) : _c('div', [_c('li', {
     staticClass: "left clearfix"
-  }, [_c('span', {
+  }, [(_vm.message.user.name === 'Admin') ? _c('span', {
     staticClass: "chat-img pull-left"
   }, [_c('img', {
     staticClass: "img-circle",
     attrs: {
-      "src": "http://placehold.it/50/55C1E7/fff&text=U",
+      "src": "/upload_images/users/admin.png",
+      "alt": "User Avatar"
+    }
+  })]) : _c('span', {
+    staticClass: "chat-img pull-left"
+  }, [_c('img', {
+    staticClass: "img-circle",
+    attrs: {
+      "src": "/upload_images/users/no-logo.png",
       "alt": "User Avatar"
     }
   })]), _vm._v(" "), _c('div', {
@@ -36853,18 +36898,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "pull-right text-muted"
   }, [_c('span', {
     staticClass: "glyphicon glyphicon-time"
-  }), _vm._v(" "), (_vm.message.message.created_at) ? _c('span', [_vm._v(_vm._s(_vm.message.message.created_at))]) : _c('span', [_vm._v(_vm._s(_vm.message.created_at))])])]), _vm._v(" "), (_vm.message.message.message) ? _c('p', [_vm._v(_vm._s(_vm.message.message.message))]) : _c('p', [_vm._v(_vm._s(_vm.message.message))])])])])
-},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('span', {
-    staticClass: "chat-img pull-right"
-  }, [_c('img', {
-    staticClass: "img-circle",
-    attrs: {
-      "src": "http://placehold.it/50/FA6F57/fff&text=ME",
-      "alt": "User Avatar"
+  }), _vm._v(" "), (_vm.message.message.created_at) ? _c('span', [_vm._v(_vm._s(_vm.message.message.created_at))]) : _c('span', [_vm._v(_vm._s(_vm.message.created_at))])])]), _vm._v(" "), (_vm.message.message.message) ? _c('p', [_c('span', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.message.message.message)
     }
-  })])
-}]}
+  })]) : _c('p', [_c('span', {
+    domProps: {
+      "innerHTML": _vm._s(_vm.message.message)
+    }
+  })])])])])
+},staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()
@@ -36937,7 +36980,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.messageText = $event.target.value
       }
     }
-  }), _vm._v(" "), _c('span', {
+  }), _vm._v(" "), _vm._m(0), _vm._v(" "), _c('span', {
     staticClass: "input-group-btn"
   }, [_c('button', {
     staticClass: "btn btn-warning btn-sm",
@@ -36948,7 +36991,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "click": _vm.sendMessage
     }
   }, [_vm._v("Send")])])])
-},staticRenderFns: []}
+},staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
+  return _c('span', {
+    staticClass: "input-group-btn"
+  }, [_c('button', {
+    staticClass: "btn btn-sm",
+    attrs: {
+      "role": "button",
+      "data-toggle": "modal",
+      "data-target": "#select-file"
+    }
+  }, [_c('span', {
+    staticClass: "glyphicon glyphicon-paperclip"
+  })])])
+}]}
 module.exports.render._withStripped = true
 if (false) {
   module.hot.accept()

@@ -58,7 +58,8 @@ Route::group(['middleware'=>'roles', 'roles'=> ['agency']], function(){
     Route::put('/profile/update', ['uses'=>'UserController@update', 'as'=>'user.update']);
     Route::put('/profile/password-update', ['uses'=>'UserController@passwordUpdate', 'as'=>'password.update']);
 
-
+    //MESSAGES
+    Route::get('/messages', ['uses'=>'MessagesController@index', 'as'=>'messages.index']);
 
 });
 
@@ -92,14 +93,18 @@ Route::group(['middleware'=>'roles', 'roles'=> ['admin']], function(){
     //TRANSACTIONS
     Route::get('admin/agency/{agency_id}/transactions', ['uses'=> 'Admin\TransactionController@agency', 'as'=>'admin.transaction.agency']);
 
-
+    //MESSAGES
+    Route::get('/admin/messages/{agency_id}', ['uses'=>'Admin\MessagesController@index', 'as'=>'admin.messages.index']);
 
 });
 
-//MESSAGES
-Route::get('/admin/messages', ['uses'=>'Admin\MessagesController@index', 'as'=>'admin.messages.index']);
-Route::get('/admin/messages/all', ['uses'=>'Admin\MessagesController@messages', 'as'=>'admin.messages.all']);
-Route::post('/admin/messages', ['uses'=>'Admin\MessagesController@store', 'as'=>'admin.messages.store']);
+/****   AUTH USERS  *****/
+Route::group(['middleware'=>'auth'], function(){
 
+    //MESSAGES
+    Route::get('/admin/messages/{agency_id}/all', ['uses'=>'Admin\MessagesController@messages', 'as'=>'admin.messages.all']);
+    Route::post('/admin/messages/{agency_id}', ['uses'=>'Admin\MessagesController@store', 'as'=>'admin.messages.store']);
+    Route::post('/messages/file-upload/{agency_id}', ['uses'=>'Admin\MessagesController@fileUpload', 'as'=>'messages.fileupload']);
+});
 //Orders PDF availible for All
 Route::get('/orders/pdf-{order_id}', ['uses' => 'OrderController@pdf', 'as' => 'order.pdf' ]);

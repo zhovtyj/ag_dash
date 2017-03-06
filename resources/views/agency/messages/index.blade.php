@@ -1,8 +1,17 @@
-@extends('admin.main')
+@extends('agency.main')
 
 @section('title', 'Messages')
 
 @section('content')
+
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="page-header">
+                Messages
+            </h1>
+        </div>
+    </div>
+
 
     <div class="row" id="admin-chat">
         <div class="col-md-10">
@@ -45,30 +54,6 @@
         </div>
     </div>
 
-    <!-- Modal Select file -->
-    <div id="select-file" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-
-        {!! Form::open(['url' => '#', 'files' => 'true', 'id'=>'form-file-upload']) !!}
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Send File</h4>
-                </div>
-                <div class="modal-body">
-                    {{ Form::file('document') }}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" id="send-file" class="btn btn-primary" data-dismiss="modal">Send</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                </div>
-            </div>
-            {!! Form::close() !!}
-
-        </div>
-    </div>
-
 
 
     <style>
@@ -84,9 +69,6 @@
             margin-bottom: 10px;
             padding-bottom: 5px;
             border-bottom: 1px dotted #B3A9A9;
-        }
-        .img-circle{
-            width: 50px;
         }
 
         .chat li.left .chat-body
@@ -143,33 +125,9 @@
 
 @section('javascript')
     <script>
-        var agency_id = {{$agency->id}};
+        var agency_id = {{Auth::user()->id}};
     </script>
     <!-- Laravel Js -->
     <script src="/js/app.js" charset="utf-8"></script>
-    <script>
-        $('#send-file').on('click', function(){
-            $.ajax({
-                url: '{{route('messages.fileupload', $agency->id)}}',
-                data:new FormData($('#form-file-upload')[0]),
-                type:'post',
-                processData: false,
-                contentType: false,
-                success: function(data){
-                    //Close Modal
-                    $('#select-file').modal('hide');
-                    //Clean Input
-                    $('#form-file-upload').trigger( 'reset' );
-                    //$('#message').val('<a href="/public/'+data.path+'" target="_blank">'+data.filename+'</a>');
-                    console.log('File was uploaded.');
-                },
-                error: function(data){
-                    console.log('File uploading error.');
-                }
-            });
-        });
-
-    </script>
-
 
 @endsection

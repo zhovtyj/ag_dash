@@ -2,8 +2,11 @@
 
 <div v-if="username === message.user.name">
     <li class="right clearfix">
-        <span class="chat-img pull-right">
-            <img src="http://placehold.it/50/FA6F57/fff&amp;text=ME" alt="User Avatar" class="img-circle">
+        <span v-if="message.user.name === 'Admin'" class="chat-img pull-right">
+            <img src="/upload_images/users/admin.png" alt="User Avatar" class="img-circle">
+        </span>
+        <span v-else class="chat-img pull-right">
+            <img src="/upload_images/users/no-logo.png" alt="User Avatar" class="img-circle">
         </span>
         <div class="chat-body clearfix">
             <div class="header">
@@ -14,16 +17,19 @@
                 </small>
                 <strong class="pull-right primary-font">{{ message.user.name }}</strong>
             </div>
-            <p v-if="message.message.message">{{ message.message.message }}</p>
-            <p v-else>{{ message.message }}</p>
+            <p v-if="message.message.message"><span v-html="message.message.message"></span></p>
+            <p v-else><span v-html="message.message"></span></p>
         </div>
     </li>
 </div>
 
 <div v-else>
     <li class="left clearfix">
-        <span class="chat-img pull-left">
-            <img src="http://placehold.it/50/55C1E7/fff&amp;text=U" alt="User Avatar" class="img-circle">
+        <span v-if="message.user.name === 'Admin'" class="chat-img pull-left">
+            <img src="/upload_images/users/admin.png" alt="User Avatar" class="img-circle">
+        </span>
+        <span v-else class="chat-img pull-left">
+            <img src="/upload_images/users/no-logo.png" alt="User Avatar" class="img-circle">
         </span>
         <div class="chat-body clearfix">
             <div class="header">
@@ -34,8 +40,8 @@
                     <span v-else>{{message.created_at }}</span>
                 </small>
             </div>
-            <p v-if="message.message.message">{{ message.message.message }}</p>
-            <p v-else>{{ message.message }}</p>
+            <p v-if="message.message.message"><span v-html="message.message.message"></span></p>
+            <p v-else><span v-html="message.message"></span></p>
         </div>
     </li>
 </div>
@@ -44,12 +50,12 @@
 
 
 <script>
-export default {
-    props: ['message'],
-    data() {
-        return {
-            username:$('#user-name').text()
+    export default {
+        props: ['message'],
+        data() {
+            return {
+                username:$('#user-name').text()
+            }
         }
     }
-}
 </script>
