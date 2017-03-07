@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use App\Role;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -75,5 +76,10 @@ class RegisterController extends Controller
     protected function registered(Request $request, $user)
     {
         Mail::to($user->email)->send(new RegisterMail($user));
+
+        /**Get the ID of ROLE - Admin*/
+        $role_admin = Role::where('name', 'Admin')->first();
+        $admin = User::where('role_id', $role_admin->id)->first();
+        Mail::to($admin->email)->send(new RegisterAdminMail($user));
     }
 }
