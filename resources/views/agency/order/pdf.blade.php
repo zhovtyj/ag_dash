@@ -50,17 +50,14 @@
                 </td>
                 <td id="company" class="clearfix">
                     <div>{{$order->client->user->name}}</div>
-                    @if(isset($order->client->user->userInfo->agency_email))
-                        <div><a href="mailto:{{$order->client->user->userInfo->agency_email}}">{{$order->client->user->userInfo->agency_email}}</a></div>
-                    @else
-                        <div><a href="mailto:{{$order->client->user->email}}">{{$order->client->user->email}}</a></div>
-                    @endif
-                    <div>{{$order->client->user->userInfo->phone}}</div>
-                    <div>{{$order->client->user->userInfo->address1}}</div>
-                    <div>{{$order->client->user->userInfo->city}}</div>
-                    <div>{{$order->client->user->userInfo->state}}</div>
-                    <div>{{$order->client->user->userInfo->postcode}}</div>
-                    <div>{{$order->client->user->userInfo->country}}</div>
+                    <div><a href="mailto:{{$order->client->user->email}}">{{$order->client->user->email}}</a></div>
+                    <div>{{isset($order->client->user->userInfo->site)? $order->client->user->userInfo->site :''}}</div>
+                    <div>{{isset($order->client->user->userInfo->phone)? $order->client->user->userInfo->phone :''}}</div>
+                    <div>{{isset($order->client->user->userInfo->address1)? $order->client->user->userInfo->address1 :'' }}</div>
+                    <div>{{isset($order->client->user->userInfo->city)? $order->client->user->userInfo->city:'' }}</div>
+                    <div>{{isset($order->client->user->userInfo->state)? $order->client->user->userInfo->state:'' }}</div>
+                    <div>{{isset($order->client->user->userInfo->postcode)? $order->client->user->userInfo->postcode:'' }}</div>
+                    <div>{{isset($order->client->user->userInfo->country)? $order->client->user->userInfo->country:'' }}</div>
                 </td>
             </tr>
         </table>

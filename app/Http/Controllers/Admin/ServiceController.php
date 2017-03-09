@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Image;
 use Session;
 use App\Service;
+use App\ServiceSubscription;
 
 class ServiceController extends Controller
 {
@@ -51,6 +52,25 @@ class ServiceController extends Controller
         }
 
         $service->save();
+
+        //Subscription
+        if(isset($service->subscription)){
+            if($request->subscription == 1){
+                $service->serviceSubscription->min_subscription = $request->min_subscription;
+                $service->serviceSubscription->max_subscription = $request->max_subscription;
+                $service->serviceSubscription()->save();
+            }
+            else{
+                $service->serviceSubscription()->delete();
+            }
+        }
+        elseif($request->subscription == 1){
+            $serviceSubscription = new ServiceSubscription;
+            $serviceSubscription->service()->associate($service);
+            $serviceSubscription->min_subscription = $request->min_subscription;
+            $serviceSubscription->max_subscription = $request->max_subscription;
+            $serviceSubscription->save();
+        }
 
         Session::flash('success', 'Service created successfully');
 
@@ -104,6 +124,25 @@ class ServiceController extends Controller
         }
 
         $service->save();
+
+        //Subscription
+        if(isset($service->subscription)){
+            if($request->subscription == 1){
+                $service->serviceSubscription->min_subscription = $request->min_subscription;
+                $service->serviceSubscription->max_subscription = $request->max_subscription;
+                $service->serviceSubscription()->save();
+            }
+            else{
+                $service->serviceSubscription()->delete();
+            }
+        }
+        elseif($request->subscription == 1){
+            $serviceSubscription = new ServiceSubscription;
+            $serviceSubscription->service()->associate($service);
+            $serviceSubscription->min_subscription = $request->min_subscription;
+            $serviceSubscription->max_subscription = $request->max_subscription;
+            $serviceSubscription->save();
+        }
 
         Session::flash('success', 'Service updated successfully');
 

@@ -73,6 +73,24 @@
             {{ Form::label('active', 'Active:') }}
             {{ Form::checkbox('active', 'checked', ['class' => 'form-control']) }}
 
+            <div class="row">
+                <div class="col-md-4">
+                    {{ Form::label('subscription', 'Subscription:') }}
+                    {{ Form::checkbox('subscription', 1, null) }}
+                </div>
+            </div>
+
+            <div class="row subscription-period">
+                <div class="col-md-2">
+                    {{ Form::label('min_subscription', 'Min subscription:') }}
+                    {{ Form::text('min_subscription', null, ['class' => 'form-control']) }}
+                </div>
+                <div class="col-md-2">
+                    {{ Form::label('max_subscription', 'Max subscription:') }}
+                    {{ Form::text('max_subscription', null, ['class' => 'form-control']) }}
+                </div>
+            </div>
+
 
 
             <br />
@@ -83,10 +101,17 @@
         </div>
     </div>
 
+
 @endsection
 
 
 @section('javascripts')
+    <script>
+        $('.subscription-period').hide();
+        $('#subscription').on('change', function(){
+            $('.subscription-period').show();
+        });
+    </script>
     <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
     <script>
         tinymce.init({

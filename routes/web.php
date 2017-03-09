@@ -39,6 +39,9 @@ Route::group(['middleware'=>'roles', 'roles'=> ['agency']], function(){
     Route::get('/cart/{client_id}/getDone', ['as'=>'getDone','uses'=>'PaypalController@getDone']);
     Route::get('/cart/{client_id}/getCancel', ['as'=>'getCancel','uses'=>'PaypalController@getCancel']);
 
+    //PayPal Subscription
+    Route::post('/cart/{client_id}/payPalSubsription', ['uses'=>'PaypalController@subscription', 'as'=>'paypal.subscribe']);
+
     //Orders
     Route::get('/client/{client_id}/orders', ['uses' => 'OrderController@getClientOrders', 'as' => 'order.orders' ]);
     Route::get('/orders', ['uses' => 'OrderController@index', 'as' => 'order.index' ]);
@@ -60,6 +63,11 @@ Route::group(['middleware'=>'roles', 'roles'=> ['agency']], function(){
 
     //MESSAGES
     Route::get('/messages', ['uses'=>'MessagesController@index', 'as'=>'messages.index']);
+
+    //Testing PayPal - Delete it
+//    Route::get('/paypal-test', ['as'=>'paypal.test','uses'=>'PaypalTestController@index']);
+//    Route::get('/paypal-test-done', ['as'=>'paypal.test.done','uses'=>'PaypalTestController@getDone']);
+//    Route::get('/paypal-test-cancel', ['as'=>'paypal.test.cancel','uses'=>'PaypalTestController@getCancel']);
 
 });
 

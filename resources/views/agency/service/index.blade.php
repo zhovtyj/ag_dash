@@ -52,6 +52,31 @@
                                         @endforeach
                                     </ul>
                                     <hr>
+                                    @if(isset($service->serviceSubscription))
+                                        {!! Form::open(['route' => ['paypal.subscribe', $client->id], 'method' => 'post']) !!}
+                                            <div>
+                                                <input type="hidden" name="service_id" value="{{$service->id}}">
+                                                <input type="hidden" id="service_optional_ids" name="service_optional_ids" value="">
+                                                <label for="subsription_period">Subscribe for:</label>
+                                                <select id="subsription_period" name="subsription_period" class="form-control">
+                                                    @for($i = $service->serviceSubscription->min_subscription; $i <= $service->serviceSubscription->max_subscription; $i++)
+                                                        @if($i == 1)
+                                                            <option value="{{$i}}">{{$i}} month</option>
+                                                        @else
+                                                            <option value="{{$i}}">{{$i}} months</option>
+                                                        @endif
+                                                    @endfor
+                                                </select>
+                                            </div>
+                                            <div style="margin:10px 0;">
+                                                <button type="submit" class="btn btn-block btn-success">
+                                                    <span class="glyphicon glyphicon-usd"></span>
+                                                    Subscribe with PayPal
+                                                </button>
+                                                <hr>
+                                            </div>
+                                        {!! Form::close !!}
+                                    @endif
                                     <div class="bottom-buttons">
                                         <div class="row">
                                             <div class="col-md-6">

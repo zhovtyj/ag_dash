@@ -10,4 +10,9 @@ class Service extends Model
     {
         return $this->hasMany('App\ServiceOptional');
     }
+
+    public function serviceSubscription()
+    {
+        return $this->hasOne('App\ServiceSubscription');
+    }
 }
