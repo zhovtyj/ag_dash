@@ -134,7 +134,7 @@
                             <div class="clearfix" style="margin-top:10px;"></div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <a href="{{ route('client.edit', [$user->id, $client->id]) }}" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-edit"></span> Edit</a>
+                                    <a href="{{ route('client.edit', $client->id) }}" class="btn btn-primary btn-block"><span class="glyphicon glyphicon-edit"></span> Edit</a>
                                 </div>
                                 <div class="col-md-6">
                                     {{ Form::open(['route' => ['client.destroy', $client->id], 'method' =>'DELETE']) }}
