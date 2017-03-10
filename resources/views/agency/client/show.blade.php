@@ -227,14 +227,6 @@
                         </div>
 
                         <div class="col-md-12">
-                            <h4>Years in Business :</h4>
-                        </div>
-                        <div class="col-md-12">
-                            <strong>{{ $client->years_in_business }}</strong>
-                            <hr>
-                        </div>
-
-                        <div class="col-md-12">
                             <h4>Business License :</h4>
                         </div>
                         <div class="col-md-12">
