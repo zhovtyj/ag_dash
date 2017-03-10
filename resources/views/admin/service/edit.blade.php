@@ -97,20 +97,20 @@
                 <div class="row">
                     <div class="col-md-4">
                         {{ Form::label('subscription', 'Subscription:') }}
-                        {{ Form::checkbox('subscription', 1, null) }}
+                        {{ Form::checkbox('subscription', 1, isset($service->serviceSubscription)?'checked':'') }}
                     </div>
                 </div>
 
-                <div class="row subscription-period">
-                    <div class="col-md-2">
-                        {{ Form::label('min_subscription', 'Min subscription:') }}
-                        {{ Form::text('min_subscription', isset($service->serviceSubscription->min_subscription)?$service->serviceSubscription->min_subscription:'', ['class' => 'form-control']) }}
-                    </div>
-                    <div class="col-md-2">
-                        {{ Form::label('max_subscription', 'Max subscription:') }}
-                        {{ Form::text('max_subscription', isset($service->serviceSubscription->max_subscription)?$service->serviceSubscription->max_subscription:'', ['class' => 'form-control']) }}
-                    </div>
-                </div>
+                {{--<div class="row subscription-period">--}}
+                    {{--<div class="col-md-2">--}}
+                        {{--{{ Form::label('min_subscription', 'Min subscription:') }}--}}
+                        {{--{{ Form::text('min_subscription', isset($service->serviceSubscription->min_subscription)?$service->serviceSubscription->min_subscription:'', ['class' => 'form-control']) }}--}}
+                    {{--</div>--}}
+                    {{--<div class="col-md-2">--}}
+                        {{--{{ Form::label('max_subscription', 'Max subscription:') }}--}}
+                        {{--{{ Form::text('max_subscription', isset($service->serviceSubscription->max_subscription)?$service->serviceSubscription->max_subscription:'', ['class' => 'form-control']) }}--}}
+                    {{--</div>--}}
+                {{--</div>--}}
 
 
                 <br />

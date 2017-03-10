@@ -42,7 +42,7 @@
                                                 @foreach($serviceoptional->serviceOptionalDescriptions as $description)
                                                 <div class="checkbox">
                                                     <label class="additional-services-label">
-                                                        <input type="checkbox" name="serviceOptionalDescription{{$description->id}}" id="serviceOptionalDescription{{$description->id}}" value="{{$description->id}}" data-price="{{$description->price}}">
+                                                        <input type="checkbox" class="serviceOptionalDescription" data-id="{{$description->id}}" name="serviceOptionalDescription{{$description->id}}" id="serviceOptionalDescription{{$description->id}}" value="{{$description->id}}" data-price="{{$description->price}}">
                                                         {{$description->description}}
                                                         <span class="additional-services-span badge"><span class="glyphicon glyphicon-usd"></span> {{$description->price}}</span>
                                                     </label>
@@ -57,16 +57,16 @@
                                             <div>
                                                 <input type="hidden" name="service_id" value="{{$service->id}}">
                                                 <input type="hidden" id="service_optional_ids" name="service_optional_ids" value="">
-                                                <label for="subsription_period">Subscribe for:</label>
-                                                <select id="subsription_period" name="subsription_period" class="form-control">
-                                                    @for($i = $service->serviceSubscription->min_subscription; $i <= $service->serviceSubscription->max_subscription; $i++)
-                                                        @if($i == 1)
-                                                            <option value="{{$i}}">{{$i}} month</option>
-                                                        @else
-                                                            <option value="{{$i}}">{{$i}} months</option>
-                                                        @endif
-                                                    @endfor
-                                                </select>
+                                                {{--<label for="subsription_period">Subscribe for:</label>--}}
+                                                {{--<select id="subsription_period" name="subsription_period" class="form-control">--}}
+                                                    {{--@for($i = $service->serviceSubscription->min_subscription; $i <= $service->serviceSubscription->max_subscription; $i++)--}}
+                                                        {{--@if($i == 1)--}}
+                                                            {{--<option value="{{$i}}">{{$i}} month</option>--}}
+                                                        {{--@else--}}
+                                                            {{--<option value="{{$i}}">{{$i}} months</option>--}}
+                                                        {{--@endif--}}
+                                                    {{--@endfor--}}
+                                                {{--</select>--}}
                                             </div>
                                             <div style="margin:10px 0;">
                                                 <button type="submit" class="btn btn-block btn-success">
@@ -75,7 +75,7 @@
                                                 </button>
                                                 <hr>
                                             </div>
-                                        {!! Form::close !!}
+                                        {!! Form::close() !!}
                                     @endif
                                     <div class="bottom-buttons">
                                         <div class="row">
@@ -128,6 +128,21 @@
 
 @section('javascript')
     <script>
+
+
+        //Save checked Optional Serviced ids and send to
+        $('.serviceOptionalDescription').on('change', function(){
+            if(this.checked){
+                $('#service_optional_ids').val($('#service_optional_ids').val()+','+$(this).val());
+                console.log($('#service_optional_ids').val());
+            }
+            else{
+                var str = $('#service_optional_ids').val().replace($(this).val(), '');
+                str = str.replace(/,,/g, ',');
+                $('#service_optional_ids').val(str);
+                console.log($('#service_optional_ids').val());
+            }
+        });
 
         //Close Modal
         $('.add-to-cart').on('click', function(){

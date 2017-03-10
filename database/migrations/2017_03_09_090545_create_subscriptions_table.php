@@ -16,8 +16,8 @@ class CreateSubscriptionsTable extends Migration
         Schema::create('service_subscriptions', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('service_id')->unsigned();
-            $table->integer('min_subscription')->unsigned();
-            $table->integer('max_subscription')->unsigned();
+//            $table->integer('min_subscription')->unsigned();
+//            $table->integer('max_subscription')->unsigned();
             $table->timestamps();
         });
     }

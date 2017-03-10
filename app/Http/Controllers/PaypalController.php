@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Service;
+use App\ServiceOptionalDescription;
 use Paypal;
 use Session;
 use App\Order;
@@ -133,14 +135,26 @@ class PaypalController extends Controller
 
     public function subscription(Request $request, $client_id)
     {
+        $service = Service::find($request->service_id);
+        $ids = $request->service_optional_ids;
+        $ids = trim($ids, ",");
+        $ids_arr = explode(",", $ids);
+
+        $total_price = $service->price;
+
+        $serviceOptionalDescription = ServiceOptionalDescription::whereIn('id', $ids_arr)->get();
+        foreach ($serviceOptionalDescription as $desc){
+            $total_price += $desc->price;
+        }
+
 
 
         // Create a new instance of Plan object
         $plan = new Plan();
         // # Basic Information
         // Fill up the basic information that is required for the plan
-        $plan->setName('T-Shirt of the Month Club Plan')
-            ->setDescription('Template creation.')
+        $plan->setName($service->name)
+            ->setDescription($service->short_description)
             ->setType('fixed');
         // # Payment definitions for this billing plan.
         $paymentDefinition = new PaymentDefinition();
@@ -150,13 +164,13 @@ class PaypalController extends Controller
         $paymentDefinition->setName('Regular Payments')
             ->setType('REGULAR')
             ->setFrequency('Month')
-            ->setFrequencyInterval("2")
+            ->setFrequencyInterval("1")
             ->setCycles("12")
-            ->setAmount(new Currency(array('value' => 100, 'currency' => 'USD')));
+            ->setAmount(new Currency(array('value' => $total_price, 'currency' => 'USD')));
         // Charge Models
         $chargeModel = new ChargeModel();
         $chargeModel->setType('SHIPPING')
-            ->setAmount(new Currency(array('value' => 10, 'currency' => 'USD')));
+            ->setAmount(new Currency(array('value' => $total_price, 'currency' => 'USD')));
         $paymentDefinition->setChargeModels(array($chargeModel));
         $merchantPreferences = new MerchantPreferences();
 
@@ -164,12 +178,12 @@ class PaypalController extends Controller
         // ReturnURL and CancelURL are not required and used when creating billing agreement with payment_method as "credit_card".
         // However, it is generally a good idea to set these values, in case you plan to create billing agreements which accepts "paypal" as payment_method.
         // This will keep your plan compatible with both the possible scenarios on how it is being used in agreement.
-        $merchantPreferences->setReturnUrl(route('paypal.test.done'))
-            ->setCancelUrl(route('paypal.test.cancel'))
+        $merchantPreferences->setReturnUrl(route('paypal.subscribe.done', $client_id))
+            ->setCancelUrl(route('paypal.subscribe.cancel', $client_id))
             ->setAutoBillAmount("yes")
             ->setInitialFailAmountAction("CONTINUE")
             ->setMaxFailAttempts("0")
-            ->setSetupFee(new Currency(array('value' => 100, 'currency' => 'USD')));
+            ->setSetupFee(new Currency(array('value' => $total_price, 'currency' => 'USD')));
         $plan->setPaymentDefinitions(array($paymentDefinition));
         $plan->setMerchantPreferences($merchantPreferences);
         // For Sample Purposes Only.
@@ -179,7 +193,7 @@ class PaypalController extends Controller
             $output = $plan->create($this->_apiContext);
         } catch (Exception $ex) {
             // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-            //ResultPrinter::printError("Created Plan", "Plan", null, $request, $ex);
+            var_dump("Created Plan", "Plan", null, $request, $ex);
             exit(1);
         }
         // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
@@ -188,6 +202,7 @@ class PaypalController extends Controller
 
 
         //return $output;
+        echo('<pre style="color:#fff;">');
 
 
         // # Update a plan
@@ -249,7 +264,7 @@ class PaypalController extends Controller
         $agreement = new Agreement();
         $agreement->setName('Base Agreement')
             ->setDescription('Basic Agreement')
-            ->setStartDate('2019-06-17T9:45:04Z');
+            ->setStartDate('2019-03-10T11:10:55Z');
         // Add Plan ID
         // Please note that the plan Id should be only set in this case.
         $plan = new Plan();
@@ -302,15 +317,15 @@ class PaypalController extends Controller
             $agreement = Agreement::get($createdAgreement->getId(), $this->_apiContext);
         } catch (Exception $ex) {
             // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-            //ResultPrinter::printError("Retrieved an Agreement", "Agreement", $agreement->getId(), $createdAgreement->getId(), $ex);
-            //exit(1);
+            var_dump("Retrieved an Agreement", "Agreement", $agreement->getId(), $createdAgreement->getId(), $ex);
+            exit(1);
         }
         // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-        //ResultPrinter::printResult("Retrieved an Agreement", "Agreement", $agreement->getId(), $createdAgreement->getId(), $agreement);
+        var_dump("Retrieved an Agreement", "Agreement", $agreement->getId(), $createdAgreement->getId(), $agreement);
         //return $agreement;
 
 
-        return redirect()->to( $redirectUrl );
+        //return redirect()->to( $redirectUrl );
 
 
 
@@ -327,19 +342,19 @@ class PaypalController extends Controller
             $agreement = Agreement::get($createdAgreement->getId(), $this->_apiContext);
         } catch (Exception $ex) {
             // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-            //ResultPrinter::printError("Retrieved an Agreement", "Agreement", $agreement->getId(), $createdAgreement->getId(), $ex);
-            //exit(1);
+            var_dump("Retrieved an Agreement", "Agreement", $agreement->getId(), $createdAgreement->getId(), $ex);
+            exit(1);
         }
         // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-        //ResultPrinter::printResult("Retrieved an Agreement", "Agreement", $agreement->getId(), $createdAgreement->getId(), $agreement);
+        var_dump("Retrieved an Agreement", "Agreement", $agreement->getId(), $createdAgreement->getId(), $agreement);
         //return $agreement;
     }
 
-    public function getSubscriptionDone(Request $request)
+    public function getSubscriptionDone(Request $request, $client_id)
     {
         // ## Approval Status
         // Determine if the user accepted or denied the request
-
+        echo('<pre>');
         $token = $request->token;
         $agreement = new \PayPal\Api\Agreement();
         try {
@@ -348,22 +363,33 @@ class PaypalController extends Controller
             $agreement->execute($token, $this->_apiContext);
         } catch (Exception $ex) {
             // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-            var_dump("Executed an Agreement", "Agreement", $agreement->getId(), $token, $ex);
+            //var_dump("Executed an Agreement", "Agreement", $agreement->getId(), $token, $ex);
             exit(1);
         }
         // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-        var_dump("Executed an Agreement", "Agreement", $agreement->getId(), $token, $agreement);
+        //var_dump("Executed an Agreement", "Agreement", $agreement->getId(), $token, $agreement);
         // ## Get Agreement
         // Make a get call to retrieve the executed agreement details
         try {
             $agreement = \PayPal\Api\Agreement::get($agreement->getId(), $this->_apiContext);
         } catch (Exception $ex) {
             // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-            var_dump("Get Agreement", "Agreement", null, null, $ex);
+            //var_dump("Get Agreement", "Agreement", null, null, $ex);
             exit(1);
         }
         // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
-        var_dump("Get Agreement", "Agreement", $agreement->getId(), null, $agreement);
+       // var_dump("Get Agreement", "Agreement", $agreement->getId(), null, $agreement);
 
+        Session::flash('success', 'New Subscription was payed successfully with PayPal!');
+
+        return redirect()->route('agency.service.index', $client_id);
+
+    }
+
+    public function getSubscriptionCancel(Request $request, $client_id)
+    {
+        Session::flash('success', 'Subscription Error!');
+
+        return redirect()->route('agency.service.index', $client_id);
     }
 }

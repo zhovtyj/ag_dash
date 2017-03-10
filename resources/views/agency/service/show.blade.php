@@ -93,6 +93,20 @@
 @section('javascript')
     <script>
 
+        //Save checked Optional Serviced ids and send to
+        $('.serviceOptionalDescription').on('change', function(){
+            if(this.checked){
+                $('#service_optional_ids').val($('#service_optional_ids').val()+','+$(this).val());
+                //console.log($('#service_optional_ids').val());
+            }
+            else{
+                var str = $('#service_optional_ids').val().replace($(this).val(), '');
+                str = str.replace(/,,/g, ',');
+                $('#service_optional_ids').val(str);
+                //console.log($('#service_optional_ids').val());
+            }
+        });
+
         //Close Modal
         $('.add-to-cart').on('click', function(){
             function closeModal() {

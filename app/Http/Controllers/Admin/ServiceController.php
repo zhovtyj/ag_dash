@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Image;
 use Session;
+use Storage;
 use App\Service;
 use App\ServiceSubscription;
 
@@ -54,10 +55,8 @@ class ServiceController extends Controller
         $service->save();
 
         //Subscription
-        if(isset($service->subscription)){
+        if(isset($service->serviceSubscription)){
             if($request->subscription == 1){
-                $service->serviceSubscription->min_subscription = $request->min_subscription;
-                $service->serviceSubscription->max_subscription = $request->max_subscription;
                 $service->serviceSubscription()->save();
             }
             else{
@@ -67,8 +66,6 @@ class ServiceController extends Controller
         elseif($request->subscription == 1){
             $serviceSubscription = new ServiceSubscription;
             $serviceSubscription->service()->associate($service);
-            $serviceSubscription->min_subscription = $request->min_subscription;
-            $serviceSubscription->max_subscription = $request->max_subscription;
             $serviceSubscription->save();
         }
 
@@ -126,21 +123,17 @@ class ServiceController extends Controller
         $service->save();
 
         //Subscription
-        if(isset($service->subscription)){
+        if(isset($service->serviceSubscription)){
             if($request->subscription == 1){
-                $service->serviceSubscription->min_subscription = $request->min_subscription;
-                $service->serviceSubscription->max_subscription = $request->max_subscription;
-                $service->serviceSubscription()->save();
+                $service->serviceSubscription->save();
             }
             else{
-                $service->serviceSubscription()->delete();
+                $service->serviceSubscription->delete();
             }
         }
         elseif($request->subscription == 1){
             $serviceSubscription = new ServiceSubscription;
             $serviceSubscription->service()->associate($service);
-            $serviceSubscription->min_subscription = $request->min_subscription;
-            $serviceSubscription->max_subscription = $request->max_subscription;
             $serviceSubscription->save();
         }
 
@@ -153,8 +146,9 @@ class ServiceController extends Controller
     {
         $service = Service::find($id);
 
-        $location = public_path('upload_images/services/'.$service->image);
-        File::delete($location);
+        $location = public_path('upload_images\services\\'.$service->image);
+
+        Storage::delete($location);
 
         $service->delete();
 
