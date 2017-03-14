@@ -80,7 +80,6 @@ class MessagesController extends Controller
 
         broadcast(new MessagePosted($message, $user));
 
-
         return $data;
     }
 

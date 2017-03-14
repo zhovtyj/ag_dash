@@ -24,36 +24,9 @@
             <li>
                 <a class="{{ Request::is('transactions') ? 'active-menu' : '' }}" href="{{route('transaction.index')}}"><i class="glyphicon glyphicon-transfer"></i> Transactions</a>
             </li>
-            <!--<li>
-                <a href="#"><i class="fa fa-sitemap"></i> Multi-Level Dropdown<span class="fa arrow"></span></a>
-                <ul class="nav nav-second-level">
-                    <li>
-                        <a href="#">Second Level Link</a>
-                    </li>
-                    <li>
-                        <a href="#">Second Level Link</a>
-                    </li>
-                    <li>
-                        <a href="#">Second Level Link<span class="fa arrow"></span></a>
-                        <ul class="nav nav-third-level">
-                            <li>
-                                <a href="#">Third Level Link</a>
-                            </li>
-                            <li>
-                                <a href="#">Third Level Link</a>
-                            </li>
-                            <li>
-                                <a href="#">Third Level Link</a>
-                            </li>
-
-                        </ul>
-
-                    </li>
-                </ul>
-            </li>
             <li>
-                <a href="empty.html"><i class="fa fa-fw fa-file"></i> Empty Page</a>
-            </li>-->
+                <a class="{{ Request::is('messages') ? 'active-menu' : '' }}" href="{{route('messages.index')}}"><i class="glyphicon glyphicon-flash"></i> Support <small id="new-messages-count"></small></a>
+            </li>
 
         </ul>
     </div>

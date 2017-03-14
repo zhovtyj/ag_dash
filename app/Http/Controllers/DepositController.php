@@ -65,6 +65,7 @@ class DepositController extends Controller
                 //$order_service->order()->associate($order);
                 $order_service->order_id = $order->id;
                 $order_service->service_id = $cart_item->service_id;
+                $order_service->price = $cart_item->service->price;
                 $order_service->save();
 
                 if (isset($cart_item->cartServiceOptionals)){
@@ -73,6 +74,7 @@ class DepositController extends Controller
                         //$order_service_optional->orderService()->associate($order_service);
                         $order_service_optional->order_service_id = $order_service->id;
                         $order_service_optional->service_optional_description_id = $cartServiceOptional->serviceOptionalDescription->id;
+                        $order_service_optional->price = $cartServiceOptional->serviceOptionalDescription->price;
                         $order_service_optional->save();
                     }
                 }

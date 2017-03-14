@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\Client;
 use App\User;
+use App\Service;
 
 class DashboardController extends Controller
 {
@@ -32,6 +33,7 @@ class DashboardController extends Controller
 
         $user = User::find(Auth::user()->id);
         $clients = Client::where('user_id', '=', $user->id)->get();
-        return view('agency.dashboard.index')->withClients($clients);
+        $services = Service::all();
+        return view('agency.dashboard.index')->withClients($clients)->withServices($services);
     }
 }

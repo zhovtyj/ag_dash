@@ -70,7 +70,7 @@
                 <th>Service</th>
                 <th>Service Price</th>
                 <th>Additional Services</th>
-                <th>Total Price</th>
+                <th style="text-align: right;">Total Price</th>
             </tr>
             </thead>
             <tbody>
@@ -83,15 +83,15 @@
                         <?php $order_item_total_price = 0;?>
                         @if(isset($orderService->orderServiceOptionals))
                             @foreach($orderService->orderServiceOptionals as $orderServiceOptional)
-                                <?php $order_item_total_price += $orderServiceOptional->serviceOptionalDescription->price; ?>
+                                <?php $order_item_total_price += $orderServiceOptional->price; ?>
                                 <div style="position:relative">
                                     {{$orderServiceOptional->serviceOptionalDescription->description}}
-                                    <span style="position:absolute; right:0">${{$orderServiceOptional->serviceOptionalDescription->price}}</span>
+                                    <span style="position:absolute; right:0">${{$orderServiceOptional->price}}</span>
                                 </div>
                             @endforeach
                         @endif
                     </td>
-                    <td>${{$order_item_total_price+$orderService->service->price}}</td>
+                    <td style="text-align: right;">${{$order_item_total_price+$orderService->price}}</td>
                 </tr>
             @endforeach
             <tr>

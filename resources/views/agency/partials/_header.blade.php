@@ -123,13 +123,6 @@
                     </a>
                  </li>
                 @endif
-                <li class="divider"></li>
-                <li>
-                    <a class="text-center" href="{{route('messages.index')}}">
-                        <strong>Chat to Admin</strong>
-                        <i class="fa fa-angle-right"></i>
-                    </a>
-                </li>
             </ul>
             <!-- /.dropdown-messages -->
         </li>

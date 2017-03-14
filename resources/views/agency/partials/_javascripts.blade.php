@@ -43,6 +43,26 @@
         });
 
     }(jQuery));
+
+
+    //Listen for new Messages
+    newMessages();
+    setInterval( newMessages(), 10000);
+
+    function newMessages(){
+        $.ajax({
+            url: '{{route('messages.count')}}',
+            type:'post',
+            data:{_token:'{{ csrf_token() }}'},
+            success: function(data){
+                $('#new-messages-count').text('('+data+' unread messages)')
+            },
+            error: function(data){
+                console.log(data);
+            }
+        });
+    };
+
 </script>
 
 @yield('javascript')

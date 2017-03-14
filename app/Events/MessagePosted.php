@@ -50,7 +50,14 @@ class MessagePosted implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new PresenceChannel('chatroom'.$this->message->user2_id);
+        if($this->message->user2_id == 1){
+            $chatroom = $this->message->user_id;
+        }
+        else{
+            $chatroom = $this->message->user2_id;
+        }
+
+        return new PresenceChannel('chatroom'.$chatroom);
     }
 
 }

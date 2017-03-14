@@ -23,7 +23,7 @@
     </div>
     <!-- /. PAGE WRAPPER  -->
 </div>
-@include('agency.partials._javascripts')
+@yield('javascript')
 
 </body>
 </html>

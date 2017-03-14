@@ -41,10 +41,12 @@
                         <table class="table">
                             <thead>
                             <tr>
-                                <td>#</td>
-                                <td>Image</td>
-                                <td>Service</td>
-                                <td>Additional Services</td>
+                                <th>#</th>
+                                <th>Image</th>
+                                <th>Service</th>
+                                <th>Service Price</th>
+                                <th>Additional Services</th>
+                                <th style="text-align: right;">Total Price</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -53,21 +55,29 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td><img src="/upload_images/services/{{ $orderService->service->image }}" style="width:250px;"></td>
                                     <td><strong>{{ $orderService->service->name }}</strong></td>
+                                    <td>${{ $orderService->price }}</td>
                                     <td>
+                                        <?php $order_item_total_price = 0;?>
                                         @if(isset($orderService->orderServiceOptionals))
                                             @foreach($orderService->orderServiceOptionals as $orderServiceOptional)
-                                                <div>{{$orderServiceOptional->serviceOptionalDescription->description}}</div>
+                                                <?php $order_item_total_price += $orderServiceOptional->price; ?>
+                                                <div>
+                                                    {{$orderServiceOptional->serviceOptionalDescription->description}}
+                                                    <span> - ${{$orderServiceOptional->price}}</span>
+                                                </div>
                                             @endforeach
                                         @endif
                                     </td>
+                                    <td style="text-align: right;"><strong>${{$order_item_total_price+$orderService->price}}</strong></td>
                                 </tr>
                             @endforeach
                             <tr>
-                                <td colspan="4">
+                                <td colspan="6">
                                     <div style="text-align: right;">
                                         <i>Total: </i>
                                         <span class="glyphicon glyphicon-usd"></span>
-                                        <strong>{{$order->price}}</strong></div>
+                                        <strong>{{$order->price}}</strong>
+                                    </div>
                                 </td>
                             </tr>
                             </tbody>
@@ -78,6 +88,26 @@
 
             {!! $orders->links() !!}
 
+        </div>
+    </div>
+
+    <!-- Modal Order Success -->
+    <div id="order-success" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="bg-success modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Success</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Thank You for Your Order! Your Payment Has Been Received!</p>
+                    <p>Your transaction has been completed, and a receipt for your purchase has been emailed to you. You may log into your account at http://irank.website/my-account/ to view details of this transaction.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -118,4 +148,12 @@
             </ol>
         </div>
     </div>
+@endsection
+
+@section('javascript')
+    <script>
+        @if (Session::has('success'))
+            $('#order-success').modal('show');
+        @endif
+    </script>
 @endsection

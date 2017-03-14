@@ -65,6 +65,7 @@ Route::group(['middleware'=>'roles', 'roles'=> ['agency']], function(){
 
     //MESSAGES
     Route::get('/messages', ['uses'=>'MessagesController@index', 'as'=>'messages.index']);
+    Route::post('/messages-count', ['uses'=>'MessagesController@newMessagesCount', 'as'=>'messages.count']);
 
 });
 

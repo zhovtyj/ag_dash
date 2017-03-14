@@ -17,6 +17,7 @@ class CreateOrderServicesTable extends Migration
             $table->increments('id');
             $table->integer('order_id')->unsigned();
             $table->integer('service_id')->unsigned();
+            $table->integer('price')->unsigned();
             $table->timestamps();
         });
     }
