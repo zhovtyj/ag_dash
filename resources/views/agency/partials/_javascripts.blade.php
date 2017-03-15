@@ -46,22 +46,38 @@
 
 
     //Listen for new Messages
-    newMessages();
-    setInterval( newMessages(), 10000);
-
+    var timeout = 1;
     function newMessages(){
         $.ajax({
             url: '{{route('messages.count')}}',
             type:'post',
-            data:{_token:'{{ csrf_token() }}'},
+            data:{timeout:timeout,_token:'{{ csrf_token() }}'},
             success: function(data){
-                $('#new-messages-count').text('('+data+' unread messages)')
+                if(data.count > 0){
+                    $('#new-messages-count').text('('+data.count+' new messages)');
+                    $('#header-message-count').text(data.count);
+
+                    $('#dropdown-messages').html('' +
+                        '<li style="padding:5px 10px;">' +
+                        '<div><strong>New Message:</strong></div>' +
+                        '<a class="new-message" href="{{route('messages.index')}}">' +
+                        '<strong>'+data.message.message+'</strong>' +
+                        '<div><small><span class="glyphicon glyphicon-time"></span>'+data.message.created_at+'</small></div>' +
+                        '</a>' +
+                        '</li>');
+                    timeout = timeout+1;
+                };
+                setTimeout( newMessages(), 10000);
             },
             error: function(data){
                 console.log(data);
             }
         });
     };
+
+    newMessages();
+
+
 
 </script>
 

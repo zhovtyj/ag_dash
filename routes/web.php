@@ -100,7 +100,9 @@ Route::group(['middleware'=>'roles', 'roles'=> ['admin']], function(){
     Route::get('admin/agency/{agency_id}/transactions', ['uses'=> 'Admin\TransactionController@agency', 'as'=>'admin.transaction.agency']);
 
     //MESSAGES
+    Route::get('/admin/messages/all', ['uses'=>'Admin\MessagesController@threads', 'as'=>'admin.messages.threads']);
     Route::get('/admin/messages/{agency_id}', ['uses'=>'Admin\MessagesController@index', 'as'=>'admin.messages.index']);
+    Route::post('/admin/messages-count', ['uses'=>'Admin\MessagesController@newMessagesCount', 'as'=>'admin.messages.count']);
 
 });
 

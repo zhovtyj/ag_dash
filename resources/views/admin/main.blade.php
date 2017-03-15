@@ -24,7 +24,7 @@
     <!-- /. PAGE WRAPPER  -->
 </div>
 @include('admin.partials._javascripts')
-@yield('javascripts')
+
 
 </body>
 </html>

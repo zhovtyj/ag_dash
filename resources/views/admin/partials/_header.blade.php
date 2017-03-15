@@ -14,11 +14,13 @@
         <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="false">
                 @if ((Session::has('success')) || (count($errors)>0))
-                    1
+                    <span id="header-message-count">1</span>
+                @else
+                    <span id="header-message-count"></span>
                 @endif
                 <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
             </a>
-            <ul class="dropdown-menu dropdown-messages">
+            <ul class="dropdown-menu dropdown-messages" id="dropdown-messages">
                 @if (Session::has('success'))
                     <li>
                         <a href="#">
@@ -52,7 +54,7 @@
                 @endif
                 <li>
                     <a class="text-center" href="#">
-                        <strong>Read All Messages</strong>
+                        <strong>No System Notifications</strong>
                         <i class="fa fa-angle-right"></i>
                     </a>
                 </li>

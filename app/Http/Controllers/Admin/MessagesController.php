@@ -10,11 +10,13 @@ use App\Message;
 use App\User;
 
 
+
 class MessagesController extends Controller
 {
     public function index($agency_id)
     {
         $agency = User::find($agency_id);
+        $this->setReadMessages($agency_id);
         return view('admin.messages.index')->withAgency($agency);
     }
 
@@ -30,6 +32,24 @@ class MessagesController extends Controller
             })
             ->with('user')
             ->get();
+    }
+
+    public function threads()
+    {
+        $user_ids = Message::select('user_id')
+            ->where('user_id', '<>', '1')
+            ->orderBy('id', 'desc')
+            ->groupBy('user_id')
+            ->get();
+
+        $threads = array();
+        foreach ($user_ids as $id){
+            $user = User::find($id);
+            $threads[] = $user->messages()->latest()->first();
+        }
+        $unread = Message::where('user2_id', '1')->where('unread', '1')->count();
+
+        return view('admin.messages.threads')->withThreads($threads)->withUnread($unread);
     }
 
     public function store(Request $request, $agency_id)
@@ -81,6 +101,30 @@ class MessagesController extends Controller
         broadcast(new MessagePosted($message, $user));
 
         return $data;
+    }
+
+    public function newMessagesCount(Request $request)
+    {
+        if($request->timeout > 29){
+            sleep(29);
+        }
+        else{
+            sleep($request->timeout);
+        }
+
+        $data['count'] = Message::where('user2_id', 1)->where('unread', '1')->count();
+        $data['message'] = Message::where('user2_id', 1)->where('unread', '1')->latest()->first();
+        return $data;
+    }
+
+    private function setReadMessages($agency_id)
+    {
+        $messages = Message::where('user_id', $agency_id)->where('unread', '1')->get();
+        foreach ($messages as $message){
+            $message->unread = 0;
+            $message->save();
+        }
+        return true;
     }
 
 }

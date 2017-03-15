@@ -43,6 +43,39 @@
         });
 
     }(jQuery));
+
+    //Listen for new Messages
+    var timeout = 1;
+    function newMessages(){
+        $.ajax({
+            url: '{{route('admin.messages.count')}}',
+            type:'post',
+            data:{timeout:timeout,_token:'{{ csrf_token() }}'},
+            success: function(data){
+                if(data.count > 0){
+                    $('#new-messages-count').text('('+data.count+' new messages)');
+                    $('#header-message-count').text(data.count);
+
+                    $('#dropdown-messages').html('' +
+                        '<li style="padding:5px 10px;">' +
+                        '<div><strong>New Message:</strong></div>' +
+                        '<a class="new-message" href="/admin/messages/'+data.message.user_id+'">' +
+                        '<strong>'+data.message.message+'</strong>' +
+                        '<div><small><span class="glyphicon glyphicon-time"></span>'+data.message.created_at+'</small></div>' +
+                        '</a>' +
+                        '</li>');
+                    timeout = timeout+1;
+                };
+                setTimeout( newMessages(), 10000);
+            },
+            error: function(data){
+                console.log(data);
+            }
+        });
+    };
+
+    newMessages();
+
 </script>
 
 @yield('javascript')

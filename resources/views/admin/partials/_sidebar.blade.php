@@ -19,47 +19,10 @@
             <li>
                 <a class="{{ Request::is('admin/agency') ? 'active-menu' : '' }}" href="{{ route('admin.user') }}"><i class="fa fa-users"></i> Agency</a>
             </li>
-            {{--<li>--}}
-                {{--<a href="chart.html"><i class="glyphicon glyphicon-usd"></i> Payments</a>--}}
-            {{--</li>--}}
-            {{--<li>--}}
-                {{--<a href="table.html"><i class="fa fa-table"></i> Example</a>--}}
-            {{--</li>--}}
-            {{--<li>--}}
-                {{--<a href="form.html"><i class="fa fa-edit"></i> Example</a>--}}
-            {{--</li>--}}
+            <li>
+                <a class="{{ Request::is('admin/messages/all') ? 'active-menu' : '' }}" href="{{ route('admin.messages.threads') }}"><i class="fa fa-envelope fa-fw"></i> Messages <small id="new-messages-count"></small></a>
+            </li>
 
-
-            {{--<li>--}}
-                {{--<a href="#"><i class="fa fa-sitemap"></i> Example<span class="fa arrow"></span></a>--}}
-                {{--<ul class="nav nav-second-level">--}}
-                    {{--<li>--}}
-                        {{--<a href="#">Second Level Link</a>--}}
-                    {{--</li>--}}
-                    {{--<li>--}}
-                        {{--<a href="#">Second Level Link</a>--}}
-                    {{--</li>--}}
-                    {{--<li>--}}
-                        {{--<a href="#">Second Level Link<span class="fa arrow"></span></a>--}}
-                        {{--<ul class="nav nav-third-level">--}}
-                            {{--<li>--}}
-                                {{--<a href="#">Third Level Link</a>--}}
-                            {{--</li>--}}
-                            {{--<li>--}}
-                                {{--<a href="#">Third Level Link</a>--}}
-                            {{--</li>--}}
-                            {{--<li>--}}
-                                {{--<a href="#">Third Level Link</a>--}}
-                            {{--</li>--}}
-
-                        {{--</ul>--}}
-
-                    {{--</li>--}}
-                {{--</ul>--}}
-            {{--</li>--}}
-            {{--<li>--}}
-                {{--<a href="empty.html"><i class="fa fa-fw fa-file"></i> Example</a>--}}
-            {{--</li>--}}
         </ul>
 
     </div>
