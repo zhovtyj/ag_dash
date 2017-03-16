@@ -2,36 +2,6 @@
 
 @section('title', $service->name)
 
-@section('breadcrumbs')
-    <div id="breadcrumbs-container">
-        <div class="container-small">
-            <ol vocab="http://schema.org/" typeof="BreadcrumbList" class="breadcrumbs">
-                <li property="itemListElement" typeof="ListItem">
-                    <a property="item" typeof="WebPage" href="{{route('home')}}">
-                        <span property="name">Dashboard</span>
-                    </a>
-                    <meta property="position" content="1">
-                </li>
-                <span> › </span>
-                <li property="itemListElement" typeof="ListItem">
-                    <a property="item" typeof="WebPage" href="{{ route('service.index') }}">
-                        <span property="name">All Services</span>
-                    </a>
-                    <meta property="position" content="2">
-                </li>
-                <span> › </span>
-                <li property="itemListElement" typeof="ListItem">
-                    <a property="item" typeof="WebPage" href="{{ route('service.show', $service->id) }}">
-                        <span property="name">{{ $service->name }}</span>
-                    </a>
-                    <meta property="position" content="3">
-                </li>
-
-            </ol>
-        </div>
-    </div>
-@endsection
-
 @section('content')
     <div class="row">
         <div class="col-md-9">
@@ -47,6 +17,10 @@
                 <div class="panel-body">
                     <h2>Image:</h2>
                     <p><img src="/upload_images/services/{{ $service->image }}" style="width:100%;"></p>
+                    @if(isset($service->category))
+                        <h3><small>Category:<br/></small>{{$service->category->name}}</h3>
+                    @endif
+                    <hr>
                     <h2>Price:</h2>
                     <p>{{ $service->price }}</p>
                     <h2>Old price:</h2>
@@ -131,4 +105,34 @@
         </div>
     </div>
 
+@endsection
+
+@section('breadcrumbs')
+    <div id="breadcrumbs-container">
+        <div class="container-small">
+            <ol vocab="http://schema.org/" typeof="BreadcrumbList" class="breadcrumbs">
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{route('home')}}">
+                        <span property="name">Dashboard</span>
+                    </a>
+                    <meta property="position" content="1">
+                </li>
+                <span> › </span>
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{ route('service.index') }}">
+                        <span property="name">All Services</span>
+                    </a>
+                    <meta property="position" content="2">
+                </li>
+                <span> › </span>
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{ route('service.show', $service->id) }}">
+                        <span property="name">{{ $service->name }}</span>
+                    </a>
+                    <meta property="position" content="3">
+                </li>
+
+            </ol>
+        </div>
+    </div>
 @endsection

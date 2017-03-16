@@ -15,4 +15,9 @@ class Service extends Model
     {
         return $this->hasOne('App\ServiceSubscription');
     }
+
+    public function category()
+    {
+        return $this->belongsTo('App\Category');
+    }
 }

@@ -38,7 +38,7 @@ class MessagesController extends Controller
     {
         $user_ids = Message::select('user_id')
             ->where('user_id', '<>', '1')
-            ->orderBy('id', 'desc')
+            ->orderBy('id', 'asc')
             ->groupBy('user_id')
             ->get();
 

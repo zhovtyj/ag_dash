@@ -68,6 +68,19 @@
                 {{ Form::label('image', 'Image:') }}
                 {{ Form::file('image') }}
 
+                <div class="form-group">
+                    {{ Form::label('categories_id', 'Category:') }}
+                    <select class="form-control" name="category_id">
+                        @foreach($categories as $category)
+                            @if($category->id == $service->category_id)
+                                <option value="{{ $category->id }}" selected>{{ $category->name }}</option>
+                            @else
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endif
+                        @endforeach
+                    </select>
+                </div>
+
                 <div class="row">
                     <div class="col-md-4">
                         {{ Form::label('price', 'Price:') }}

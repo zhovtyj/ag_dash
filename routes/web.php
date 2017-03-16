@@ -24,8 +24,10 @@ Route::group(['middleware'=>'roles', 'roles'=> ['agency']], function(){
     Route::resource('client', 'ClientController');
 
     //Service
+    Route::get('/services', ['uses' => 'ServiceController@services', 'as' => 'agency.service.services']);
     Route::get('client/{client_id}/service', ['uses' => 'ServiceController@index', 'as' => 'agency.service.index']);
     Route::get('client/{client_id}/service/{service_id}', ['uses' => 'ServiceController@show', 'as' => 'agency.service.show']);
+    Route::post('/change-client', ['uses'=>'ServiceController@changeClient', 'as'=>'service.change.client']);
 
     //Cart
     Route::get('/cart/{client_id}', ['uses' => 'CartController@index', 'as' => 'cart.index' ]);
@@ -78,6 +80,10 @@ Route::group(['middleware'=>'roles', 'roles'=> ['admin']], function(){
 
     //SERVICES
     Route::resource('admin/service', 'Admin\ServiceController');
+
+    //CATEGORIES
+    Route::resource('admin/categories', 'Admin\CategoryController');
+
     //OPTIONAL SERVICES
     Route::resource('admin/service-optional', 'Admin\ServiceOptionalController');
 
@@ -95,6 +101,7 @@ Route::group(['middleware'=>'roles', 'roles'=> ['admin']], function(){
 
     //ORDERS
     Route::get('admin/agency/{agency_id}/orders', ['uses'=> 'Admin\OrderController@agency', 'as'=>'admin.order.agency']);
+    Route::get('admin/orders/all', ['uses'=>'Admin\OrderController@orders', 'as'=>'admin.orders.all']);
 
     //TRANSACTIONS
     Route::get('admin/agency/{agency_id}/transactions', ['uses'=> 'Admin\TransactionController@agency', 'as'=>'admin.transaction.agency']);

@@ -15,7 +15,14 @@
                 </a>
             </li>
             <li>
-                <a class="{{ Request::is('orders') ? 'active-menu' : '' }}" href="{{route('order.index')}}"><i class="fa fa-edit"></i> Orders </a>
+                <a class="{{ Request::is('services') ? 'active-menu' : '' }}" href="{{route('agency.service.services')}}">
+                    <i class="fa fa-sitemap"></i>
+                    Services
+                </a>
+            </li>
+            <li>
+                <a class="{{ Request::is('orders') ? 'active-menu' : '' }}" href="{{route('order.index')}}">
+                    <i class="fa fa-edit"></i> Orders </a>
             </li>
             <li>
                 <a class="{{ Request::is('deposit') ? 'active-menu' : '' }}" href="{{route('deposit.index')}}"><i class="glyphicon glyphicon-usd"></i> Deposit Funds</a>

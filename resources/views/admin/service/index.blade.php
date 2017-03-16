@@ -50,6 +50,9 @@
                                 <img src="/upload_images/services/{{$service->image}}" >
                                 <div class="caption">
                                     <h3>{{$service->name}}</h3>
+                                    @if(isset($service->category))
+                                        <h4><small>Category:<br/></small>{{$service->category->name}}</h4>
+                                    @endif
                                     <p>{!! mb_substr(strip_tags($service->short_description), 0, 150) !!}{{ strlen(strip_tags($service->short_description)) > 150 ? "..." : "" }}</p>
                                     <p>
                                         Old price:{{$service->old_price}}<span class="glyphicon glyphicon-usd"></span>

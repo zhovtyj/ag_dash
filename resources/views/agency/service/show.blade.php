@@ -29,6 +29,9 @@
                 </div>
                 <img src="/upload_images/services/{{$service->image}}" >
                 <div class="caption">
+                    @if(isset($service->category))
+                        <h4><small>Category:<br/></small>{{$service->category->name}}</h4>
+                    @endif
                     <div>{!! $service->description !!}</div>
                     <hr>
                     <ul data-service-id="{{$service->id}}" class="additional-services">

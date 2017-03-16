@@ -9,6 +9,7 @@ use Session;
 use Storage;
 use App\Service;
 use App\ServiceSubscription;
+use App\Category;
 
 class ServiceController extends Controller
 {
@@ -20,7 +21,8 @@ class ServiceController extends Controller
 
     public function create()
     {
-        return view('admin.service.create');
+        $categories = Category::all();
+        return view('admin.service.create')->withCategories($categories);
     }
 
     public function store(Request $request)
@@ -28,6 +30,7 @@ class ServiceController extends Controller
         $service = New Service;
 
         $service->name = $request->name;
+        $service->category_id = $request->category_id;
         $service->price = $request->price;
         $service->old_price = $request->old_price;
         $service->short_description = $request->short_description;
@@ -83,7 +86,8 @@ class ServiceController extends Controller
     public function edit($id)
     {
         $service = Service::find($id);
-        return view('admin.service.edit')->withService($service);
+        $categories = Category::all();
+        return view('admin.service.edit')->withService($service)->withCategories($categories);
     }
 
     public function update(Request $request, $id)
@@ -91,6 +95,7 @@ class ServiceController extends Controller
         $service = Service::find($id);
 
         $service->name = $request->name;
+        $service->category_id = $request->category_id;
         $service->price = $request->price;
         if(!$request->old_price){
             $service->old_price = $request->price;

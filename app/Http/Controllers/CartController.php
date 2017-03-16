@@ -31,8 +31,8 @@ class CartController extends Controller
         return redirect()->route('cart.index', $client_id);
     }
 
-    public function addToCartAjax(Request $request, $client_id){
-
+    public function addToCartAjax(Request $request, $client_id)
+    {
         $client = Client::find($client_id);
         $service = Service::find($request->id);
         $cart = New Cart;
@@ -40,7 +40,6 @@ class CartController extends Controller
         $cart->client()->associate($client);
         $cart->service()->associate($service);
         $cart->save();
-
 
         for($i=0; $i < count($request->description_ids); $i++){
             $cartServiceOptional = new CartServiceOptional;

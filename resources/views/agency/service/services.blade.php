@@ -16,7 +16,7 @@
             @foreach($services as $service)
                 @if($loop->iteration == 1 || ($loop->iteration%3) == 0)
                     <div class="row">
-                @endif
+                        @endif
                         <div class="col-sm-6 col-md-4">
                             <div class="thumbnail service-container">
                                 <div class="service-header">
@@ -42,7 +42,7 @@
                                     <ul data-service-id="{{$service->id}}" class="additional-services">
                                         @foreach($service->serviceoptionals as $serviceoptional)
                                             <h4><strong>{{$serviceoptional->name}}</strong></h4>
-                                                @foreach($serviceoptional->serviceOptionalDescriptions as $description)
+                                            @foreach($serviceoptional->serviceOptionalDescriptions as $description)
                                                 <div class="checkbox">
                                                     <label class="additional-services-label">
                                                         <input type="checkbox" class="serviceOptionalDescription" data-id="{{$description->id}}" name="serviceOptionalDescription{{$description->id}}" id="serviceOptionalDescription{{$description->id}}" value="{{$description->id}}" data-price="{{$description->price}}">
@@ -51,33 +51,23 @@
                                                     </label>
                                                 </div>
 
-                                                @endforeach
+                                            @endforeach
                                         @endforeach
                                     </ul>
                                     <hr>
                                     @if(isset($service->serviceSubscription))
                                         {!! Form::open(['route' => ['paypal.subscribe', $client->id], 'method' => 'post']) !!}
-                                            <div>
-                                                <input type="hidden" name="service_id" value="{{$service->id}}">
-                                                <input type="hidden" id="service_optional_ids" name="service_optional_ids" value="">
-                                                {{--<label for="subsription_period">Subscribe for:</label>--}}
-                                                {{--<select id="subsription_period" name="subsription_period" class="form-control">--}}
-                                                    {{--@for($i = $service->serviceSubscription->min_subscription; $i <= $service->serviceSubscription->max_subscription; $i++)--}}
-                                                        {{--@if($i == 1)--}}
-                                                            {{--<option value="{{$i}}">{{$i}} month</option>--}}
-                                                        {{--@else--}}
-                                                            {{--<option value="{{$i}}">{{$i}} months</option>--}}
-                                                        {{--@endif--}}
-                                                    {{--@endfor--}}
-                                                {{--</select>--}}
-                                            </div>
-                                            <div style="margin:10px 0;">
-                                                <button type="submit" class="btn btn-block btn-success">
-                                                    <span class="glyphicon glyphicon-usd"></span>
-                                                    Subscribe with PayPal
-                                                </button>
-                                                <hr>
-                                            </div>
+                                        <div>
+                                            <input type="hidden" name="service_id" value="{{$service->id}}">
+                                            <input type="hidden" id="service_optional_ids" name="service_optional_ids" value="">
+                                        </div>
+                                        <div style="margin:10px 0;">
+                                            <button type="submit" class="btn btn-block btn-success">
+                                                <span class="glyphicon glyphicon-usd"></span>
+                                                Subscribe with PayPal
+                                            </button>
+                                            <hr>
+                                        </div>
                                         {!! Form::close() !!}
                                     @endif
                                     <div class="bottom-buttons">
@@ -101,7 +91,7 @@
                         </div>
                         @if(($loop->iteration % 3) == 0)
                     </div>
-                        @endif
+                @endif
             @endforeach
         </div>
     </div>
@@ -127,12 +117,45 @@
 
         </div>
     </div>
+
+    <!-- Modal -->
+    <div id="choose-client" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+
+                {!! Form::open(['route' => ['service.change.client'], 'method' => 'post']) !!}
+                <input type="hidden" name="current_client_id" value="{{$client->id}}">
+                <div class="bg-primary modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Choose client</h4>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="client_id">Please select a Client:</label>
+                        <select name="client_id" class="form-control">
+                        @foreach(Auth::user()->clients as $cl)
+                            <option value="{{$cl->id}}">{{$cl->business_name}}</option>
+                        @endforeach
+                        </select>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+                {!! Form::close() !!}
+
+            </div>
+
+        </div>
+    </div>
 @endsection
 
 @section('javascript')
     <script>
-
-
         //Save checked Optional Serviced ids and send to
         $('.serviceOptionalDescription').on('change', function(){
             if(this.checked){
@@ -196,6 +219,12 @@
             });
             $(this).html('<span class="glyphicon glyphicon-shopping-cart"> </span> Added in cart')
         });
+
+        //Show window to chose the client
+        $('#go-to-cart').on('click', function(event){
+            event.preventDefault();
+            $('#choose-client').modal('show');
+        });
     </script>
 @endsection
 
@@ -212,24 +241,10 @@
                 </li>
                 <span> › </span>
                 <li property="itemListElement" typeof="ListItem">
-                    <a property="item" typeof="WebPage" href="{{ route('client.index') }}">
-                        <span property="name">All Clients</span>
-                    </a>
-                    <meta property="position" content="2">
-                </li>
-                <span> › </span>
-                <li property="itemListElement" typeof="ListItem">
-                    <a property="item" typeof="WebPage" href="{{ route('client.show', $client->id) }}">
-                        <span property="name">{{$client->business_name}}</span>
-                    </a>
-                    <meta property="position" content="3">
-                </li>
-                <span> › </span>
-                <li property="itemListElement" typeof="ListItem">
                     <a property="item" typeof="WebPage" href="{{ route('agency.service.index', $client->id) }}">
                         <span property="name">All Services</span>
                     </a>
-                    <meta property="position" content="4">
+                    <meta property="position" content="2">
                 </li>
             </ol>
         </div>

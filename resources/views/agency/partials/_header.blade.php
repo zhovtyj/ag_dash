@@ -44,7 +44,7 @@
                 @endforeach
                 <li class="divider append-before"></li>
                 <li>
-                    <a href="{{route('cart.index', $client->id)}}">
+                    <a id="go-to-cart" href="{{route('cart.index', $client->id)}}">
                         <div>
                             <i class="glyphicon glyphicon-arrow-right"></i> Go to the cart
                         </div>
@@ -53,7 +53,7 @@
             @elseif(isset($client))
                 <li class="divider append-before link-to-cart"></li>
                 <li class="link-to-cart">
-                    <a href="{{route('cart.index', $client->id)}}">
+                    <a id="go-to-cart" href="{{route('cart.index', $client->id)}}">
                         <div>
                             <i class="glyphicon glyphicon-arrow-right"></i> Go to the cart
                         </div>
