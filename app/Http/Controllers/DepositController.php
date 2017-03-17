@@ -15,6 +15,7 @@ use App\OrderServiceOptional;
 use App\OrderStatus;
 use App\Transaction;
 use App\Client;
+use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderShipped;
 
 class DepositController extends Controller
