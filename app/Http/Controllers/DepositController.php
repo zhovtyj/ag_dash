@@ -16,6 +16,7 @@ use App\OrderServiceOptional;
 use App\OrderStatus;
 use App\Transaction;
 use App\Client;
+use App\Category;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderShipped;
 
@@ -100,13 +101,23 @@ class DepositController extends Controller
             $transaction->last_value = Auth::user()->deposit->balance;
             $transaction->save();
 
-            Mail::to('igorzhovtyj@gmail.com')->send(new OrderShipped($order));
+            //Mail For Admin and For Agency
             Mail::to(Auth::user()->email)->send(new OrderShipped($order));
-
             $admin_role = Role::where('name', 'admin')->first();
             $admin = User::where('role_id', $admin_role->id)->first();
-
             Mail::to($admin->email)->send(new OrderShipped($order));
+
+            //Mail to Appropriate Trello Boards
+//            $categories = Category::all();
+//            foreach ($categories as $category){
+//                foreach ($order->orderServices as $orderService){
+//                    if ($orderService->service->category->id == $category->id){
+//
+//                    }
+//                }
+//            }
+
+
 
             Session::flash('success', 'New Order was payed successfully from your balance!');
 

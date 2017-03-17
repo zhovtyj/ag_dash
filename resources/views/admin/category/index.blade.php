@@ -18,6 +18,7 @@
                     <tr>
                         <th>#</th>
                         <th>Name:</th>
+                        <th>Email for Trello Boards:</th>
                         <th>Delete</th>
                     </tr>
                     </thead>
@@ -26,6 +27,7 @@
                         <tr>
                             <td>{{ $category->id }}</td>
                             <td>{{ $category->name }}</td>
+                            <td>{{ $category->email }}</td>
                             <td>
                                 {{ Form::open(['route' => ['categories.destroy', $category->id], 'method' =>'DELETE']) }}
 
@@ -45,6 +47,9 @@
                     <h2>New category</h2>
                     {{ Form::label('name', 'Name:') }}
                     {{ Form::text('name', null, ['class' => 'form-control']) }}
+
+                    {{ Form::label('email', 'Email for Trello Boards:') }}
+                    {{ Form::email('email', null, ['class' => 'form-control']) }}
 
                     <br>
                     {{ Form::submit('Create', ['class' => 'btn btn-primary btn-block']) }}
