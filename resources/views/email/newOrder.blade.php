@@ -42,7 +42,7 @@
             @foreach($order->orderServices as $orderService)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td><img src="/upload_images/services/{{ $orderService->service->image }}" style="width:250px;"></td>
+                    <td><img src="{{url()}}/upload_images/services/{{ $orderService->service->image }}" style="width:250px;"></td>
                     <td><strong>{{ $orderService->service->name }}</strong></td>
                     <td>${{ $orderService->price }}</td>
                     <td>
