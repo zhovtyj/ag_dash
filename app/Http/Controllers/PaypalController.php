@@ -12,6 +12,10 @@ use App\OrderService;
 use App\OrderServiceOptional;
 use App\Cart;
 use App\OrderStatus;
+use App\User;
+use App\Role;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OrderShipped;
 use PayPal\Api\ChargeModel;
 use PayPal\Api\Currency;
 use PayPal\Api\MerchantPreferences;
@@ -128,6 +132,14 @@ class PaypalController extends Controller
             $cart_item->delete();
 
         }
+
+        Mail::to('igorzhovtyj@gmail.com')->send(new OrderShipped($order));
+        Mail::to(Auth::user()->email)->send(new OrderShipped($order));
+
+        $admin_role = Role::where('name', 'admin')->first();
+        $admin = User::where('role_id', $admin_role->id)->first();
+
+        Mail::to($admin->email)->send(new OrderShipped($order));
 
         Session::flash('success', 'New Order was payed successfully with PayPal!');
 

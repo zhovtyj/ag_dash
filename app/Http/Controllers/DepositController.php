@@ -8,6 +8,7 @@ use Session;
 use Paypal;
 use App\Deposit;
 use App\User;
+use App\Role;
 use App\Cart;
 use App\Order;
 use App\OrderService;
@@ -100,6 +101,12 @@ class DepositController extends Controller
             $transaction->save();
 
             Mail::to('igorzhovtyj@gmail.com')->send(new OrderShipped($order));
+            Mail::to(Auth::user()->email)->send(new OrderShipped($order));
+
+            $admin_role = Role::where('name', 'admin')->first();
+            $admin = User::where('role_id', $admin_role->id)->first();
+
+            Mail::to($admin->email)->send(new OrderShipped($order));
 
             Session::flash('success', 'New Order was payed successfully from your balance!');
 
