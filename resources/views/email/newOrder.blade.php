@@ -8,28 +8,17 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <div class="row" style="line-height: 32px;">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <span>Order #{{$order->id}} (<strong>{{$order->client->business_name}}</strong>)</span>
-
-                <div class="form-inline">
-                    <label for="order_status" class="bg-color-blue">Status:</label>
-                    <select name="order_status" class="order_status form-control" data-order-id="{{$order->id}}">
-                        @foreach($statuses as $status)
-                            @if($order->status->id == $status->id)
-                                <option selected value="{{$status->id}}">{{$status->name}}</option>
-                            @else
-                                <option value="{{$status->id}}">{{$status->name}}</option>
-                            @endif
-                        @endforeach
-                    </select>
-                    <span id="status-saved-{{$order->id}}" class="status-saved btn btn-success glyphicon glyphicon-floppy-saved"></span>
-                </div>
-
             </div>
-            <div class="col-md-4" style="text-align: right">
-                                <span style="text-align:right">
+            <div class="col-md-6" style="text-align: right">
+                                <span class="order-status">
+                                    <span class="glyphicon glyphicon-info-sign"></span>
+                                    Status: {{$order->status->name}}
+                                </span>
+                <span style="text-align:right">
                                     <span class="glyphicon glyphicon-time"></span>
-                                    {{$order->created_at}}
+                    {{$order->created_at}}
                                 </span>
             </div>
             <div class="col-md-2">
@@ -41,10 +30,12 @@
         <table class="table">
             <thead>
             <tr>
-                <td>#</td>
-                <td>Image</td>
-                <td>Service</td>
-                <td>Additional Services</td>
+                <th>#</th>
+                <th>Image</th>
+                <th>Service</th>
+                <th>Service Price</th>
+                <th>Additional Services</th>
+                <th style="text-align: right;">Total Price</th>
             </tr>
             </thead>
             <tbody>
@@ -53,21 +44,29 @@
                     <td>{{ $loop->iteration }}</td>
                     <td><img src="/upload_images/services/{{ $orderService->service->image }}" style="width:250px;"></td>
                     <td><strong>{{ $orderService->service->name }}</strong></td>
+                    <td>${{ $orderService->price }}</td>
                     <td>
+                        <?php $order_item_total_price = 0;?>
                         @if(isset($orderService->orderServiceOptionals))
                             @foreach($orderService->orderServiceOptionals as $orderServiceOptional)
-                                <div>{{$orderServiceOptional->serviceOptionalDescription->description}}</div>
+                                <?php $order_item_total_price += $orderServiceOptional->price; ?>
+                                <div>
+                                    {{$orderServiceOptional->serviceOptionalDescription->description}}
+                                    <span> - ${{$orderServiceOptional->price}}</span>
+                                </div>
                             @endforeach
                         @endif
                     </td>
+                    <td style="text-align: right;"><strong>${{$order_item_total_price+$orderService->price}}</strong></td>
                 </tr>
             @endforeach
             <tr>
-                <td colspan="4">
+                <td colspan="6">
                     <div style="text-align: right;">
                         <i>Total: </i>
                         <span class="glyphicon glyphicon-usd"></span>
-                        <strong>{{$order->price}}</strong></div>
+                        <strong>{{$order->price}}</strong>
+                    </div>
                 </td>
             </tr>
             </tbody>
