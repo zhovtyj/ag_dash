@@ -99,7 +99,7 @@ class DepositController extends Controller
             $transaction->last_value = Auth::user()->deposit->balance;
             $transaction->save();
 
-            Mail::to('igorzhovtyj@gmaail.com')->send(new OrderShipped($order));
+            Mail::to('igorzhovtyj@gmail.com')->send(new OrderShipped($order));
 
             Session::flash('success', 'New Order was payed successfully from your balance!');
 
