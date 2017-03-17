@@ -23,7 +23,7 @@
                 <a class="{{ Request::is('admin/agency') ? 'active-menu' : '' }}" href="{{ route('admin.user') }}"><i class="fa fa-users"></i> Agency</a>
             </li>
             <li>
-                <a class="{{ Request::is('admin/orders/all') ? 'active-menu' : '' }}" href="{{ route('admin.orders.all') }}"><i class="fa fa-edit"></i> Orders</a>
+                <a class="{{ Request::is('admin/orders/all') ? 'active-menu' : '' }}" href="{{ route('admin.orders.all') }}"><i class="fa fa-edit"></i> Orders <span id="orders-count"></span></a>
             </li>
             <li>
                 <a class="{{ Request::is('admin/messages/all') ? 'active-menu' : '' }}" href="{{ route('admin.messages.threads') }}"><i class="fa fa-envelope fa-fw"></i> Messages <small id="new-messages-count"></small></a>

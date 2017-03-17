@@ -7,8 +7,17 @@
     <div class="row">
         <div class="col-md-12">
             <h1 class="page-header">
-                All Orders
+                @if (isset($title))
+                    {{$title}}
+                @else
+                    All Orders
+                @endif
             </h1>
+            <div class="orders-buttons-cont">
+                <a class="btn btn-primary" href="{{route('admin.orders.new')}}">New Orders</a>
+                <a class="btn btn-primary" href="{{route('admin.orders.active')}}">Active Orders</a>
+                <a class="btn btn-primary" href="{{route('admin.orders.completed')}}">Completed Orders</a>
+            </div>
         </div>
     </div>
 
@@ -20,6 +29,21 @@
                         <div class="row" style="line-height: 32px;">
                             <div class="col-md-6">
                                 <span>Order #{{$order->id}} (<strong>{{$order->client->business_name}}</strong>)</span>
+
+                                <div class="form-inline">
+                                    <label for="order_status" class="bg-color-blue">Status:</label>
+                                    <select name="order_status" class="order_status form-control" data-order-id="{{$order->id}}">
+                                        @foreach($statuses as $status)
+                                            @if($order->status->id == $status->id)
+                                                <option selected value="{{$status->id}}">{{$status->name}}</option>
+                                            @else
+                                                <option value="{{$status->id}}">{{$status->name}}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                    <span id="status-saved-{{$order->id}}" class="status-saved btn btn-success glyphicon glyphicon-floppy-saved"></span>
+                                </div>
+
                             </div>
                             <div class="col-md-4" style="text-align: right">
                                 <span style="text-align:right">
@@ -98,7 +122,39 @@
                     </a>
                     <meta property="position" content="2">
                 </li>
+                @if (isset($title))
+                    <span> › </span>
+                    <li property="itemListElement" typeof="ListItem">
+                        <a property="item" typeof="WebPage" href="#">
+                            <span property="name">{{$title}}</span>
+                        </a>
+                        <meta property="position" content="3">
+                    </li>
+                @endif
             </ol>
         </div>
     </div>
+@endsection
+
+@section('javascript')
+    <script>
+        $('.order_status').on('change', function(){
+            var status_id = $(this).val();
+            var order_id = $(this).attr("data-order-id");
+            var token = "{{ csrf_token() }}";
+            var url = "{{route('admin.orders.change.status')}}";
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {status_id:status_id, order_id:order_id, _token:token},
+                success: function(data) {
+                    $('#status-saved-'+order_id).show().css({
+                        "opacity" : "1",
+                        "transition" : "opacity 2s ease-in-out"
+                    });
+                }
+            });
+        });
+    </script>
+
 @endsection

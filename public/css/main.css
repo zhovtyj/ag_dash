@@ -285,3 +285,17 @@ label.additional-services-label{
 }
 /******  END CHAT ********/
 
+
+/******  ORDERS ********/
+.status-saved{
+    opacity: 0;
+}
+.orders-buttons-cont{
+    float:right;
+    position:relative;
+    top:-20px;
+}
+.order-status{
+    padding-right: 10px;
+    color:#004126;
+}

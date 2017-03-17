@@ -100,8 +100,20 @@ Route::group(['middleware'=>'roles', 'roles'=> ['admin']], function(){
     Route::delete('admin/agency/{agency_id}/clients/{client_id}', ['uses'=>'Admin\ClientController@destroy', 'as'=>'admin.client.destroy']);
 
     //ORDERS
+    //Agency orders
     Route::get('admin/agency/{agency_id}/orders', ['uses'=> 'Admin\OrderController@agency', 'as'=>'admin.order.agency']);
+    Route::get('admin/agency/{agency_id}/orders/new', ['uses'=> 'Admin\OrderController@agencyNewOrders', 'as'=>'admin.order.agency.new']);
+    Route::get('admin/agency/{agency_id}/orders/active', ['uses'=> 'Admin\OrderController@agencyActiveOrders', 'as'=>'admin.order.agency.active']);
+    Route::get('admin/agency/{agency_id}/orders/completed', ['uses'=> 'Admin\OrderController@agencyCompletedOrders', 'as'=>'admin.order.agency.completed']);
+    //All orders by group
     Route::get('admin/orders/all', ['uses'=>'Admin\OrderController@orders', 'as'=>'admin.orders.all']);
+    Route::get('admin/orders/new', ['uses'=>'Admin\OrderController@newOrders', 'as'=>'admin.orders.new']);
+    Route::get('admin/orders/active', ['uses'=>'Admin\OrderController@activeOrders', 'as'=>'admin.orders.active']);
+    Route::get('admin/orders/completed', ['uses'=>'Admin\OrderController@completedOrders', 'as'=>'admin.orders.completed']);
+    //Ajax update status
+    Route::post('admin/orders/change-status', ['uses'=>'Admin\OrderController@changeStatus', 'as'=>'admin.orders.change.status']);
+    //Count new Orders
+    Route::post('/admin/orders-count', ['uses'=>'Admin\OrderController@newOrdersCount', 'as'=>'admin.orders.count']);
 
     //TRANSACTIONS
     Route::get('admin/agency/{agency_id}/transactions', ['uses'=> 'Admin\TransactionController@agency', 'as'=>'admin.transaction.agency']);

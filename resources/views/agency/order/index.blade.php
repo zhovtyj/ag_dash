@@ -46,6 +46,10 @@
                                     <span>Order #{{$order->id}} (<strong>{{$client->business_name}}</strong>)</span>
                                 </div>
                                 <div class="col-md-4" style="text-align: right">
+                                    <span class="order-status">
+                                        <span class="glyphicon glyphicon-info-sign"></span>
+                                        Status: {{$order->status->name}}
+                                    </span>
                                     <span style="text-align:right">
                                         <span class="glyphicon glyphicon-time"></span>
                                         {{$order->created_at}}

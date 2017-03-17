@@ -12,6 +12,7 @@ use App\Cart;
 use App\Order;
 use App\OrderService;
 use App\OrderServiceOptional;
+use App\OrderStatus;
 use App\Transaction;
 use App\Client;
 
@@ -53,7 +54,12 @@ class DepositController extends Controller
             //Save Order to database
             $order = new Order;
             $order->client_id = $client_id;
-            $order->status = 'done';
+
+            //Order Status
+            $status = OrderStatus::where('name', 'new')->first();
+            $order->status()->associate($status);
+
+            $order->method = 'Deposit';
             $order->paypal = 'Deposit';
             $order->price = $request->pay;
             $order->save();
@@ -90,6 +96,8 @@ class DepositController extends Controller
             $transaction->first_value = $balanceBefore;
             $transaction->last_value = Auth::user()->deposit->balance;
             $transaction->save();
+
+            Mail::to('igorzhovtyj@gmaail.com')->send(new OrderShipped($order));
 
             Session::flash('success', 'New Order was payed successfully from your balance!');
 

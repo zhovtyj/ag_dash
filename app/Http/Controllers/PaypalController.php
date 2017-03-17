@@ -11,6 +11,7 @@ use App\Order;
 use App\OrderService;
 use App\OrderServiceOptional;
 use App\Cart;
+use App\OrderStatus;
 use PayPal\Api\ChargeModel;
 use PayPal\Api\Currency;
 use PayPal\Api\MerchantPreferences;
@@ -93,7 +94,12 @@ class PaypalController extends Controller
         //Save Order to database
         $order = new Order;
         $order->client_id = $client_id;
-        $order->status = 'done';
+
+        //Order Status
+        $status = OrderStatus::where('name', 'new')->first();
+        $order->status()->associate($status);
+
+        $order->method = 'PayPal';
         $order->paypal = json_encode($executePayment->transactions[0]);
         $order->price = $executePayment->transactions[0]->amount->total;
         $order->save();

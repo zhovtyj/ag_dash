@@ -8,6 +8,7 @@ use Session;
 use App\User;
 use App\Client;
 use App\Service;
+use App\Order;
 
 
 class AdminController extends Controller
@@ -17,6 +18,7 @@ class AdminController extends Controller
         $count['service'] = Service::count();
         $count['user'] = User::where('role_id', '<>', '1')->count();
         $count['client'] = Client::count();
+        $count['orders'] = Order::count();
         return view('admin.dashboard.index')->withCount($count);
 
 

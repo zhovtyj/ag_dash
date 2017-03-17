@@ -44,7 +44,7 @@
 
     }(jQuery));
 
-    //Listen for new Messages
+    //LISTEN FOR NEW MESSAGE
     var timeout = 1;
     function newMessages(){
         $.ajax({
@@ -75,6 +75,27 @@
     };
 
     newMessages();
+
+    //LISTEN FOR NEW ORDERS
+    function newOrders(){
+        $.ajax({
+            url: '{{route('admin.orders.count')}}',
+            type:'post',
+            data:{timeout:timeout,_token:'{{ csrf_token() }}'},
+            success: function(data){
+                if(data.count > 0){
+                    $('#orders-count').html('<small>('+data.count+' new orders)</small>');
+                    timeout = timeout+1;
+                };
+                setTimeout( newOrders(), 10000);
+            },
+            error: function(data){
+                console.log(data);
+            }
+        });
+    }
+
+    newOrders();
 
 </script>
 
