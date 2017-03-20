@@ -107,6 +107,7 @@ class DepositController extends Controller
             $admin = User::where('role_id', $admin_role->id)->first();
             Mail::to($admin->email)->send(new OrderShipped($order));
 
+            //Getting All Categories of This Order to send Order to each Trello Boards
             $categories = DB::table('orders')
                 ->where('orders.id', $order->id)
                 ->leftJoin('order_services', 'orders.id', '=', 'order_services.order_id')
