@@ -241,7 +241,7 @@
                 </li>
                 <span> › </span>
                 <li property="itemListElement" typeof="ListItem">
-                    <a property="item" typeof="WebPage" href="{{ route('agency.service.index', $client->id) }}">
+                    <a property="item" typeof="WebPage" href="{{ route('agency.service.services') }}">
                         <span property="name">All Services</span>
                     </a>
                     <meta property="position" content="2">

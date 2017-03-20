@@ -27,9 +27,14 @@ class ServiceController extends Controller
 
     public function services()
     {
-        $client = Client::where('user_id', Auth::user()->id)->first();
         $services = Service::orderBy('id', 'desc')->paginate(100);
-        return view('agency.service.services')->withServices($services)->withClient($client)->withCart($this->cart($client->id));
+        $client = Client::where('user_id', Auth::user()->id)->first();
+        if(isset($client)){
+            return view('agency.service.services')->withServices($services)->withClient($client)->withCart($this->cart($client->id));
+        }
+        else{
+            return view('agency.service.no-client-services')->withServices($services);
+        }
     }
 
     public function changeClient(Request $request)
