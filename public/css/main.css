@@ -299,3 +299,11 @@ label.additional-services-label{
     padding-right: 10px;
     color:#004126;
 }
+
+
+
+@media screen and (max-width:640px){
+.navbar-brand{
+    display:none;
+}
+}
