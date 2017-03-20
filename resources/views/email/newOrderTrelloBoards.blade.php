@@ -40,6 +40,7 @@
             </thead>
             <tbody>
             @foreach($order->orderServices as $orderService)
+                @if($orderService->service->category->id == $category_id)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
                     <td><img src="{{url('/')}}/upload_images/services/{{ $orderService->service->image }}" style="width:250px;"></td>
@@ -60,6 +61,7 @@
                     </td>
                     <td style="text-align: right;"><strong>${{$order_item_total_price+$orderService->price}}</strong></td>
                 </tr>
+                @endif
             @endforeach
             <tr>
                 <td colspan="6">

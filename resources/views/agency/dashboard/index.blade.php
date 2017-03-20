@@ -41,7 +41,7 @@
             <div class="panel panel-primary text-center no-boder bg-color-green">
                 <div class="panel-body">
                     <i class="fa fa-bar-chart-o fa-5x"></i>
-                    <h3>8,457</h3>
+                    <h3>{{$orders->count()}}</h3>
                 </div>
                 <div class="panel-footer back-footer-green">
                     <a href="{{route('order.index')}}" class="dashboard-links">Order History</a>

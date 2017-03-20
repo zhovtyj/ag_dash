@@ -19,6 +19,8 @@ use App\Client;
 use App\Category;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderShipped;
+use App\Mail\TrelloBoards;
+use DB;
 
 class DepositController extends Controller
 {
@@ -72,7 +74,6 @@ class DepositController extends Controller
             $cart = Cart::where('client_id', '=', $client_id)->get();
             foreach ($cart as $cart_item) {
                 $order_service = new OrderService;
-                //$order_service->order()->associate($order);
                 $order_service->order_id = $order->id;
                 $order_service->service_id = $cart_item->service_id;
                 $order_service->price = $cart_item->service->price;
@@ -81,7 +82,6 @@ class DepositController extends Controller
                 if (isset($cart_item->cartServiceOptionals)){
                     foreach ($cart_item->cartServiceOptionals as $cartServiceOptional){
                         $order_service_optional = new OrderServiceOptional;
-                        //$order_service_optional->orderService()->associate($order_service);
                         $order_service_optional->order_service_id = $order_service->id;
                         $order_service_optional->service_optional_description_id = $cartServiceOptional->serviceOptionalDescription->id;
                         $order_service_optional->price = $cartServiceOptional->serviceOptionalDescription->price;
@@ -101,23 +101,24 @@ class DepositController extends Controller
             $transaction->last_value = Auth::user()->deposit->balance;
             $transaction->save();
 
-            //Mail For Admin and For Agency
+            //Mail For ADMIN and For AGENCY
             Mail::to(Auth::user()->email)->send(new OrderShipped($order));
             $admin_role = Role::where('name', 'admin')->first();
             $admin = User::where('role_id', $admin_role->id)->first();
             Mail::to($admin->email)->send(new OrderShipped($order));
 
-            //Mail to Appropriate Trello Boards
-//            $categories = Category::all();
-//            foreach ($categories as $category){
-//                foreach ($order->orderServices as $orderService){
-//                    if ($orderService->service->category->id == $category->id){
-//
-//                    }
-//                }
-//            }
+            $categories = DB::table('orders')
+                ->where('orders.id', $order->id)
+                ->leftJoin('order_services', 'orders.id', '=', 'order_services.order_id')
+                ->leftJoin('services', 'order_services.service_id', '=', 'services.id')
+                ->leftJoin('categories', 'services.category_id', '=', 'categories.id')
+                ->groupBy('categories.id')
+                ->get();
 
-
+            //Mail for TrelloBoards
+            foreach ($categories as $category){
+                Mail::to($category->email)->send(new TrelloBoards($order, $category->id));
+            }
 
             Session::flash('success', 'New Order was payed successfully from your balance!');
 

@@ -7,6 +7,7 @@ use Auth;
 use App\Client;
 use App\User;
 use App\Service;
+use App\Order;
 
 class DashboardController extends Controller
 {
@@ -34,6 +35,10 @@ class DashboardController extends Controller
         $user = User::find(Auth::user()->id);
         $clients = Client::where('user_id', '=', $user->id)->get();
         $services = Service::all();
-        return view('agency.dashboard.index')->withClients($clients)->withServices($services);
+        $orders = Order::all();
+        return view('agency.dashboard.index')
+            ->withClients($clients)
+            ->withServices($services)
+            ->withOrders($orders);
     }
 }
