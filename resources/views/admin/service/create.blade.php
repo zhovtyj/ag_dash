@@ -117,7 +117,7 @@
     {!! Html::style('css/parsley.css') !!}
 @endsection
 
-@section('javascripts')
+@section('javascript')
     <script>
 //        $('.subscription-period').hide();
 //        $('#subscription').on('change', function(){
