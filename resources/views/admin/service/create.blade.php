@@ -43,10 +43,10 @@
     <div class="row">
         <div class="col-md-8">
 
-            {!! Form::open(['route' => 'service.store', 'files' => 'true']) !!}
+            {!! Form::open(['route' => 'service.store', 'data-parsley-validate' =>'', 'files' => 'true']) !!}
 
             {{ Form::label('name', 'Name:') }}
-            {{ Form::text('name', null, ['class' => 'form-control', 'required' => '']) }}
+            {{ Form::text('name', null, ['class' => 'form-control', 'required' => '', 'maxlength' => '255']) }}
 
             {{ Form::label('image', 'Image:') }}
             {{ Form::file('image') }}
@@ -63,14 +63,14 @@
             <div class="row">
                 <div class="col-md-4">
                     {{ Form::label('price', 'Price:') }}
-                    {{ Form::text('price', null, ['class' => 'form-control', 'required' => '']) }}
+                    {{ Form::text('price', null, ['class' => 'form-control', 'data-parsley-type' => 'integer', 'required' => '']) }}
                 </div>
             </div>
 
             <div class="row">
                 <div class="col-md-4">
                     {{ Form::label('old_price', 'Old price:') }}
-                    {{ Form::text('old_price', null, ['class' => 'form-control']) }}
+                    {{ Form::text('old_price', null, ['class' => 'form-control', 'data-parsley-type' => 'integer']) }}
                 </div>
             </div>
             {{ Form::label('short_description', 'Short description:') }}
@@ -113,6 +113,9 @@
 
 @endsection
 
+@section('stylesheets')
+    {!! Html::style('css/parsley.css') !!}
+@endsection
 
 @section('javascripts')
     <script>
@@ -122,6 +125,7 @@
 //        });
     </script>
     <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    {!! Html::script('js/parsley.min.js') !!}
     <script>
         tinymce.init({
             selector:'#text-editor',
