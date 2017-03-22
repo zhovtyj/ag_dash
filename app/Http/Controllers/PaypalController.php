@@ -16,6 +16,8 @@ use App\User;
 use App\Role;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderShipped;
+use App\Mail\TrelloBoards;
+use DB;
 use PayPal\Api\ChargeModel;
 use PayPal\Api\Currency;
 use PayPal\Api\MerchantPreferences;
@@ -30,6 +32,8 @@ use PayPal\Api\ShippingAddress;
 use PayPal\Api\Patch;
 use PayPal\Api\PatchRequest;
 use PayPal\Common\PayPalModel;
+
+
 
 class PaypalController extends Controller
 {
@@ -131,13 +135,25 @@ class PaypalController extends Controller
 
         }
 
-        Mail::to('igorzhovtyj@gmail.com')->send(new OrderShipped($order));
+        //Mail For ADMIN and For AGENCY
         Mail::to(Auth::user()->email)->send(new OrderShipped($order));
-
         $admin_role = Role::where('name', 'admin')->first();
         $admin = User::where('role_id', $admin_role->id)->first();
-
         Mail::to($admin->email)->send(new OrderShipped($order));
+
+        //Getting All Categories of This Order to send Order to each Trello Boards
+        $categories = DB::table('orders')
+            ->where('orders.id', $order->id)
+            ->leftJoin('order_services', 'orders.id', '=', 'order_services.order_id')
+            ->leftJoin('services', 'order_services.service_id', '=', 'services.id')
+            ->leftJoin('categories', 'services.category_id', '=', 'categories.id')
+            ->groupBy('categories.id')
+            ->get();
+
+        //Mail for TrelloBoards
+        foreach ($categories as $category){
+            Mail::to($category->email)->send(new TrelloBoards($order, $category->id));
+        }
 
         Session::flash('success', 'New Order was payed successfully with PayPal!');
 
@@ -172,7 +188,7 @@ class PaypalController extends Controller
         // # Basic Information
         // Fill up the basic information that is required for the plan
         $plan->setName($service->name)
-            ->setDescription($service->short_description)
+            ->setDescription(mb_substr(strip_tags($service->short_description), 0, 50))
             ->setType('fixed');
         // # Payment definitions for this billing plan.
         $paymentDefinition = new PaymentDefinition();
