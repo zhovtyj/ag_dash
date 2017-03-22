@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Service;
 use App\ServiceOptionalDescription;
+use Auth;
 use Paypal;
 use Session;
 use App\Order;
