@@ -37,7 +37,7 @@
                                     @if(isset($service->category))
                                         <h4><small>Category:<br/></small>{{$service->category->name}}</h4>
                                     @endif
-                                    <p>{!! mb_substr(strip_tags($service->short_description), 0, 150) !!}{{ strlen(strip_tags($service->short_description)) > 150 ? "..." : "" }}</p>
+                                    <div>{!! mb_substr($service->short_description, 0, 250) !!}{{ strlen(strip_tags($service->short_description)) > 250 ? "..." : "" }}</div>
                                     <hr>
                                     <ul data-service-id="{{$service->id}}" class="additional-services">
                                         @foreach($service->serviceoptionals as $serviceoptional)
@@ -50,7 +50,6 @@
                                                         <span class="additional-services-span badge"><span class="glyphicon glyphicon-usd"></span> {{$description->price}}</span>
                                                     </label>
                                                 </div>
-
                                             @endforeach
                                         @endforeach
                                     </ul>

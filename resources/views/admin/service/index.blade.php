@@ -53,7 +53,7 @@
                                     @if(isset($service->category))
                                         <h4><small>Category:<br/></small>{{$service->category->name}}</h4>
                                     @endif
-                                    <p>{!! mb_substr(strip_tags($service->short_description), 0, 150) !!}{{ strlen(strip_tags($service->short_description)) > 150 ? "..." : "" }}</p>
+                                    <div>{!! mb_substr($service->short_description, 0, 250) !!}{{ strlen(strip_tags($service->short_description)) > 250 ? "..." : "" }}</div>
                                     <p>
                                         Bulk Price:{{$service->old_price}}<span class="glyphicon glyphicon-usd"></span>
                                         <br>Retail Price:{{$service->price}}<span class="glyphicon glyphicon-usd"></span>

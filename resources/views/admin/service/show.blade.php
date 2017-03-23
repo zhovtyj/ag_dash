@@ -26,9 +26,9 @@
                     <h2>Bulk Price:</h2>
                     <p>{{ $service->old_price }}</p>
                     <h2>Short description:</h2>
-                    <p>{{ $service->short_description }}</p>
+                    <div>{!! $service->short_description !!}</div>
                     <h2>Description:</h2>
-                    <p>{!! $service->description !!}</p>
+                    <div>{!! $service->description !!}</div>
                     @foreach($service->serviceoptionals as $serviceoptional)
                         <div class="panel panel-success">
                             <div class="panel-heading"><strong>{{$serviceoptional->name}} ({{$serviceoptional->service->name}})</strong></div>

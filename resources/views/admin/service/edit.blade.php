@@ -95,10 +95,10 @@
                     </div>
                 </div>
                 {{ Form::label('short_description', 'Short description:') }}
-                {{ Form::textarea('short_description', null, ['class' => 'form-control']) }}
+                {{ Form::textarea('short_description', null, ['class' => 'form-control text-editor', 'id' => 'text-editor']) }}
 
                 {{ Form::label('description', 'Description:') }}
-                {{ Form::textarea('description', null, ['class' => 'form-control', 'id' => 'text-editor']) }}
+                {{ Form::textarea('description', null, ['class' => 'form-control text-editor', 'id' => 'text-editor1']) }}
 
                 {{ Form::label('active', 'Active:') }}
                 @if($service->active == 1)
