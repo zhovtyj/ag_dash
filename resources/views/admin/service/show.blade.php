@@ -21,9 +21,9 @@
                         <h3><small>Category:<br/></small>{{$service->category->name}}</h3>
                     @endif
                     <hr>
-                    <h2>Price:</h2>
+                    <h2>Retail Price:</h2>
                     <p>{{ $service->price }}</p>
-                    <h2>Old price:</h2>
+                    <h2>Bulk Price:</h2>
                     <p>{{ $service->old_price }}</p>
                     <h2>Short description:</h2>
                     <p>{{ $service->short_description }}</p>
