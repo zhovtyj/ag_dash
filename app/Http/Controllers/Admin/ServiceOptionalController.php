@@ -30,6 +30,7 @@ class ServiceOptionalController extends Controller
 
         $serviceOptional->name = $request->name;
         $serviceOptional->service_id = $request->service_id;
+        $request->subscription == 1 ? $serviceOptional->subscription = 1 : $serviceOptional->subscription = 0;
         $serviceOptional->save();
 
 
@@ -66,6 +67,7 @@ class ServiceOptionalController extends Controller
 
         $serviceOptional->name = $request->name;
         $serviceOptional->service_id = $request->service_id;
+        $request->subscription == 1 ? $serviceOptional->subscription = 1 : $serviceOptional->subscription = 0;
         $serviceOptional->save();
         $serviceOptional->serviceOptionalDescriptions()->delete();
 

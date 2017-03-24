@@ -41,35 +41,33 @@
                                     <hr>
                                     <ul data-service-id="{{$service->id}}" class="additional-services">
                                         @foreach($service->serviceoptionals as $serviceoptional)
-                                            <h4><strong>{{$serviceoptional->name}}</strong></h4>
-                                                @foreach($serviceoptional->serviceOptionalDescriptions as $description)
+                                            <h4>
+                                                <strong>{{$serviceoptional->name}}</strong>
+                                                @if($serviceoptional->subscription == 1)
+                                                    <small style="float:right;"></span>Subscription <span class="glyphicon glyphicon-ok"></small>
+                                                @endif
+                                            </h4>
+                                            @foreach($serviceoptional->serviceOptionalDescriptions as $description)
                                                 <div class="checkbox">
                                                     <label class="additional-services-label">
-                                                        <input type="checkbox" class="serviceOptionalDescription" data-id="{{$description->id}}" name="serviceOptionalDescription{{$description->id}}" id="serviceOptionalDescription{{$description->id}}" value="{{$description->id}}" data-price="{{$description->price}}">
+                                                        <input type="checkbox" class="serviceOptionalDescription" data-service-id="{{$service->id}}" data-id="{{$description->id}}" name="serviceOptionalDescription{{$description->id}}" id="serviceOptionalDescription{{$description->id}}" value="{{$description->id}}" data-price="{{$description->price}}">
                                                         {{$description->description}}
                                                         <span class="additional-services-span badge"><span class="glyphicon glyphicon-usd"></span> {{$description->price}}</span>
                                                     </label>
                                                 </div>
-
-                                                @endforeach
+                                            @endforeach
+                                            @if($serviceoptional->subscription == 1)
+                                                <?php $showSubscription = 1; ?>
+                                            @endif
                                         @endforeach
                                     </ul>
-                                    <hr>
-                                    @if(isset($service->serviceSubscription))
+
+                                    @if(isset($service->serviceSubscription) || (isset($showSubscription)))
+                                        <hr>
                                         {!! Form::open(['route' => ['paypal.subscribe', $client->id], 'method' => 'post']) !!}
                                             <div>
                                                 <input type="hidden" name="service_id" value="{{$service->id}}">
-                                                <input type="hidden" id="service_optional_ids" name="service_optional_ids" value="">
-                                                {{--<label for="subsription_period">Subscribe for:</label>--}}
-                                                {{--<select id="subsription_period" name="subsription_period" class="form-control">--}}
-                                                    {{--@for($i = $service->serviceSubscription->min_subscription; $i <= $service->serviceSubscription->max_subscription; $i++)--}}
-                                                        {{--@if($i == 1)--}}
-                                                            {{--<option value="{{$i}}">{{$i}} month</option>--}}
-                                                        {{--@else--}}
-                                                            {{--<option value="{{$i}}">{{$i}} months</option>--}}
-                                                        {{--@endif--}}
-                                                    {{--@endfor--}}
-                                                {{--</select>--}}
+                                                <input type="hidden" id="service_optional_ids_{{$service->id}}" name="service_optional_ids" value="">
                                             </div>
                                             <div style="margin:10px 0;">
                                                 <button type="submit" class="btn btn-block btn-success">
@@ -135,15 +133,16 @@
 
         //Save checked Optional Serviced ids and send to
         $('.serviceOptionalDescription').on('change', function(){
+            var service_id = $(this).attr('data-service-id');
             if(this.checked){
-                $('#service_optional_ids').val($('#service_optional_ids').val()+','+$(this).val());
-                console.log($('#service_optional_ids').val());
+                $('#service_optional_ids_'+service_id).val($('#service_optional_ids_'+service_id).val()+','+$(this).val());
+                console.log($('#service_optional_ids_'+service_id).val());
             }
             else{
-                var str = $('#service_optional_ids').val().replace($(this).val(), '');
+                var str = $('#service_optional_ids_'+service_id).val().replace($(this).val(), '');
                 str = str.replace(/,,/g, ',');
-                $('#service_optional_ids').val(str);
-                console.log($('#service_optional_ids').val());
+                $('#service_optional_ids_'+service_id).val(str);
+                console.log($('#service_optional_ids_'+service_id).val());
             }
         });
 

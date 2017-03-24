@@ -55,8 +55,8 @@
                                     @endif
                                     <div>{!! mb_substr($service->short_description, 0, 250) !!}{{ strlen(strip_tags($service->short_description)) > 250 ? "..." : "" }}</div>
                                     <p>
-                                        Bulk Price:{{$service->old_price}}<span class="glyphicon glyphicon-usd"></span>
-                                        <br>Retail Price:{{$service->price}}<span class="glyphicon glyphicon-usd"></span>
+                                        Retail Price:{{$service->old_price}}<span class="glyphicon glyphicon-usd"></span>
+                                        <br>Bulk Price:{{$service->price}}<span class="glyphicon glyphicon-usd"></span>
                                     </p>
                                     <hr>
                                     <ul data-service-id="{{$service->id}}" class="additional-services">

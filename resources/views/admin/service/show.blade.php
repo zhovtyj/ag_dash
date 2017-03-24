@@ -21,9 +21,9 @@
                         <h3><small>Category:<br/></small>{{$service->category->name}}</h3>
                     @endif
                     <hr>
-                    <h2>Retail Price:</h2>
-                    <p>{{ $service->price }}</p>
                     <h2>Bulk Price:</h2>
+                    <p>{{ $service->price }}</p>
+                    <h2>Retail Price:</h2>
                     <p>{{ $service->old_price }}</p>
                     <h2>Short description:</h2>
                     <div>{!! $service->short_description !!}</div>
@@ -31,7 +31,15 @@
                     <div>{!! $service->description !!}</div>
                     @foreach($service->serviceoptionals as $serviceoptional)
                         <div class="panel panel-success">
-                            <div class="panel-heading"><strong>{{$serviceoptional->name}} ({{$serviceoptional->service->name}})</strong></div>
+                            <div class="panel-heading">
+                                <strong>{{$serviceoptional->name}} ({{$serviceoptional->service->name}})</strong>
+                                @if($serviceoptional->subscription == 1)
+                                    <small style="float: right">
+                                        Subscription
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                    </small>
+                                @endif
+                            </div>
                             <div class="panel-body">
                                 <div class="col-md-12">
                                     <ul class="list-group">

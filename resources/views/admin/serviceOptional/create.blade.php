@@ -54,6 +54,9 @@
             {{ Form::label('name', 'Name of Optional Service:') }}
             {{ Form::text('name', null, ['class' => 'form-control', 'required' => '']) }}
 
+            {{ Form::label('subscription', 'Subscription:') }}
+            {{ Form::checkbox('subscription', 1, null) }}
+
             <ul class="list-group" style="margin-top:20px;">
                 <li class="list-group-item">
                     {{ Form::label('description[]', 'Description [1]:') }}

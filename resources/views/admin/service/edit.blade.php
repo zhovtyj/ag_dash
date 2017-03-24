@@ -83,14 +83,14 @@
 
                 <div class="row">
                     <div class="col-md-4">
-                        {{ Form::label('price', 'Retail Price:') }}
+                        {{ Form::label('price', 'Bulk Price:') }}
                         {{ Form::text('price', null, ['class' => 'form-control', 'required' => '']) }}
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col-md-4">
-                        {{ Form::label('old_price', 'Bulk Price:') }}
+                        {{ Form::label('old_price', 'Retail Price:') }}
                         {{ Form::text('old_price', null, ['class' => 'form-control']) }}
                     </div>
                 </div>

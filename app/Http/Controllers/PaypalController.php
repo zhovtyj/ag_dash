@@ -175,13 +175,25 @@ class PaypalController extends Controller
         $ids = trim($ids, ",");
         $ids_arr = explode(",", $ids);
 
-        $total_price = $service->price;
+        $first_price = $service->price;
+
+        //Need to count Monthly Price
+        $monthly_price = 0;
+        if($service->serviceSubscription){
+            $monthly_price += $service->price;
+        }
 
         $serviceOptionalDescription = ServiceOptionalDescription::whereIn('id', $ids_arr)->get();
         foreach ($serviceOptionalDescription as $desc){
-            $total_price += $desc->price;
+            $first_price += $desc->price;
+            if($desc->serviceOptional->subscription == 1){
+                $monthly_price += $desc->price;
+            }
         }
 
+//        var_dump($first_price);
+//        var_dump($monthly_price);
+//        die();
 
 
         // Create a new instance of Plan object
@@ -201,12 +213,14 @@ class PaypalController extends Controller
             ->setFrequency('Month')
             ->setFrequencyInterval("1")
             ->setCycles("12")
-            ->setAmount(new Currency(array('value' => $total_price, 'currency' => 'USD')));
+            ->setAmount(new Currency(array('value' => $monthly_price, 'currency' => 'USD')));
         // Charge Models
-        $chargeModel = new ChargeModel();
-        $chargeModel->setType('SHIPPING')
-            ->setAmount(new Currency(array('value' => $total_price, 'currency' => 'USD')));
-        $paymentDefinition->setChargeModels(array($chargeModel));
+
+//        $chargeModel = new ChargeModel();
+//        $chargeModel->setType('SHIPPING')
+//            ->setAmount(new Currency(array('value' => $monthly_price, 'currency' => 'USD')));
+//        $paymentDefinition->setChargeModels(array($chargeModel));
+
         $merchantPreferences = new MerchantPreferences();
 
 
@@ -218,7 +232,7 @@ class PaypalController extends Controller
             ->setAutoBillAmount("yes")
             ->setInitialFailAmountAction("CONTINUE")
             ->setMaxFailAttempts("0")
-            ->setSetupFee(new Currency(array('value' => $total_price, 'currency' => 'USD')));
+            ->setSetupFee(new Currency(array('value' => $first_price, 'currency' => 'USD'))); //First Price
         $plan->setPaymentDefinitions(array($paymentDefinition));
         $plan->setMerchantPreferences($merchantPreferences);
         // For Sample Purposes Only.
@@ -296,10 +310,14 @@ class PaypalController extends Controller
                 "country_code": "US"
             }
         }*/
+        $description = 'Subscription for Service:'.$service->name.' First Payment: $'.$first_price.'. Monthly Payments: $'.$monthly_price;
+
+        $next_month = date(DATE_ATOM, mktime(0, 0, 0, date('m')+1, date('d'), date('y')));
+
         $agreement = new Agreement();
-        $agreement->setName('Base Agreement')
-            ->setDescription('Basic Agreement')
-            ->setStartDate('2019-03-10T11:10:55Z');
+        $agreement->setName('Subscription for Service:'.$service->name.'. Agency: '.Auth::user()->email)
+            ->setDescription($description)
+            ->setStartDate($next_month);
         // Add Plan ID
         // Please note that the plan Id should be only set in this case.
         $plan = new Plan();

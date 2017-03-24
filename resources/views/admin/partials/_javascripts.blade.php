@@ -64,8 +64,8 @@
                         '<div><small><span class="glyphicon glyphicon-time"></span>'+data.message.created_at+'</small></div>' +
                         '</a>' +
                         '</li>');
-                    timeout = timeout+1;
                 };
+                timeout = timeout+1;
                 setTimeout( newMessages(), 10000);
             },
             error: function(data){

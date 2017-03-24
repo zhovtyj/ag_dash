@@ -2,36 +2,6 @@
 
 @section('title', 'Edit'.$serviceoptional->name)
 
-@section('breadcrumbs')
-    <div id="breadcrumbs-container">
-        <div class="container-small">
-            <ol vocab="http://schema.org/" typeof="BreadcrumbList" class="breadcrumbs">
-                <li property="itemListElement" typeof="ListItem">
-                    <a property="item" typeof="WebPage" href="{{route('home')}}">
-                        <span property="name">Dashboard</span>
-                    </a>
-                    <meta property="position" content="1">
-                </li>
-                <span> › </span>
-                <li property="itemListElement" typeof="ListItem">
-                    <a property="item" typeof="WebPage" href="{{ route('service-optional.index') }}">
-                        <span property="name">All Optional Services</span>
-                    </a>
-                    <meta property="position" content="2">
-                </li>
-                <span> › </span>
-                <li property="itemListElement" typeof="ListItem">
-                    <a property="item" typeof="WebPage" href="{{ route('service-optional.edit', $serviceoptional->id) }}">
-                        <span property="name">Editing {{$serviceoptional->name}}</span>
-                    </a>
-                    <meta property="position" content="3">
-                </li>
-
-            </ol>
-        </div>
-    </div>
-@endsection
-
 @section('content')
     <div class="row">
         <div class="col-md-12">
@@ -54,6 +24,13 @@
 
             {{ Form::label('name', 'Name of Optional Service:') }}
             {{ Form::text('name', null, ['class' => 'form-control', 'required' => '']) }}
+
+            {{ Form::label('subscription', 'Subscription:') }}
+            @if($serviceoptional->subscription == 1)
+                <input name="subscription" type="checkbox" value="1" id="subscription" checked>
+            @else
+                <input name="subscription" type="checkbox" value="1" id="subscription" >
+            @endif
 
             <ul class="list-group" style="margin-top:20px;">
                 <li class="list-group-item">
@@ -83,6 +60,36 @@
         </div>
     </div>
 
+@endsection
+
+@section('breadcrumbs')
+    <div id="breadcrumbs-container">
+        <div class="container-small">
+            <ol vocab="http://schema.org/" typeof="BreadcrumbList" class="breadcrumbs">
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{route('home')}}">
+                        <span property="name">Dashboard</span>
+                    </a>
+                    <meta property="position" content="1">
+                </li>
+                <span> › </span>
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{ route('service-optional.index') }}">
+                        <span property="name">All Optional Services</span>
+                    </a>
+                    <meta property="position" content="2">
+                </li>
+                <span> › </span>
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{ route('service-optional.edit', $serviceoptional->id) }}">
+                        <span property="name">Editing {{$serviceoptional->name}}</span>
+                    </a>
+                    <meta property="position" content="3">
+                </li>
+
+            </ol>
+        </div>
+    </div>
 @endsection
 
 @section('javascript')

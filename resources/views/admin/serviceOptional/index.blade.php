@@ -42,7 +42,15 @@
         <div class="col-md-8">
             @foreach($serviceoptionals as $serviceoptional)
                 <div class="panel panel-success">
-                    <div class="panel-heading"><strong>{{$serviceoptional->name}} ({{$serviceoptional->service->name}})</strong></div>
+                    <div class="panel-heading">
+                        <strong>{{$serviceoptional->name}} ({{$serviceoptional->service->name}})</strong>
+                        @if($serviceoptional->subscription == 1)
+                            <small style="float: right">
+                                Subscription
+                                <span class="glyphicon glyphicon-ok"></span>
+                            </small>
+                        @endif
+                    </div>
                     <div class="panel-body">
                         <div class="col-md-12">
                             <ul class="list-group">
