@@ -43,12 +43,16 @@ Route::group(['middleware'=>'roles', 'roles'=> ['agency']], function(){
 
     //PayPal Subscription
     Route::post('/cart/{client_id}/payPalSubsription', ['uses'=>'PaypalController@subscription', 'as'=>'paypal.subscribe']);
-    Route::get('/cart/{client_id}/payPalSubsriptionDone', ['uses'=>'PaypalController@getSubscriptionDone', 'as'=>'paypal.subscribe.done']);
-    Route::get('/cart/{client_id}/payPalSubsriptionCancel', ['uses'=>'PaypalController@getSubscriptionCancel', 'as'=>'paypal.subscribe.cancel']);
+    Route::get('/cart/{subscription_id}/payPalSubsriptionDone', ['uses'=>'PaypalController@getSubscriptionDone', 'as'=>'paypal.subscribe.done']);
+    Route::get('/cart/{subscription_id}/payPalSubsriptionCancel', ['uses'=>'PaypalController@getSubscriptionCancel', 'as'=>'paypal.subscribe.cancel']);
 
     //Orders
     Route::get('/client/{client_id}/orders', ['uses' => 'OrderController@getClientOrders', 'as' => 'order.orders' ]);
     Route::get('/orders', ['uses' => 'OrderController@index', 'as' => 'order.index' ]);
+
+    //Subscription Orders
+    Route::get('/subscriptions', ['uses'=>'SubscriptionController@index', 'as'=>'subscription.index']);
+    Route::get('/client/{client_id}/orders/subscriptions', ['uses'=>'SubscriptionController@getClientSubscriptions', 'as'=>'subscription.client']);
 
     //Deposit
     Route::get('/deposit', ['uses' => 'DepositController@index', 'as' => 'deposit.index' ]);
@@ -135,3 +139,4 @@ Route::group(['middleware'=>'auth'], function(){
 });
 //Orders PDF availible for All
 Route::get('/orders/pdf-{order_id}', ['uses' => 'OrderController@pdf', 'as' => 'order.pdf' ]);
+Route::get('/subscriptions/pdf-{subscription_id}', ['uses' => 'SubscriptionController@pdf', 'as' => 'subscription.pdf' ]);

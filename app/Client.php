@@ -20,4 +20,9 @@ class Client extends Model
     {
         return $this->hasMany('App\Order');
     }
+
+    public function subscriptions()
+    {
+        return $this->hasMany('App\Subscription');
+    }
 }

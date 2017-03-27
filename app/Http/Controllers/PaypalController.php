@@ -15,6 +15,9 @@ use App\Cart;
 use App\OrderStatus;
 use App\User;
 use App\Role;
+use App\Subscription;
+use App\SubscriptionService;
+use App\SubscriptionServiceOptional;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderShipped;
 use App\Mail\TrelloBoards;
@@ -33,6 +36,7 @@ use PayPal\Api\ShippingAddress;
 use PayPal\Api\Patch;
 use PayPal\Api\PatchRequest;
 use PayPal\Common\PayPalModel;
+
 
 
 
@@ -170,7 +174,32 @@ class PaypalController extends Controller
 
     public function subscription(Request $request, $client_id)
     {
+        //New Subscription in DB
+        $subscription = New Subscription;
+        $subscription->client_id = $client_id;
+        $status = OrderStatus::where('name', 'new')->first();
+        $subscription->status()->associate($status);
+        $subscription->payed = 0;
+
+        //Will Save later, when will get All prices for this subscription
+        $subscription->save();
+
+        //Find Service for Subscription
         $service = Service::find($request->service_id);
+
+        //Save this Service to Current Subscription
+        $subscriptionService = New SubscriptionService;
+        $subscriptionService->subscription()->associate($subscription);
+        $subscriptionService->service()->associate($service);
+        if($service->serviceSubscription){
+            $subscriptionService->subscribed = 1;
+        }else{
+            $subscriptionService->subscribed = 0;
+        }
+        $subscriptionService->price = $service->price;
+        $subscriptionService->save();
+
+        //IDS from post request that Agency had choose for Subscription
         $ids = $request->service_optional_ids;
         $ids = trim($ids, ",");
         $ids_arr = explode(",", $ids);
@@ -185,15 +214,31 @@ class PaypalController extends Controller
 
         $serviceOptionalDescription = ServiceOptionalDescription::whereIn('id', $ids_arr)->get();
         foreach ($serviceOptionalDescription as $desc){
+
+            //Creating New Subscription Service Optional
+            $subscriptionServiceOptional = New SubscriptionServiceOptional;
+            $subscriptionServiceOptional->subscriptionService()->associate($subscriptionService);
+            $subscriptionServiceOptional->serviceOptionalDescription()->associate($desc);
+            $subscriptionServiceOptional->price = $desc->price;
+
+            //Count First Price and Monthly Prices
             $first_price += $desc->price;
             if($desc->serviceOptional->subscription == 1){
                 $monthly_price += $desc->price;
+                $subscriptionServiceOptional->subscribed = 1;
             }
+            else{
+                $subscriptionServiceOptional->subscribed = 0;
+            }
+
+            //Subscription Service Optional Save
+            $subscriptionServiceOptional->save();
         }
 
-//        var_dump($first_price);
-//        var_dump($monthly_price);
-//        die();
+
+        $subscription->first_price = $first_price;
+        $subscription->monthly_price = $monthly_price;
+        $subscription->save();
 
 
         // Create a new instance of Plan object
@@ -227,8 +272,8 @@ class PaypalController extends Controller
         // ReturnURL and CancelURL are not required and used when creating billing agreement with payment_method as "credit_card".
         // However, it is generally a good idea to set these values, in case you plan to create billing agreements which accepts "paypal" as payment_method.
         // This will keep your plan compatible with both the possible scenarios on how it is being used in agreement.
-        $merchantPreferences->setReturnUrl(route('paypal.subscribe.done', $client_id))
-            ->setCancelUrl(route('paypal.subscribe.cancel', $client_id))
+        $merchantPreferences->setReturnUrl(route('paypal.subscribe.done', $subscription->id))
+            ->setCancelUrl(route('paypal.subscribe.cancel', $subscription->id))
             ->setAutoBillAmount("yes")
             ->setInitialFailAmountAction("CONTINUE")
             ->setMaxFailAttempts("0")
@@ -403,7 +448,7 @@ class PaypalController extends Controller
         //return $agreement;
     }
 
-    public function getSubscriptionDone(Request $request, $client_id)
+    public function getSubscriptionDone(Request $request, $subscription_id)
     {
         // ## Approval Status
         // Determine if the user accepted or denied the request
@@ -433,16 +478,22 @@ class PaypalController extends Controller
         // NOTE: PLEASE DO NOT USE RESULTPRINTER CLASS IN YOUR ORIGINAL CODE. FOR SAMPLE ONLY
        // var_dump("Get Agreement", "Agreement", $agreement->getId(), null, $agreement);
 
+        $subscription = Subscription::find($subscription_id);
+        $subscription->payed = 1;
+        $subscription->save();
+
         Session::flash('success', 'New Subscription was payed successfully with PayPal!');
 
-        return redirect()->route('agency.service.index', $client_id);
+        return redirect()->route('agency.service.index', $subscription->client_id);
 
     }
 
-    public function getSubscriptionCancel(Request $request, $client_id)
+    public function getSubscriptionCancel(Request $request, $subscription_id)
     {
+        $subscription = Subscription::find($subscription_id);
+
         Session::flash('success', 'Subscription Error!');
 
-        return redirect()->route('agency.service.index', $client_id);
+        return redirect()->route('agency.service.index', $subscription->client_id);
     }
 }

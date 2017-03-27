@@ -25,6 +25,10 @@
                     <i class="fa fa-edit"></i> Orders </a>
             </li>
             <li>
+                <a class="{{ Request::is('subscriptions') ? 'active-menu' : '' }}" href="{{route('subscription.index')}}">
+                    <i class="glyphicon glyphicon-signal"></i> Subscriptions </a>
+            </li>
+            <li>
                 <a class="{{ Request::is('deposit') ? 'active-menu' : '' }}" href="{{route('deposit.index')}}"><i class="glyphicon glyphicon-usd"></i> Deposit Funds</a>
             </li>
 

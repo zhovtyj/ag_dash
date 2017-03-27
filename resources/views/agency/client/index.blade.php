@@ -79,8 +79,12 @@
                                             <span class="glyphicon glyphicon-plus" style="color:#fff"></span>
                                         </a>
 
-                                        <a class="btn btn-success btn-block" href="{{route('order.orders', $client->id)}}" title="See all projects">
+                                        <a class="btn btn-success btn-block" href="{{route('order.orders', $client->id)}}" title="See all Orders">
                                             <span class="glyphicon glyphicon-th-list" style="color:#fff"></span>
+                                        </a>
+
+                                        <a class="btn btn-success btn-block" href="{{ route('subscription.client', $client->id) }}" title="See all Subscriptions">
+                                            <span class="glyphicon glyphicon-signal" style="color:#fff"></span>
                                         </a>
 
                                         <a class="btn btn-primary btn-block" href="{{route('client.show', $client->id)}}" title="Show">
