@@ -84,9 +84,9 @@
             data:{timeout:timeout,_token:'{{ csrf_token() }}'},
             success: function(data){
                 if(data.count > 0){
-                    $('#orders-count').html('<small>('+data.count+' new orders)</small>');
-                    timeout = timeout+1;
+                    $('#orders-count').html('<small>('+data.count+' New Orders)</small>');
                 };
+                timeout = timeout+1;
                 setTimeout( newOrders(), 10000);
             },
             error: function(data){
@@ -96,6 +96,27 @@
     }
 
     newOrders();
+
+    //LISTEN FOR NEW SUBSCRIPTIONS
+    function newSubscriptions(){
+        $.ajax({
+            url: '{{route('admin.subscriptions.count')}}',
+            type:'post',
+            data:{timeout:timeout,_token:'{{ csrf_token() }}'},
+            success: function(data){
+                if(data.count > 0){
+                    $('#subscriptions-count').html('<small>('+data.count+' New Subscriptions)</small>');
+                };
+                timeout = timeout+1;
+                setTimeout( newSubscriptions(), 10000);
+            },
+            error: function(data){
+                console.log(data);
+            }
+        });
+    }
+
+    newSubscriptions();
 
 </script>
 

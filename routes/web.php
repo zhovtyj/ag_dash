@@ -119,6 +119,23 @@ Route::group(['middleware'=>'roles', 'roles'=> ['admin']], function(){
     //Count new Orders
     Route::post('/admin/orders-count', ['uses'=>'Admin\OrderController@newOrdersCount', 'as'=>'admin.orders.count']);
 
+    //Subscriptions
+    //Agency Subscriptions
+    Route::get('admin/agency/{agency_id}/subscriptions', ['uses'=> 'Admin\SubscriptionController@agency', 'as'=>'admin.subscription.agency']);
+    Route::get('admin/agency/{agency_id}/subscriptions/new', ['uses'=> 'Admin\SubscriptionController@agencyNewSubscriptions', 'as'=>'admin.subscription.agency.new']);
+    Route::get('admin/agency/{agency_id}/subscriptions/active', ['uses'=> 'Admin\SubscriptionController@agencyActiveSubscriptions', 'as'=>'admin.subscription.agency.active']);
+    Route::get('admin/agency/{agency_id}/subscriptions/completed', ['uses'=> 'Admin\SubscriptionController@agencyCompletedSubscriptions', 'as'=>'admin.subscription.agency.completed']);
+    //All Subscriptions by Group
+    Route::get('admin/subscriptions/all', ['uses'=>'Admin\SubscriptionController@subscriptions', 'as'=>'admin.subscriptions.all']);
+    Route::get('admin/subscriptions/new', ['uses'=>'Admin\SubscriptionController@newsubscriptions', 'as'=>'admin.subscriptions.new']);
+    Route::get('admin/subscriptions/active', ['uses'=>'Admin\SubscriptionController@activesubscriptions', 'as'=>'admin.subscriptions.active']);
+    Route::get('admin/subscriptions/completed', ['uses'=>'Admin\SubscriptionController@completedsubscriptions', 'as'=>'admin.subscriptions.completed']);
+    //Ajax update status
+    Route::post('admin/subscriptions/change-status', ['uses'=>'Admin\SubscriptionController@changeStatus', 'as'=>'admin.subscriptions.change.status']);
+    //Count new Subscriptions
+    Route::post('/admin/subscriptions-count', ['uses'=>'Admin\SubscriptionController@newSubscriptionsCount', 'as'=>'admin.subscriptions.count']);
+
+
     //TRANSACTIONS
     Route::get('admin/agency/{agency_id}/transactions', ['uses'=> 'Admin\TransactionController@agency', 'as'=>'admin.transaction.agency']);
 

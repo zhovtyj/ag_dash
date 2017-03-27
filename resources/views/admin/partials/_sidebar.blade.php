@@ -26,6 +26,9 @@
                 <a class="{{ Request::is('admin/orders/all') ? 'active-menu' : '' }}" href="{{ route('admin.orders.all') }}"><i class="fa fa-edit"></i> Orders <span id="orders-count"></span></a>
             </li>
             <li>
+                <a class="{{ Request::is('admin/subscriptions/all') ? 'active-menu' : '' }}" href="{{ route('admin.subscriptions.all') }}"><i class="glyphicon glyphicon-signal"></i> Subscriptions <span id="subscriptions-count"></span></a>
+            </li>
+            <li>
                 <a class="{{ Request::is('admin/messages/all') ? 'active-menu' : '' }}" href="{{ route('admin.messages.threads') }}"><i class="fa fa-envelope fa-fw"></i> Messages <small id="new-messages-count"></small></a>
             </li>
 

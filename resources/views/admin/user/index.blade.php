@@ -67,6 +67,7 @@
                                     <td>
                                         <a class="btn btn-block btn-primary" href="{{route('admin.client', $user->id)}}"><span class="fa fa-users"></span> Clients</a>
                                         <a class="btn btn-block btn-primary" href="{{route('admin.order.agency', $user->id)}}"><span class="fa fa-edit"></span> Orders</a>
+                                        <a class="btn btn-block btn-primary" href="{{route('admin.subscription.agency', $user->id)}}"><span class="glyphicon glyphicon-signal"></span> Subscriptions</a>
                                         <a class="btn btn-block btn-primary" href="{{route('admin.transaction.agency', $user->id)}}"><span class="glyphicon glyphicon-transfer"></span> Transactions</a>
                                         <a class="btn btn-block btn-success" href="{{route('admin.messages.index', $user->id)}}"><span class="glyphicon glyphicon-envelope"></span> Message</a>
                                     </td>
