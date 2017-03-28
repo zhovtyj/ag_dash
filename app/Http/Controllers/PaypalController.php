@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
+use Auth;
+use Session;
 use App\Service;
 use App\ServiceOptionalDescription;
-use Auth;
-use Paypal;
-use Session;
 use App\Order;
 use App\OrderService;
 use App\OrderServiceOptional;
@@ -18,10 +18,16 @@ use App\Role;
 use App\Subscription;
 use App\SubscriptionService;
 use App\SubscriptionServiceOptional;
+
+//For Mailer
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderShipped;
 use App\Mail\TrelloBoards;
-use DB;
+use App\Mail\SubscriptionShipped;
+use App\Mail\SubscriptionTrelloBoards;
+
+//For PayPal
+use Paypal;
 use PayPal\Api\ChargeModel;
 use PayPal\Api\Currency;
 use PayPal\Api\MerchantPreferences;
@@ -481,6 +487,33 @@ class PaypalController extends Controller
         $subscription = Subscription::find($subscription_id);
         $subscription->payed = 1;
         $subscription->save();
+
+
+
+
+        //Mail For ADMIN and For AGENCY
+        Mail::to(Auth::user()->email)->send(new SubscriptionShipped($subscription));
+        $admin_role = Role::where('name', 'admin')->first();
+        $admin = User::where('role_id', $admin_role->id)->first();
+        Mail::to($admin->email)->send(new SubscriptionShipped($subscription));
+
+        //Getting All Categories of This Order to send Order to each Trello Boards
+        $categories = DB::table('subscriptions')
+            ->where('subscriptions.id', $subscription->id)
+            ->leftJoin('subscription_services', 'subscriptions.id', '=', 'subscription_services.subscription_id')
+            ->leftJoin('subscriptions', 'subscription_services.service_id', '=', 'services.id')
+            ->leftJoin('categories', 'services.category_id', '=', 'categories.id')
+            ->groupBy('categories.id')
+            ->get();
+
+        //Mail for TrelloBoards
+        foreach ($categories as $category){
+            Mail::to($category->email)->send(new SubscriptionTrelloBoards($subscription, $category->id));
+        }
+
+
+
+
 
         Session::flash('success', 'New Subscription was payed successfully with PayPal!');
 
