@@ -510,7 +510,7 @@ class PaypalController extends Controller
 //        foreach ($categories as $category){
 //            Mail::to($category->email)->send(new SubscriptionTrelloBoards($subscription, $category->id));
 //        }
-        foreach ($subscription->services as $service){
+        foreach ($subscription->subscriptionServices as $service){
             Mail::to($service->category->email)->send(new SubscriptionTrelloBoards($subscription, $service->category->id));
         }
 
