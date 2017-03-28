@@ -497,19 +497,8 @@ class PaypalController extends Controller
         $admin = User::where('role_id', $admin_role->id)->first();
         Mail::to($admin->email)->send(new SubscriptionShipped($subscription));
 
-//        //Getting All Categories of This Order to send Order to each Trello Boards
-//        $categories = DB::table('subscriptions')
-//            ->where('subscriptions.id', $subscription->id)
-//            ->leftJoin('subscription_services', 'subscriptions.id', '=', 'subscription_services.subscription_id')
-//            ->leftJoin('subscriptions', 'subscription_services.service_id', '=', 'services.id')
-//            ->leftJoin('categories', 'services.category_id', '=', 'categories.id')
-//            ->groupBy('categories.id')
-//            ->get();
-//
-//        //Mail for TrelloBoards
-//        foreach ($categories as $category){
-//            Mail::to($category->email)->send(new SubscriptionTrelloBoards($subscription, $category->id));
-//        }
+        //Exactly will saend only for One Trello Board, because in one time
+        //can subscribe only for one Service which have only one Category
         foreach ($subscription->subscriptionServices as $service){
             Mail::to($service->service->category->email)->send(new SubscriptionTrelloBoards($subscription, $service->service->category->id));
         }
