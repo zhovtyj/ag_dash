@@ -497,18 +497,21 @@ class PaypalController extends Controller
         $admin = User::where('role_id', $admin_role->id)->first();
         Mail::to($admin->email)->send(new SubscriptionShipped($subscription));
 
-        //Getting All Categories of This Order to send Order to each Trello Boards
-        $categories = DB::table('subscriptions')
-            ->where('subscriptions.id', $subscription->id)
-            ->leftJoin('subscription_services', 'subscriptions.id', '=', 'subscription_services.subscription_id')
-            ->leftJoin('subscriptions', 'subscription_services.service_id', '=', 'services.id')
-            ->leftJoin('categories', 'services.category_id', '=', 'categories.id')
-            ->groupBy('categories.id')
-            ->get();
-
-        //Mail for TrelloBoards
-        foreach ($categories as $category){
-            Mail::to($category->email)->send(new SubscriptionTrelloBoards($subscription, $category->id));
+//        //Getting All Categories of This Order to send Order to each Trello Boards
+//        $categories = DB::table('subscriptions')
+//            ->where('subscriptions.id', $subscription->id)
+//            ->leftJoin('subscription_services', 'subscriptions.id', '=', 'subscription_services.subscription_id')
+//            ->leftJoin('subscriptions', 'subscription_services.service_id', '=', 'services.id')
+//            ->leftJoin('categories', 'services.category_id', '=', 'categories.id')
+//            ->groupBy('categories.id')
+//            ->get();
+//
+//        //Mail for TrelloBoards
+//        foreach ($categories as $category){
+//            Mail::to($category->email)->send(new SubscriptionTrelloBoards($subscription, $category->id));
+//        }
+        foreach ($subscription->services as $service){
+            Mail::to($service->category->email)->send(new SubscriptionTrelloBoards($subscription, $service->category->id));
         }
 
 
