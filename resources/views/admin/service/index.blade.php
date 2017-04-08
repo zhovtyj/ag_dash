@@ -58,6 +58,7 @@
                                         Retail Price:{{$service->old_price}}<span class="glyphicon glyphicon-usd"></span>
                                         <br>Bulk Price:{{$service->price}}<span class="glyphicon glyphicon-usd"></span>
                                     </p>
+                                    <p>Sort Number: {!! $service->sort_number !!}</p>
                                     <hr>
                                     <ul data-service-id="{{$service->id}}" class="additional-services">
                                         @foreach($service->serviceoptionals as $serviceoptional)

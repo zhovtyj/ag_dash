@@ -41,6 +41,7 @@ class ServiceController extends Controller
         else{
             $service->active = 0;
         }
+        $service->sort_number = $request->sort_number;
 
         if ($request->hasfile('image')){
             $image = $request->file('image');
@@ -111,6 +112,7 @@ class ServiceController extends Controller
         else{
             $service->active = 0;
         }
+        $service->sort_number = $request->sort_number;
 
         if ($request->hasfile('image')){
             $image = $request->file('image');

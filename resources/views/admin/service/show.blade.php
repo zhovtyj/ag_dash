@@ -29,6 +29,8 @@
                     <div>{!! $service->short_description !!}</div>
                     <h2>Description:</h2>
                     <div>{!! $service->description !!}</div>
+                    <h2>Sort Number:</h2>
+                    <div>{!! $service->sort_number !!}</div>
                     @foreach($service->serviceoptionals as $serviceoptional)
                         <div class="panel panel-success">
                             <div class="panel-heading">

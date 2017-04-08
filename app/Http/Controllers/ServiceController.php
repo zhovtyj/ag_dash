@@ -14,7 +14,7 @@ class ServiceController extends Controller
     public function index($client_id)
     {
         $client = Client::find($client_id);
-        $services = Service::orderBy('id', 'desc')->paginate(100);
+        $services = Service::orderBy('sort_number', 'asc')->paginate(100);
         return view('agency.service.index')->withServices($services)->withClient($client)->withCart($this->cart($client->id));
     }
 
@@ -27,7 +27,7 @@ class ServiceController extends Controller
 
     public function services()
     {
-        $services = Service::orderBy('id', 'desc')->paginate(100);
+        $services = Service::orderBy('sort_number', 'asc')->paginate(100);
         $client = Client::where('user_id', Auth::user()->id)->first();
         if(isset($client)){
             return view('agency.service.services')->withServices($services)->withClient($client)->withCart($this->cart($client->id));

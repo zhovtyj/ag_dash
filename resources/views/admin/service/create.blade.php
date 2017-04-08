@@ -89,17 +89,12 @@
                 </div>
             </div>
 
-            {{--<div class="row subscription-period">--}}
-                {{--<div class="col-md-2">--}}
-                    {{--{{ Form::label('min_subscription', 'Min subscription:') }}--}}
-                    {{--{{ Form::text('min_subscription', null, ['class' => 'form-control']) }}--}}
-                {{--</div>--}}
-                {{--<div class="col-md-2">--}}
-                    {{--{{ Form::label('max_subscription', 'Max subscription:') }}--}}
-                    {{--{{ Form::text('max_subscription', null, ['class' => 'form-control']) }}--}}
-                {{--</div>--}}
-            {{--</div>--}}
-
+            <div class="row">
+                <div class="col-md-3">
+                    {{ Form::label('sort_number', 'Sort Number:') }}
+                    {{ Form::number('sort_number', null, ['class' => 'form-control', 'data-parsley-type' => 'integer']) }}
+                </div>
+            </div>
 
 
             <br />
