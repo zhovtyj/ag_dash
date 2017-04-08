@@ -2,36 +2,6 @@
 
 @section('title', $client->business_name)
 
-@section('breadcrumbs')
-    <div id="breadcrumbs-container">
-        <div class="container-small">
-            <ol vocab="http://schema.org/" typeof="BreadcrumbList" class="breadcrumbs">
-                <li property="itemListElement" typeof="ListItem">
-                    <a property="item" typeof="WebPage" href="{{route('home')}}">
-                        <span property="name">Dashboard</span>
-                    </a>
-                    <meta property="position" content="1">
-
-                </li>
-                <span> › </span>
-                <li property="itemListElement" typeof="ListItem">
-                    <a property="item" typeof="WebPage" href="{{ route('client.index') }}">
-                        <span property="name">All Clients</span>
-                    </a>
-                    <meta property="position" content="2">
-                </li>
-                <span> › </span>
-                <li property="itemListElement" typeof="ListItem">
-                    <a property="item" typeof="WebPage" href="{{ route('client.show', $client->id) }}">
-                        <span property="name">{{$client->business_name}}</span>
-                    </a>
-                    <meta property="position" content="3">
-                </li>
-            </ol>
-        </div>
-    </div>
-@endsection
-
 @section('content')
 
     <div class="row">
@@ -269,6 +239,158 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="client-block col-lg-12">
+                        <h2><span class="glyphicon glyphicon-th-list"></span> Optional Business Information</h2>
+                        <div class="col-md-12">
+                            <h4>Keywords to Target:</h4>
+                        </div>
+                        <div class="col-md-12">
+                            <strong>{{ $client->keywords }}</strong>
+                            <hr>
+                        </div>
+
+                        <div class="col-md-12">
+                            <h4>Logo URL:</h4>
+                        </div>
+                        <div class="col-md-12">
+                            <strong>{{ $client->logo_url }}</strong>
+                            @if($client->logo_url)
+                                <img src="{{$client->logo_url}}" alt="Logo URL">
+                            @endif
+                            <hr>
+                        </div>
+
+                        <div class="col-md-12">
+                            <h4>Photo 1 URL:</h4>
+                        </div>
+                        <div class="col-md-12">
+                            <strong>{{ $client->photo_url1 }}</strong>
+                            @if($client->photo_url1)
+                                <img src="{{$client->photo_url1}}" alt="photo">
+                            @endif
+                            <hr>
+                        </div>
+
+                        <div class="col-md-12">
+                            <h4>Photo 2 URL:</h4>
+                        </div>
+                        <div class="col-md-12">
+                            <strong>{{ $client->photo_url2 }}</strong>
+                            @if($client->photo_url2)
+                                <img src="{{$client->photo_url2}}" alt="photo">
+                            @endif
+                            <hr>
+                        </div>
+
+                        <div class="col-md-12">
+                            <h4>Photo 3 URL:</h4>
+                        </div>
+                        <div class="col-md-12">
+                            <strong>{{ $client->photo_url3 }}</strong>
+                            @if($client->photo_url3)
+                                <img src="{{$client->photo_url3}}" alt="photo">
+                            @endif
+                            <hr>
+                        </div>
+
+                        <div class="col-md-12">
+                            <h4>Photo 4 URL:</h4>
+                        </div>
+                        <div class="col-md-12">
+                            <strong>{{ $client->photo_url4 }}</strong>
+                            @if($client->photo_url4)
+                                <img src="{{$client->photo_url4}}" alt="photo">
+                            @endif
+                            <hr>
+                        </div>
+
+                        <div class="col-md-12">
+                            <h4>Photo 5 URL:</h4>
+                        </div>
+                        <div class="col-md-12">
+                            <strong>{{ $client->photo_url5 }}</strong>
+                            @if($client->photo_url5)
+                                <img src="{{$client->photo_url5}}" alt="photo">
+                            @endif
+                            <hr>
+                        </div>
+
+                        <div class="col-md-12">
+                            <h4>Video URL:</h4>
+                        </div>
+                        <div class="col-md-12">
+                            <strong><a href="{{$client->video_url}}" target="_blank">{{$client->video_url}}</a></strong>
+                            <hr>
+                        </div>
+
+                        <div class="col-md-12">
+                            <h4>Existing Social Accounts and Logins:</h4>
+                        </div>
+                        <div class="col-md-12">
+                            <strong>{{ $client->social_accounts }}</strong>
+                            <hr>
+                        </div>
+
+                        <div class="col-md-12">
+                            <h4>Existing Citations and Logins:</h4>
+                        </div>
+                        <div class="col-md-12">
+                            <strong>{{ $client->citations }}</strong>
+                            <hr>
+                        </div>
+
+                        <div class="col-md-12">
+                            <h4>Website Login:</h4>
+                        </div>
+                        <div class="col-md-12">
+                            <strong>{{ $client->website_login }}</strong>
+                            <hr>
+                        </div>
+
+                        <div class="col-md-12">
+                            <h4>Company Notes:</h4>
+                        </div>
+                        <div class="col-md-12">
+                            <strong>{{ $client->notes }}</strong>
+                            <hr>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('breadcrumbs')
+    <div id="breadcrumbs-container">
+        <div class="container-small">
+            <ol vocab="http://schema.org/" typeof="BreadcrumbList" class="breadcrumbs">
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{route('home')}}">
+                        <span property="name">Dashboard</span>
+                    </a>
+                    <meta property="position" content="1">
+
+                </li>
+                <span> › </span>
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{ route('client.index') }}">
+                        <span property="name">All Clients</span>
+                    </a>
+                    <meta property="position" content="2">
+                </li>
+                <span> › </span>
+                <li property="itemListElement" typeof="ListItem">
+                    <a property="item" typeof="WebPage" href="{{ route('client.show', $client->id) }}">
+                        <span property="name">{{$client->business_name}}</span>
+                    </a>
+                    <meta property="position" content="3">
+                </li>
+            </ol>
         </div>
     </div>
 @endsection

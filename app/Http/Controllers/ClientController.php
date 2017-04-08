@@ -48,6 +48,18 @@ class ClientController extends Controller
         $client->products_or_brands_offered = $request->products_or_brands_offered;
         $client->business_description = $request->business_description ;
         $client->business_hours = $request->business_hours;
+        $client->keywords = $request->keywords;
+        $client->logo_url = $request->logo_url;
+        $client->photo_url1 = $request->photo_url1;
+        $client->photo_url2 = $request->photo_url2;
+        $client->photo_url3 = $request->photo_url3;
+        $client->photo_url4 = $request->photo_url4;
+        $client->photo_url5 = $request->photo_url5;
+        $client->video_url = $request->video_url;
+        $client->social_accounts = $request->social_accounts;
+        $client->citations = $request->citations;
+        $client->website_login = $request->website_login;
+        $client->notes = $request->notes;
 
         $client->save();
 
@@ -91,6 +103,18 @@ class ClientController extends Controller
         $client->products_or_brands_offered = $request->products_or_brands_offered;
         $client->business_description = $request->business_description ;
         $client->business_hours = $request->business_hours;
+        $client->keywords = $request->keywords;
+        $client->logo_url = $request->logo_url;
+        $client->photo_url1 = $request->photo_url1;
+        $client->photo_url2 = $request->photo_url2;
+        $client->photo_url3 = $request->photo_url3;
+        $client->photo_url4 = $request->photo_url4;
+        $client->photo_url5 = $request->photo_url5;
+        $client->video_url = $request->video_url;
+        $client->social_accounts = $request->social_accounts;
+        $client->citations = $request->citations;
+        $client->website_login = $request->website_login;
+        $client->notes = $request->notes;
 
         $client->save();
 
