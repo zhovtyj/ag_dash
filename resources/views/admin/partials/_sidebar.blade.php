@@ -23,6 +23,9 @@
                 <a class="{{ Request::is('admin/agency') ? 'active-menu' : '' }}" href="{{ route('admin.user') }}"><i class="fa fa-users"></i> Agency</a>
             </li>
             <li>
+                <a class="{{ Request::is('admin/coupons') ? 'active-menu' : '' }}" href="{{ route('coupons.index') }}"><i class="glyphicon glyphicon-gift"></i> Coupons</a>
+            </li>
+            <li>
                 <a class="{{ Request::is('admin/orders/all') ? 'active-menu' : '' }}" href="{{ route('admin.orders.all') }}"><i class="fa fa-edit"></i> Orders <span id="orders-count"></span></a>
             </li>
             <li>

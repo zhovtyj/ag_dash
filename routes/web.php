@@ -135,6 +135,9 @@ Route::group(['middleware'=>'roles', 'roles'=> ['admin']], function(){
     //Count new Subscriptions
     Route::post('/admin/subscriptions-count', ['uses'=>'Admin\SubscriptionController@newSubscriptionsCount', 'as'=>'admin.subscriptions.count']);
 
+    //COUPONS
+    Route::resource('admin/coupons', 'Admin\CouponController');
+
 
     //TRANSACTIONS
     Route::get('admin/agency/{agency_id}/transactions', ['uses'=> 'Admin\TransactionController@agency', 'as'=>'admin.transaction.agency']);

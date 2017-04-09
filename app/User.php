@@ -39,6 +39,10 @@ class User extends Authenticatable
         return $this->hasMany('App\Message');
     }
 
+    public function coupons()
+    {
+        return $this->hasMany('App\Coupon');
+    }
     /**
      * $roles - array which we receive from middleware
      * Check if the user has a role from roles array - so we will know if user has access to the page
