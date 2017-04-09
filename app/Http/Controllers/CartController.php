@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Auth;
 use Session;
 use App\Cart;
 use App\CartServiceOptional;
 use App\Client;
 use App\Service;
+use App\Coupon;
 
 
 class CartController extends Controller
@@ -49,5 +51,25 @@ class CartController extends Controller
         }
 
         return($cart);
+    }
+
+    public function checkCoupon(Request $request)
+    {
+        $code = trim($request->coupon);
+        $coupon = Coupon::where('code', $code)->where('user_id', Auth::user()->id)->first();
+        if(isset($coupon)){
+            if($coupon->expired_in <= time()){
+                $data['success'] = 'success';
+                $data['discount'] = $coupon->discount;
+            }
+            else{
+                $data['error'] = 'Coupon is expired in!';
+            }
+        }
+        else{
+            $data['error'] = 'Coupon is undefined!';
+        }
+
+        return $data;
     }
 }

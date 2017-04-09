@@ -79,7 +79,16 @@
                     <td>
                         Total:<br>
                         <span class="glyphicon glyphicon-usd"></span>
-                        <strong>{{$total_price}}</strong>
+                        <strong id="cart-total-price">{{$total_price}}</strong>
+                    </td>
+                    <td></td>
+                </tr>
+                <tr id="tr-discount" style="visibility: hidden;">
+                    <td colspan="4"></td>
+                    <td>
+                        Total With Discount:<br>
+                        <span class="glyphicon glyphicon-usd"></span>
+                        <strong id="cart-total-price-discount"></strong>
                     </td>
                     <td></td>
                 </tr>
@@ -88,12 +97,23 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-3 col-md-offset-6">
+        <div class="col-md-6">
+            <div class="form-inline">
+                <label>I have a Coupon:</label>
+                <input type="text" name="coupon" id="coupon" class="form-control">
+                <button id="refresh-price" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-refresh"></span>
+                    Refresh Total Price
+                </button>
+            </div>
+        </div>
+        <div class="col-md-3">
 
             @if(isset(Auth::user()->deposit->balance ) && Auth::user()->deposit->balance >= $total_price && $total_price !=0 )
                 {!! Form::open(['route' => ['cart.deposit', $client->id], 'method' =>'POST']) !!}
 
                 {!! Form::hidden('pay', $total_price) !!}
+                {!! Form::hidden('deposit_coupon', null, ['id'=>'deposit_coupon']) !!}
                 <button type="submit" id="pay-fron-deposit" class="btn btn-success btn-block">Pay from Balance</button>
 
                 {!! Form::close() !!}
@@ -106,6 +126,7 @@
             {!! Form::open(['route' => ['getCheckout', $client->id], 'method' =>'POST']) !!}
 
                 {!! Form::hidden('pay', $total_price) !!}
+                {!! Form::hidden('paypal_coupon', null, ['id'=>'paypal_coupon']) !!}
                 <button type="submit" class="btn btn-success btn-block">Pay with PayPal</button>
 
             {!! Form::close() !!}
@@ -115,6 +136,29 @@
 
 @section('javascript')
     <script>
+        $('#refresh-price').on('click', function(){
+            var token = "{{ csrf_token() }}";
+            var url = "{{route('cart.check-coupon')}}";
+            var coupon = $('#coupon').val();
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {coupon:coupon, _token:token},
+                success: function(data) {
+                    if(data.success){
+                        var total_price = $('#cart-total-price').text();
+                        var total_price_discount = total_price - (total_price*data.discount/100);
+                        total_price_discount = Math.round(total_price_discount);
+                        $('#tr-discount').css('visibility', 'visible');
+                        $('#cart-total-price-discount').text(total_price_discount);
+                        $('#deposit_coupon, #paypal_coupon').val(coupon);
+                    }
+                    if(data.error){
+                        console.log(data.error);
+                    }
+                }
+            });
 
+        });
     </script>
 @endsection

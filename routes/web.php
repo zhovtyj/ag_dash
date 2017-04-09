@@ -33,13 +33,16 @@ Route::group(['middleware'=>'roles', 'roles'=> ['agency']], function(){
     Route::get('/cart/{client_id}', ['uses' => 'CartController@index', 'as' => 'cart.index' ]);
     Route::delete('/cart/{client_id}/{id}', ['uses' => 'CartController@destroy', 'as' => 'cart.destroy' ]);
 
+    //Coupon
+    Route::post('/cart/check-coupon', ['uses' => 'CartController@checkCoupon', 'as'=> 'cart.check-coupon']);
+
     //Add to cart Ajax
     Route::post('/addtocart/{client_id}', ['uses' => 'CartController@addToCartAjax', 'as' => 'agency.addtocart' ]);
 
     //PayPal
     Route::post('/cart/{client_id}/getCheckout', ['as'=>'getCheckout','uses'=>'PaypalController@getCheckout']);
-    Route::get('/cart/{client_id}/getDone', ['as'=>'getDone','uses'=>'PaypalController@getDone']);
-    Route::get('/cart/{client_id}/getCancel', ['as'=>'getCancel','uses'=>'PaypalController@getCancel']);
+    Route::get('/cart/{client_id}/{order_id}/getDone', ['as'=>'getDone','uses'=>'PaypalController@getDone']);
+    Route::get('/cart/{client_id}/{order_id}/getCancel', ['as'=>'getCancel','uses'=>'PaypalController@getCancel']);
 
     //PayPal Subscription
     Route::post('/cart/{client_id}/payPalSubsription', ['uses'=>'PaypalController@subscription', 'as'=>'paypal.subscribe']);
@@ -137,7 +140,6 @@ Route::group(['middleware'=>'roles', 'roles'=> ['admin']], function(){
 
     //COUPONS
     Route::resource('admin/coupons', 'Admin\CouponController');
-
 
     //TRANSACTIONS
     Route::get('admin/agency/{agency_id}/transactions', ['uses'=> 'Admin\TransactionController@agency', 'as'=>'admin.transaction.agency']);

@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\OrderShipped;
 use App\Mail\TrelloBoards;
 use DB;
+use App\Coupon;
 
 class DepositController extends Controller
 {
@@ -50,11 +51,27 @@ class DepositController extends Controller
 
     public function payFromDeposit(Request $request, $client_id)
     {
-        if(isset(Auth::user()->deposit->balance ) && Auth::user()->deposit->balance >= $request->pay ){
+        $code = trim($request->deposit_coupon);
+        $coupon = Coupon::where('code', $code)->where('user_id', Auth::user()->id)->first();
+        if(isset($coupon)){
+            if($coupon->expired_in <= time()){
+                $discount =  $coupon->discount;
+                $price_discount = round($request->pay - ($request->pay*$discount/100));
+                $coupon->used = $coupon->used +1;
+                $coupon->save();
+            }
+        }
+
+        if(isset(Auth::user()->deposit->balance ) && (Auth::user()->deposit->balance >= $request->pay || (isset($price_discount) && (Auth::user()->deposit->balance >=$price_discount)))){
 
             //Take money from Deposit
             $balanceBefore = Auth::user()->deposit->balance;
-            Auth::user()->deposit->balance = Auth::user()->deposit->balance - $request->pay;
+            if(isset($price_discount)){
+                Auth::user()->deposit->balance = Auth::user()->deposit->balance - $price_discount;
+            }
+            else{
+                Auth::user()->deposit->balance = Auth::user()->deposit->balance - $request->pay;
+            }
             Auth::user()->deposit->save();
 
             //Save Order to database
@@ -68,6 +85,9 @@ class DepositController extends Controller
             $order->method = 'Deposit';
             $order->paypal = 'Deposit';
             $order->price = $request->pay;
+            if(isset($price_discount)){
+                $order->price_discount = $price_discount;
+            }
             $order->save();
 
             //Save Order Services to database
@@ -96,7 +116,12 @@ class DepositController extends Controller
             //Add new Transaction
             $transaction = new Transaction;
             $transaction->user()->associate(Auth::user());
-            $transaction->name = 'Paying $'.$request->pay.' for Client '.Client::find($client_id)->business_name.' Services';
+            if(isset($price_discount)){
+                $transaction->name = 'Paying $'.$price_discount.' for Client '.Client::find($client_id)->business_name.' Services';
+            }
+            else{
+                $transaction->name = 'Paying $'.$request->pay.' for Client '.Client::find($client_id)->business_name.' Services';
+            }
             $transaction->first_value = $balanceBefore;
             $transaction->last_value = Auth::user()->deposit->balance;
             $transaction->save();

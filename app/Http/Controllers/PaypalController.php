@@ -18,6 +18,7 @@ use App\Role;
 use App\Subscription;
 use App\SubscriptionService;
 use App\SubscriptionServiceOptional;
+use App\Coupon;
 
 //For Mailer
 use Illuminate\Support\Facades\Mail;
@@ -69,20 +70,50 @@ class PaypalController extends Controller
 
     public function getCheckout(Request $request, $client_id)
     {
+        $code = trim($request->paypal_coupon);
+        $coupon = Coupon::where('code', $code)->where('user_id', Auth::user()->id)->first();
+        if(isset($coupon)){
+            if($coupon->expired_in <= time()){
+                $discount =  $coupon->discount;
+                $price_discount = round($request->pay - ($request->pay*$discount/100));
+                $coupon->used = $coupon->used +1;
+                $coupon->save();
+            }
+        }
+
+        //Save Order to database
+        $order = new Order;
+        $order->client_id = $client_id;
+        //Order Status
+        $status = OrderStatus::where('name', 'new')->first();
+        $order->status()->associate($status);
+        $order->method = 'PayPal - not Payed';
+        $order->paypal = 'PayPal - in process';
+        $order->price = $request->pay;
+        if(isset($price_discount)){
+            $order->price_discount = $price_discount;
+        }
+        $order->save();
+
         $payer = PayPal::Payer();
         $payer->setPaymentMethod('paypal');
 
         $amount = PayPal:: Amount();
         $amount->setCurrency('USD');
-        $amount->setTotal($request->input('pay'));
+        if(isset($price_discount)){
+            $amount->setTotal($price_discount);
+        }
+        else{
+            $amount->setTotal($request->input('pay'));
+        }
 
         $transaction = PayPal::Transaction();
         $transaction->setAmount($amount);
         $transaction->setDescription('Buy Services  $'.$request->input('pay'));
 
         $redirectUrls = PayPal:: RedirectUrls();
-        $redirectUrls->setReturnUrl(route('getDone', $client_id));
-        $redirectUrls->setCancelUrl(route('getCancel', $client_id));
+        $redirectUrls->setReturnUrl(route('getDone', [$client_id, $order->id]));
+        $redirectUrls->setCancelUrl(route('getCancel', [$client_id, $order->id]));
 
         $payment = PayPal::Payment();
         $payment->setIntent('sale');
@@ -96,7 +127,7 @@ class PaypalController extends Controller
         return redirect()->to( $redirectUrl );
     }
 
-    public function getDone(Request $request, $client_id)
+    public function getDone(Request $request, $client_id, $order_id)
     {
         $id = $request->get('paymentId');
         $token = $request->get('token');
@@ -110,17 +141,14 @@ class PaypalController extends Controller
         $paymentExecution->setPayerId($payer_id);
         $executePayment = $payment->execute($paymentExecution, $this->_apiContext);
 
-        //Save Order to database
-        $order = new Order;
+        //Update Order in database
+        $order = Order::find($order_id);
         $order->client_id = $client_id;
-
         //Order Status
         $status = OrderStatus::where('name', 'new')->first();
         $order->status()->associate($status);
-
         $order->method = 'PayPal';
         $order->paypal = json_encode($executePayment->transactions[0]);
-        $order->price = $executePayment->transactions[0]->amount->total;
         $order->save();
 
         //Save Order Services to database
@@ -171,8 +199,11 @@ class PaypalController extends Controller
         return redirect()->route('order.orders', $client_id);
     }
 
-    public function getCancel($client_id)
+    public function getCancel($client_id, $order_id)
     {
+        $order = Order::find($order_id);
+        $order->delete();
+
         Session::flash('error', 'Operation is not completed!');
 
         return redirect()->route('cart.index', $client_id);

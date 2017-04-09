@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Coupon;
 use App\User;
 use App\Role;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\CouponGenerated;
 
 class CouponController extends Controller
 {
@@ -28,6 +30,9 @@ class CouponController extends Controller
         $coupon->discount = $request->discount;
         $coupon->expired_in = $request->expired_in;
         $coupon->save();
+
+        $user = User::find($request->user_id);
+        Mail::to($user->email)->send(new CouponGenerated($coupon));
 
         return redirect()->route('coupons.index');
     }

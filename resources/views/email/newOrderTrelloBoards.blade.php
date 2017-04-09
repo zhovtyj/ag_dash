@@ -70,6 +70,12 @@
                         <span class="glyphicon glyphicon-usd"></span>
                         <strong>{{$order->price}}</strong>
                     </div>
+                    @if($order->price_discount)
+                        <div style="text-align: right;">
+                            <i>Total With Discount: </i>
+                            $<strong>{{$order->price_discount}}</strong>
+                        </div>
+                    @endif
                 </td>
             </tr>
             </tbody>

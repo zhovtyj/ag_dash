@@ -98,7 +98,14 @@
                 <td colspan="5">
                     <div style="text-align: right;">
                         <i>Total: </i>
-                        $<strong>{{$order->price}}</strong></div>
+                        $<strong>{{$order->price}}</strong>
+                    </div>
+                    @if($order->price_discount)
+                        <div style="text-align: right;">
+                            <i>Total With Discount: </i>
+                            $<strong>{{$order->price_discount}}</strong>
+                        </div>
+                    @endif
                 </td>
             </tr>
             </tbody>
