@@ -76,6 +76,10 @@ Route::group(['middleware'=>'roles', 'roles'=> ['agency']], function(){
     Route::get('/messages', ['uses'=>'MessagesController@index', 'as'=>'messages.index']);
     Route::post('/messages-count', ['uses'=>'MessagesController@newMessagesCount', 'as'=>'messages.count']);
 
+    //MANAGE ACCOUNTS
+    Route::get('/manage-accounts', ['uses'=>'ManageAccountsController@index', 'as'=>'manage-accounts']);
+    Route::post('/manage-accounts/notes-store', ['uses'=>'ManageAccountsController@notesStore', 'as'=>'manage-accounts.notes-store']);
+
 });
 
 

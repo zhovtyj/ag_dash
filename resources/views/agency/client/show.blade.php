@@ -258,7 +258,7 @@
                         <div class="col-md-12">
                             <strong>{{ $client->logo_url }}</strong>
                             @if($client->logo_url)
-                                <img src="{{$client->logo_url}}" alt="Logo URL">
+                                <img src="{{$client->logo_url}}" alt="Logo URL" class="img-responsive">
                             @endif
                             <hr>
                         </div>
@@ -269,7 +269,7 @@
                         <div class="col-md-12">
                             <strong>{{ $client->photo_url1 }}</strong>
                             @if($client->photo_url1)
-                                <img src="{{$client->photo_url1}}" alt="photo">
+                                <img src="{{$client->photo_url1}}" alt="photo" class="img-responsive">
                             @endif
                             <hr>
                         </div>
@@ -280,7 +280,7 @@
                         <div class="col-md-12">
                             <strong>{{ $client->photo_url2 }}</strong>
                             @if($client->photo_url2)
-                                <img src="{{$client->photo_url2}}" alt="photo">
+                                <img src="{{$client->photo_url2}}" alt="photo" class="img-responsive">
                             @endif
                             <hr>
                         </div>
@@ -291,7 +291,7 @@
                         <div class="col-md-12">
                             <strong>{{ $client->photo_url3 }}</strong>
                             @if($client->photo_url3)
-                                <img src="{{$client->photo_url3}}" alt="photo">
+                                <img src="{{$client->photo_url3}}" alt="photo" class="img-responsive">
                             @endif
                             <hr>
                         </div>
@@ -302,7 +302,7 @@
                         <div class="col-md-12">
                             <strong>{{ $client->photo_url4 }}</strong>
                             @if($client->photo_url4)
-                                <img src="{{$client->photo_url4}}" alt="photo">
+                                <img src="{{$client->photo_url4}}" alt="photo" class="img-responsive">
                             @endif
                             <hr>
                         </div>
@@ -313,7 +313,7 @@
                         <div class="col-md-12">
                             <strong>{{ $client->photo_url5 }}</strong>
                             @if($client->photo_url5)
-                                <img src="{{$client->photo_url5}}" alt="photo">
+                                <img src="{{$client->photo_url5}}" alt="photo" class="img-responsive">
                             @endif
                             <hr>
                         </div>
