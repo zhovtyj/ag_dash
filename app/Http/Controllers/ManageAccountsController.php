@@ -7,6 +7,7 @@ use Auth;
 use App\User;
 use App\Client;
 use App\Note;
+use App\Tag;
 
 class ManageAccountsController extends Controller
 {
@@ -14,7 +15,8 @@ class ManageAccountsController extends Controller
     {
         $user = User::find(Auth::user()->id);
         $clients = Client::where('user_id', '=', $user->id)->get();
-        return view('agency.manageAccounts.index')->withClients($clients);
+        $tags = Tag::all();
+        return view('agency.manageAccounts.index')->withClients($clients)->withTags($tags);
     }
 
     public function notesStore(Request $request)

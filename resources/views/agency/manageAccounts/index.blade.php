@@ -46,15 +46,22 @@
                                         <div id="note-{{$client->id}}">{!! isset($client->note)?$client->note->body:'' !!}</div>
                                     </td>
                                     <td>
-                                        <span class="label label-default">Default</span>
-                                        <span class="label label-default">Default</span>
-                                        <span class="label label-default">Default</span>
-                                        <span class="label label-default">Default</span>
+                                        @forelse($client->tags as $tag)
+                                        <span class="label label-default">{{$tag->name}}</span>
+                                        @empty
+
+                                        @endforelse
+
                                     </td>
                                     <td>
                                         <button class="edit-notes btn btn-primary btn-block" data-client-id="{{$client->id}}" data-toggle="modal" data-target="#edit-notes-modal">
                                             <span class="glyphicon glyphicon-pencil"></span>
                                             Edit Notes
+                                        </button>
+
+                                        <button class="edit-tags btn btn-primary btn-block" data-client-id="{{$client->id}}" data-toggle="modal" data-target="#edit-tags-modal">
+                                            <span class="glyphicon glyphicon-tag"></span>
+                                            Edit Tags
                                         </button>
                                     </td>
                                 </tr>
@@ -73,7 +80,6 @@
     <!-- Modal Edit Notes-->
     <div id="edit-notes-modal" class="modal fade" role="dialog">
         <div class="modal-dialog">
-
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -90,7 +96,35 @@
                 </div>
                 {!! Form::close() !!}
             </div>
+        </div>
+    </div>
 
+    <!-- Modal Edit Tags-->
+    <div id="edit-tags-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit Tags</h4>
+                </div>
+                {!! Form::open(['url' => 'foo/bar', 'method'=>'post', 'id'=>'edit-notes-form']) !!}
+                <div class="modal-body">
+                    <input type="hidden" id="client_id" name="client_id" value="">
+                    <div class="form-group">
+                        <label for="tags">Select tags:</label>
+                        <select name="tags[]" class="select2 form-control" multiple="multiple">
+                            @foreach($tags as $tag)
+                                <option value="{{$tag->id}}">{{$tag->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="tag-submit" class="btn btn-success">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+                {!! Form::close() !!}
+            </div>
         </div>
     </div>
 
@@ -102,9 +136,11 @@
     <script src="/admin-assets/js/dataTables/jquery.dataTables.js"></script>
     <script src="/admin-assets/js/dataTables/dataTables.bootstrap.js"></script>
     <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+    {!! Html::script('js/select2.full.js') !!}
     <script type="text/javascript">
-
+        $('.select2').select2();
     </script>
+
     <script type="text/javascript">
         //dataTables
         $(document).ready(function () {
@@ -157,12 +193,16 @@
 
             $('#edit-notes-modal').modal('hide');
         });
+
+        //Edit Tags
+        
     </script>
 @endsection
 
 @section('stylesheets')
     <!-- TABLE STYLES-->
     <link href="/admin-assets/js/dataTables/dataTables.bootstrap.css" rel="stylesheet" />
+    {!! Html::style('css/select2.min.css') !!}
 @endsection
 
 @section('breadcrumbs')

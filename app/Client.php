@@ -30,4 +30,9 @@ class Client extends Model
     {
         return $this->hasOne('App\Note');
     }
+
+    public function tags()
+    {
+        return $this->belongsToMany('App\Tag');
+    }
 }
