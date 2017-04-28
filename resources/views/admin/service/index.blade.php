@@ -107,11 +107,14 @@
     <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
 
     <script>
-        $('.grid').isotope({
-            // options
-            itemSelector: '.grid-item',
-            layoutMode: 'fitRows'
+        $(document).ready(function(){
+            $('.grid').isotope({
+                // options
+                itemSelector: '.grid-item',
+                layoutMode: 'fitRows'
+            });
         });
+
     </script>
 @endsection
 
