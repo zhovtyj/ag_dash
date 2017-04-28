@@ -98,14 +98,7 @@
     <script src="https://unpkg.com/imagesloaded@4.1/imagesloaded.pkgd.js"></script>
     <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
 
-    <script>
-//        $(document).ready(function(){
-//            $('.grid').isotope({
-//                // options
-//                itemSelector: '.grid-item',
-//                layoutMode: 'fitRows'
-//            });
-//        });
+    <script type="text/javascript">
 
         $(document).ready(function(){
             var $grid = $('.grid');

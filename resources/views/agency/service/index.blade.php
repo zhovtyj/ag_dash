@@ -11,98 +11,91 @@
         </div>
     </div>
     <hr>
-    <div class="row">
-        <div class="col-md-12">
-            @foreach($services as $service)
-                @if($loop->iteration == 1 || ($loop->iteration%3) == 0)
-                    <div class="row">
-                @endif
-                        <div class="col-sm-6 col-md-4">
-                            <div class="thumbnail service-container">
-                                <div class="service-header">
-                                    <div class="service-header-name">{{$service->name}}</div>
-                                    <div class="service-header-price">
-                                        <span class="glyphicon glyphicon-usd"></span>
-                                        {{$service->price}}
+    <div class="grid">
+        @foreach($services as $service)
+            <div class="grid-item">
+                <div class="thumbnail service-container">
+                    <div class="service-header">
+                        <div class="service-header-name">{{$service->name}}</div>
+                        <div class="service-header-price">
+                            <span class="glyphicon glyphicon-usd"></span>
+                            {{$service->price}}
+                        </div>
+                        @if(($service->old_price) && ($service->old_price != $service->price))
+                            <div class="service-header-old-price">
+                                <span class="glyphicon glyphicon-usd"></span>
+                                {{$service->old_price}}
+                            </div>
+                        @endif
+                    </div>
+                    <img src="/upload_images/services/{{$service->image}}" >
+                    <div class="caption">
+                        @if(isset($service->category))
+                            <h4><small>Category:<br/></small>{{$service->category->name}}</h4>
+                        @endif
+                        <div>{!! $service->short_description !!}</div>
+                        <hr>
+                        <ul data-service-id="{{$service->id}}" class="additional-services">
+                            @foreach($service->serviceoptionals as $serviceoptional)
+                                <h4>
+                                    <strong>{{$serviceoptional->name}}</strong>
+                                    @if($serviceoptional->subscription == 1)
+                                        <small style="float:right;"></span>Subscription <span class="glyphicon glyphicon-ok"></small>
+                                    @endif
+                                </h4>
+                                @foreach($serviceoptional->serviceOptionalDescriptions as $description)
+                                    <div class="checkbox">
+                                        <label class="additional-services-label">
+                                            <input type="checkbox" class="serviceOptionalDescription" data-service-id="{{$service->id}}" data-id="{{$description->id}}" name="serviceOptionalDescription{{$description->id}}" id="serviceOptionalDescription{{$description->id}}" value="{{$description->id}}" data-price="{{$description->price}}">
+                                            {{$description->description}}
+                                            <span class="additional-services-span badge"><span class="glyphicon glyphicon-usd"></span> {{$description->price}}</span>
+                                        </label>
                                     </div>
-                                    @if(($service->old_price) && ($service->old_price != $service->price))
-                                        <div class="service-header-old-price">
-                                            <span class="glyphicon glyphicon-usd"></span>
-                                            {{$service->old_price}}
-                                        </div>
-                                    @endif
-                                </div>
-                                <img src="/upload_images/services/{{$service->image}}" >
-                                <div class="caption">
-                                    @if(isset($service->category))
-                                        <h4><small>Category:<br/></small>{{$service->category->name}}</h4>
-                                    @endif
-                                    <div>{!! mb_substr($service->short_description, 0, 250) !!}{{ strlen(strip_tags($service->short_description)) > 250 ? "..." : "" }}</div>
-                                    <hr>
-                                    <ul data-service-id="{{$service->id}}" class="additional-services">
-                                        @foreach($service->serviceoptionals as $serviceoptional)
-                                            <h4>
-                                                <strong>{{$serviceoptional->name}}</strong>
-                                                @if($serviceoptional->subscription == 1)
-                                                    <small style="float:right;"></span>Subscription <span class="glyphicon glyphicon-ok"></small>
-                                                @endif
-                                            </h4>
-                                            @foreach($serviceoptional->serviceOptionalDescriptions as $description)
-                                                <div class="checkbox">
-                                                    <label class="additional-services-label">
-                                                        <input type="checkbox" class="serviceOptionalDescription" data-service-id="{{$service->id}}" data-id="{{$description->id}}" name="serviceOptionalDescription{{$description->id}}" id="serviceOptionalDescription{{$description->id}}" value="{{$description->id}}" data-price="{{$description->price}}">
-                                                        {{$description->description}}
-                                                        <span class="additional-services-span badge"><span class="glyphicon glyphicon-usd"></span> {{$description->price}}</span>
-                                                    </label>
-                                                </div>
-                                            @endforeach
-                                            @if($serviceoptional->subscription == 1)
-                                                <?php $showSubscription = 1; ?>
-                                            @endif
-                                        @endforeach
-                                    </ul>
+                                @endforeach
+                                @if($serviceoptional->subscription == 1)
+                                    <?php $showSubscription = 1; ?>
+                                @endif
+                            @endforeach
+                        </ul>
 
-                                    @if(isset($service->serviceSubscription) || (isset($showSubscription)))
-                                        <hr>
-                                        {!! Form::open(['route' => ['paypal.subscribe', $client->id], 'method' => 'post']) !!}
-                                            <div>
-                                                <input type="hidden" name="service_id" value="{{$service->id}}">
-                                                <input type="hidden" id="service_optional_ids_{{$service->id}}" name="service_optional_ids" value="">
-                                            </div>
-                                            <div style="margin:10px 0;">
-                                                <button type="submit" class="btn btn-block btn-success">
-                                                    <span class="glyphicon glyphicon-usd"></span>
-                                                    Subscribe with PayPal
-                                                </button>
-                                                <hr>
-                                            </div>
-                                        {!! Form::close() !!}
-                                    @endif
-                                    <div class="bottom-buttons">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <a href="{{ route('agency.service.show', [$client->id, $service->id]) }}" class="btn btn-primary btn-block" role="button">
-                                                    <span class="glyphicon glyphicon-eye-open"> </span>
-                                                    Read more
-                                                </a>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <button class="btn btn-success btn-block add-to-cart" role="button" id="{{$service->id}}" data-toggle="modal" data-target="#service-added">
-                                                    <span class="glyphicon glyphicon-shopping-cart"> </span>
-                                                    Add to cart
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
+                        @if(isset($service->serviceSubscription) || (isset($showSubscription)))
+                            <hr>
+                            {!! Form::open(['route' => ['paypal.subscribe', $client->id], 'method' => 'post']) !!}
+                                <div>
+                                    <input type="hidden" name="service_id" value="{{$service->id}}">
+                                    <input type="hidden" id="service_optional_ids_{{$service->id}}" name="service_optional_ids" value="">
+                                </div>
+                                <div style="margin:10px 0;">
+                                    <button type="submit" class="btn btn-block btn-success">
+                                        <span class="glyphicon glyphicon-usd"></span>
+                                        Subscribe with PayPal
+                                    </button>
+                                    <hr>
+                                </div>
+                            {!! Form::close() !!}
+                        @endif
+                        <div class="bottom-buttons">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a href="{{ route('agency.service.show', [$client->id, $service->id]) }}" class="btn btn-primary btn-block" role="button">
+                                        <span class="glyphicon glyphicon-eye-open"> </span>
+                                        Read more
+                                    </a>
+                                </div>
+                                <div class="col-md-6">
+                                    <button class="btn btn-success btn-block add-to-cart" role="button" id="{{$service->id}}" data-toggle="modal" data-target="#service-added">
+                                        <span class="glyphicon glyphicon-shopping-cart"> </span>
+                                        Add to cart
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                        @if(($loop->iteration % 3) == 0)
                     </div>
-                        @endif
-            @endforeach
-        </div>
+                </div>
+            </div>
+        @endforeach
     </div>
+
 
 
     <!-- Modal -->
@@ -127,8 +120,39 @@
     </div>
 @endsection
 
+@section('stylesheets')
+    <style>
+        .grid-item{
+            width:275px;
+            margin-right:20px;
+            margin-bottom: 20px;
+        }
+        .grid{
+            width:100%;
+        }
+    </style>
+@endsection
+
 @section('javascript')
-    <script>
+    <script src="https://unpkg.com/imagesloaded@4.1/imagesloaded.pkgd.js"></script>
+    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+            var $grid = $('.grid');
+            $grid.imagesLoaded( function(){
+                $grid.isotope({
+                    layoutMode: 'fitRows',
+                    //percentPosition: true,
+                    itemSelector: '.grid-item'
+                });
+            });
+        })
+
+    </script>
+
+    <script type="text/javascript">
 
 
         //Save checked Optional Serviced ids and send to
