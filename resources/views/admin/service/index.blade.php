@@ -108,24 +108,24 @@
     <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
 
     <script>
-        $(document).ready(function(){
-            $('.grid').isotope({
-                // options
-                itemSelector: '.grid-item',
-                layoutMode: 'fitRows'
-            });
-        });
-
 //        $(document).ready(function(){
-//            var $grid = $('.grid');
-//            $grid.imagesLoaded( function(){
-//                $grid.isotope({
-//                    layoutMode: 'fitRows',
-//                    //percentPosition: true,
-//                    itemSelector: '.grid-item'
-//                });
+//            $('.grid').isotope({
+//                // options
+//                itemSelector: '.grid-item',
+//                layoutMode: 'fitRows'
 //            });
-//        })
+//        });
+
+        $(document).ready(function(){
+            var $grid = $('.grid');
+            $grid.imagesLoaded( function(){
+                $grid.isotope({
+                    layoutMode: 'fitRows',
+                    //percentPosition: true,
+                    itemSelector: '.grid-item'
+                });
+            });
+        })
 
     </script>
 @endsection
@@ -133,9 +133,12 @@
 @section('stylesheets')
     <style>
         .grid-item{
-            width:200px;
+            width:275px;
             margin-right:20px;
             margin-bottom: 20px;
+        }
+        .grid{
+            width:100%;
         }
     </style>
 @endsection
