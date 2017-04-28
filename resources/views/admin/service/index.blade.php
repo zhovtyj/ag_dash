@@ -38,7 +38,7 @@
     </div>
     <hr>
     <div class="row">
-        <div class="col-md-12 grid">
+        <div class="grid">
             <?php $i=0?>
             @foreach($services as $service)
                 <?php $i++?>
@@ -119,6 +119,8 @@
     <style>
         .grid-item{
             width:32%;
+            margin-right:20px;
+            margin-bottom: 20px;
         }
     </style>
 @endsection
