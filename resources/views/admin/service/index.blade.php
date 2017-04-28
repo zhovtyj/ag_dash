@@ -133,7 +133,7 @@
 @section('stylesheets')
     <style>
         .grid-item{
-            width:32%;
+            width:30%;
             margin-right:20px;
             margin-bottom: 20px;
         }
