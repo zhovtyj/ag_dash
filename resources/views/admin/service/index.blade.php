@@ -38,14 +38,14 @@
     </div>
     <hr>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12 grid">
             <?php $i=0?>
             @foreach($services as $service)
                 <?php $i++?>
-                @if($i==1 || ($i%3)==0)
-                    <div class="row">
-                        @endif
-                        <div class="col-sm-6 col-md-4">
+                {{--@if($i==1 || ($i%3)==0)--}}
+                    {{--<div class="row">--}}
+                        {{--@endif--}}
+                        <div class="grid-item col-sm-6 col-md-4">
                             <div class="thumbnail service-container">
                                 <img src="/upload_images/services/{{$service->image}}" >
                                 <div class="caption">
@@ -94,11 +94,23 @@
                                 </div>
                             </div>
                         </div>
-                        @if(($i%3)==0)
-                    </div>
-                @endif
+                        {{--@if(($i%3)==0)--}}
+                    {{--</div>--}}
+                {{--@endif--}}
             @endforeach
         </div>
     </div>
 
+@endsection
+
+@section('javascript')
+    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+
+    <script>
+        $('.grid').isotope({
+            // options
+            itemSelector: '.grid-item',
+            layoutMode: 'fitRows'
+        });
+    </script>
 @endsection
