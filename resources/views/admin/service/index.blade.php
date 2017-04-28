@@ -48,7 +48,7 @@
                         @if(isset($service->category))
                             <h4><small>Category:<br/></small>{{$service->category->name}}</h4>
                         @endif
-                        <div>{!! mb_substr($service->short_description, 0, 250) !!}{{ strlen(strip_tags($service->short_description)) > 250 ? "..." : "" }}</div>
+                        <div>{!! $service->short_description !!}{{ strlen(strip_tags($service->short_description)) > 250 ? "..." : "" }}</div>
                         <p>
                             Retail Price:{{$service->old_price}}<span class="glyphicon glyphicon-usd"></span>
                             <br>Bulk Price:{{$service->price}}<span class="glyphicon glyphicon-usd"></span>
@@ -125,7 +125,8 @@
     <style>
         .grid-item{
             width:275px;
-            
+            margin-right:20px;
+            margin-bottom: 20px;
         }
         .grid{
             width:100%;
