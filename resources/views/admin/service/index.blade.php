@@ -120,12 +120,9 @@
             var $grid = $('.grid');
             $grid.imagesLoaded( function(){
                 $grid.isotope({
-                    layoutMode: 'moduloColumns',
+                    layoutMode: 'fitRows',
                     percentPosition: true,
-                    itemSelector: '.grid-item',
-                    moduloColumns: {
-                        gutter: 25
-                    }
+                    itemSelector: '.grid-item'
                 });
             });
         })
