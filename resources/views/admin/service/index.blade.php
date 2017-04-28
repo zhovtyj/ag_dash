@@ -37,68 +37,59 @@
         </div>
     </div>
     <hr>
-    <div>
-        <div class="grid">
-            <?php $i=0?>
-            @foreach($services as $service)
-                <?php $i++?>
-                {{--@if($i==1 || ($i%3)==0)--}}
-                    {{--<div class="row">--}}
-                        {{--@endif--}}
-                        <div class="grid-item">
-                            <div class="thumbnail service-container">
-                                <img src="/upload_images/services/{{$service->image}}" style="width:100%;">
-                                <div class="caption">
-                                    <h3>{{$service->name}}</h3>
-                                    @if(isset($service->category))
-                                        <h4><small>Category:<br/></small>{{$service->category->name}}</h4>
-                                    @endif
-                                    <div>{!! mb_substr($service->short_description, 0, 250) !!}{{ strlen(strip_tags($service->short_description)) > 250 ? "..." : "" }}</div>
-                                    <p>
-                                        Retail Price:{{$service->old_price}}<span class="glyphicon glyphicon-usd"></span>
-                                        <br>Bulk Price:{{$service->price}}<span class="glyphicon glyphicon-usd"></span>
-                                    </p>
-                                    <p>Sort Number: {!! $service->sort_number !!}</p>
-                                    <hr>
-                                    <ul data-service-id="{{$service->id}}" class="additional-services">
-                                        @foreach($service->serviceoptionals as $serviceoptional)
-                                            <h4><strong>{{$serviceoptional->name}}</strong></h4>
-                                            @foreach($serviceoptional->serviceOptionalDescriptions as $description)
-                                                <div class="checkbox">
-                                                    <label class="additional-services-label">
-                                                        <input type="checkbox" name="serviceOptionalDescription{{$description->id}}" id="serviceOptionalDescription{{$description->id}}" value="{{$description->id}}" data-price="{{$description->price}}">
-                                                        {{$description->description}}
-                                                        <span class="additional-services-span badge"><span class="glyphicon glyphicon-usd"></span> {{$description->price}}</span>
-                                                    </label>
-                                                </div>
 
-                                            @endforeach
-                                        @endforeach
-                                    </ul>
-                                    <div class="bottom-buttons">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <a href="{{ route('service.show', $service->id) }}" class="btn btn-primary btn-block" role="button">
-                                                    <span class="glyphicon glyphicon-eye-open"> </span>
-                                                    Show
-                                                </a>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <a href="{{ route('service.edit', $service->id) }}" class="btn btn-success btn-block" role="button">
-                                                    <span class="glyphicon glyphicon-edit"> </span>
-                                                    Edit
-                                                </a>
-                                            </div>
-                                        </div>
+    <div class="grid">
+        @foreach($services as $service)
+            <div class="grid-item">
+                <div class="thumbnail service-container">
+                    <img src="/upload_images/services/{{$service->image}}" style="width:100%;">
+                    <div class="caption">
+                        <h3>{{$service->name}}</h3>
+                        @if(isset($service->category))
+                            <h4><small>Category:<br/></small>{{$service->category->name}}</h4>
+                        @endif
+                        <div>{!! mb_substr($service->short_description, 0, 250) !!}{{ strlen(strip_tags($service->short_description)) > 250 ? "..." : "" }}</div>
+                        <p>
+                            Retail Price:{{$service->old_price}}<span class="glyphicon glyphicon-usd"></span>
+                            <br>Bulk Price:{{$service->price}}<span class="glyphicon glyphicon-usd"></span>
+                        </p>
+                        <p>Sort Number: {!! $service->sort_number !!}</p>
+                        <hr>
+                        <ul data-service-id="{{$service->id}}" class="additional-services">
+                            @foreach($service->serviceoptionals as $serviceoptional)
+                                <h4><strong>{{$serviceoptional->name}}</strong></h4>
+                                @foreach($serviceoptional->serviceOptionalDescriptions as $description)
+                                    <div class="checkbox">
+                                        <label class="additional-services-label">
+                                            <input type="checkbox" name="serviceOptionalDescription{{$description->id}}" id="serviceOptionalDescription{{$description->id}}" value="{{$description->id}}" data-price="{{$description->price}}">
+                                            {{$description->description}}
+                                            <span class="additional-services-span badge"><span class="glyphicon glyphicon-usd"></span> {{$description->price}}</span>
+                                        </label>
                                     </div>
+
+                                @endforeach
+                            @endforeach
+                        </ul>
+                        <div class="bottom-buttons">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <a href="{{ route('service.show', $service->id) }}" class="btn btn-primary btn-block" role="button">
+                                        <span class="glyphicon glyphicon-eye-open"> </span>
+                                        Show
+                                    </a>
+                                </div>
+                                <div class="col-md-6">
+                                    <a href="{{ route('service.edit', $service->id) }}" class="btn btn-success btn-block" role="button">
+                                        <span class="glyphicon glyphicon-edit"> </span>
+                                        Edit
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                        {{--@if(($i%3)==0)--}}
-                    {{--</div>--}}
-                {{--@endif--}}
-            @endforeach
-        </div>
+                    </div>
+                </div>
+            </div>
+        @endforeach
     </div>
 
 @endsection
