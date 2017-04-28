@@ -37,7 +37,7 @@
         </div>
     </div>
     <hr>
-    <div class="row">
+    <div>
         <div class="grid">
             <?php $i=0?>
             @foreach($services as $service)
@@ -47,7 +47,7 @@
                         {{--@endif--}}
                         <div class="grid-item">
                             <div class="thumbnail service-container">
-                                <img src="/upload_images/services/{{$service->image}}" >
+                                <img src="/upload_images/services/{{$service->image}}" style="width:100%;">
                                 <div class="caption">
                                     <h3>{{$service->name}}</h3>
                                     @if(isset($service->category))
