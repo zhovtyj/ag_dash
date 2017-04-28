@@ -45,7 +45,7 @@
                 {{--@if($i==1 || ($i%3)==0)--}}
                     {{--<div class="row">--}}
                         {{--@endif--}}
-                        <div class="grid-item col-sm-6 col-md-4">
+                        <div class="grid-item">
                             <div class="thumbnail service-container">
                                 <img src="/upload_images/services/{{$service->image}}" >
                                 <div class="caption">
@@ -113,4 +113,12 @@
             layoutMode: 'fitRows'
         });
     </script>
+@endsection
+
+@section('stylesheets')
+    <style>
+        .grid-item{
+            width:32%;
+        }
+    </style>
 @endsection
