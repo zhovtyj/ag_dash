@@ -47,7 +47,7 @@
                         {{--@endif--}}
                         <div class="grid-item">
                             <div class="thumbnail service-container">
-                                {{--<img src="/upload_images/services/{{$service->image}}" style="width:100%;">--}}
+                                <img src="/upload_images/services/{{$service->image}}" style="width:100%;">
                                 <div class="caption">
                                     <h3>{{$service->name}}</h3>
                                     @if(isset($service->category))
