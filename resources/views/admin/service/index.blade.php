@@ -125,8 +125,7 @@
     <style>
         .grid-item{
             width:275px;
-            margin-right:20px;
-            margin-bottom: 20px;
+            
         }
         .grid{
             width:100%;
