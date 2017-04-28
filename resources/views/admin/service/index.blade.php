@@ -104,16 +104,31 @@
 @endsection
 
 @section('javascript')
+    <script src="https://unpkg.com/imagesloaded@4.1/imagesloaded.pkgd.js"></script>
     <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
 
     <script>
+//        $(document).ready(function(){
+//            $('.grid').isotope({
+//                // options
+//                itemSelector: '.grid-item',
+//                layoutMode: 'fitRows'
+//            });
+//        });
+
         $(document).ready(function(){
-            $('.grid').isotope({
-                // options
-                itemSelector: '.grid-item',
-                layoutMode: 'fitRows'
+            var $grid = $('.grid');
+            $grid.imagesLoaded( function(){
+                $grid.isotope({
+                    layoutMode: 'moduloColumns',
+                    percentPosition: true,
+                    itemSelector: '.grid-item',
+                    moduloColumns: {
+                        gutter: 25
+                    }
+                });
             });
-        });
+        })
 
     </script>
 @endsection
