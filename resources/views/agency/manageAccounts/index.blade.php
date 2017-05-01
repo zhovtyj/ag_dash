@@ -6,11 +6,41 @@
 
     <div class="row">
 
-        <div class="col-md-4">
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">Filters</div>
+                <div class="panel-body">
 
+                    <h3>Status</h3>
+                    <div>
+                        @foreach($statuses as $status)
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="status-{{$status->id}}" value="{{$status->name}}" class="filter-checkbox">
+                                    {{$status->name}}
+                                </label>
+                            </div>
+                        @endforeach
+                    </div>
+                    <hr>
+
+                    <h3>Tags</h3>
+                    <div>
+                        @foreach($tags as $tag)
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" name="status-{{$tag->id}}" value="{{$tag->name}}" class="filter-checkbox">
+                                    {{$tag->name}}
+                                </label>
+                            </div>
+                        @endforeach
+                    </div>
+                    <hr>
+                </div>
+            </div>
         </div>
 
-        <div class="col-md-8">
+        <div class="col-lg-9">
             <!-- Advanced Tables -->
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -180,12 +210,11 @@
     <script type="text/javascript">
         //dataTables
         $(document).ready(function () {
-            $('#dataTables-clients').dataTable({
+             table = $('#dataTables-clients').DataTable({
                 "pageLength": 50
             });
         });
-    </script>
-    <script type="text/javascript">
+
         //Edit Notes
         $('.edit-notes').on('click', function(){
             id = $(this).attr('data-client-id');
@@ -295,6 +324,17 @@
             $('#edit-status-modal').modal('hide');
         });
 
+        //Filter
+        var filterString = '';
+        $('.filter-checkbox').on('change', function(){
+            if((this.checked)){
+                filterString += ' '+this.value;
+            }else{
+                filterString = filterString.replace(this.value, " ");
+            }
+            console.log(filterString);
+            $('#dataTables-clients').DataTable().search( filterString ).draw();
+        });
 
     </script>
 @endsection
