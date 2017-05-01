@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Auth;
 use App\User;
 use App\Client;
+use App\ClientStatus;
 use App\Note;
 use App\Tag;
 
@@ -16,7 +17,8 @@ class ManageAccountsController extends Controller
         $user = User::find(Auth::user()->id);
         $clients = Client::where('user_id', '=', $user->id)->get();
         $tags = Tag::all();
-        return view('agency.manageAccounts.index')->withClients($clients)->withTags($tags);
+        $statuses = ClientStatus::all();
+        return view('agency.manageAccounts.index')->withClients($clients)->withTags($tags)->withStatuses($statuses);
     }
 
     public function notesStore(Request $request)
@@ -48,5 +50,13 @@ class ManageAccountsController extends Controller
         $client = Client::find($request->client_id);
         $client->tags()->sync($request->tags, true);
         return($client->tags);
+    }
+
+    public function statusStore(Request $request)
+    {
+        $client = Client::find($request->client_id);
+        $client->client_status_id = $request->status;
+        $client->save();
+        return ($client->clientStatus->name);
     }
 }

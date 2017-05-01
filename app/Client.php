@@ -35,4 +35,9 @@ class Client extends Model
     {
         return $this->belongsToMany('App\Tag');
     }
+
+    public function clientStatus()
+    {
+        return $this->belongsTo('App\ClientStatus');
+    }
 }

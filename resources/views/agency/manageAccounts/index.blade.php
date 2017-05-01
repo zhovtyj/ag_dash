@@ -25,6 +25,7 @@
                                 <th>Client</th>
                                 <th>Notes</th>
                                 <th>Tags</th>
+                                <th>Status</th>
                                 <th>Action</th>
                             </tr>
                             </thead>
@@ -53,6 +54,7 @@
                                         @endforelse
 
                                     </td>
+                                    <td id="td-status-{{$client->id}}">{{isset($client->clientStatus->name)?$client->clientStatus->name:''}}</td>
                                     <td>
                                         <button class="edit-notes btn btn-primary btn-block" data-client-id="{{$client->id}}" data-toggle="modal" data-target="#edit-notes-modal">
                                             <span class="glyphicon glyphicon-pencil"></span>
@@ -62,6 +64,11 @@
                                         <button class="edit-tags btn btn-primary btn-block" data-client-id="{{$client->id}}" data-toggle="modal" data-target="#edit-tags-modal">
                                             <span class="glyphicon glyphicon-tag"></span>
                                             Edit Tags
+                                        </button>
+
+                                        <button class="edit-status btn btn-primary btn-block" data-client-id="{{$client->id}}" data-status-id="{{isset($client->clientStatus->id)?$client->clientStatus->id:''}}" data-toggle="modal" data-target="#edit-status-modal">
+                                            <span class="glyphicon glyphicon-stats"></span>
+                                            Status
                                         </button>
                                     </td>
                                 </tr>
@@ -128,6 +135,35 @@
         </div>
     </div>
 
+    <!-- Modal Edit Status-->
+    <div id="edit-status-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Edit Status</h4>
+                </div>
+                {!! Form::open(['url' => 'foo/bar', 'method'=>'post', 'id'=>'edit-status-form']) !!}
+                <div class="modal-body">
+                    <input type="hidden" id="status_client_id" name="client_id" value="">
+                    <div class="form-group">
+                        <label for="tags">Select Status:</label>
+                        <select name="status" id="select-status" class="form-control">
+                            @foreach($statuses as $status)
+                                <option id="status-option-{{$status->id}}" value="{{$status->id}}" class="form-control">{{$status->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="tag-submit" class="btn btn-success">Save</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+                {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 
@@ -169,7 +205,6 @@
             });
             tinyMCE.activeEditor.setContent(note);
         });
-
 
         //Save Notes
         $('#edit-notes-form').on('submit', function(e){
@@ -231,6 +266,33 @@
             });
 
             $('#edit-tags-modal').modal('hide');
+        });
+
+        //Edit Status
+        $('.edit-status').on('click', function(){
+            id = $(this).attr('data-client-id');
+            status_id = $(this).attr('data-status-id');
+            $('#select-status option').removeAttr('selected');
+            $('#status-option-'+status_id).attr('selected', 'selected');
+            $('#status_client_id').val(id);
+        });
+
+        //Save Status
+        $('#edit-status-form').on('submit', function(e){
+            e.preventDefault();
+            var url = "{{route('manage-accounts.status-store')}}";
+            var data = $( this ).serialize();
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function(data) {
+                    $('#td-status-'+id).html(data);
+
+                }
+            });
+
+            $('#edit-status-modal').modal('hide');
         });
 
 
