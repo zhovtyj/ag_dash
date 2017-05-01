@@ -45,7 +45,7 @@
                                     <td>
                                         <div id="note-{{$client->id}}">{!! isset($client->note)?$client->note->body:'' !!}</div>
                                     </td>
-                                    <td>
+                                    <td id="td-tags-{{$client->id}}">
                                         @forelse($client->tags as $tag)
                                         <span class="label label-default">{{$tag->name}}</span>
                                         @empty
@@ -107,14 +107,14 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Edit Tags</h4>
                 </div>
-                {!! Form::open(['url' => 'foo/bar', 'method'=>'post', 'id'=>'edit-notes-form']) !!}
+                {!! Form::open(['url' => 'foo/bar', 'method'=>'post', 'id'=>'edit-tags-form']) !!}
                 <div class="modal-body">
-                    <input type="hidden" id="client_id" name="client_id" value="">
+                    <input type="hidden" id="tag_client_id" name="client_id" value="">
                     <div class="form-group">
                         <label for="tags">Select tags:</label>
                         <select name="tags[]" class="select2 form-control" multiple="multiple">
                             @foreach($tags as $tag)
-                                <option value="{{$tag->id}}">{{$tag->name}}</option>
+                                <option id="tag-option-{{$tag->id}}" value="{{$tag->id}}">{{$tag->name}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -138,7 +138,7 @@
     <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
     {!! Html::script('js/select2.full.js') !!}
     <script type="text/javascript">
-        $('.select2').select2();
+        //$('.select2').select2();
     </script>
 
     <script type="text/javascript">
@@ -176,7 +176,6 @@
             e.preventDefault();
             var url = "{{route('manage-accounts.notes-store')}}";
             var data = $( this ).serialize();
-            //$('#note-'+id).text($('#edit-notes-area').text());
             $('#note-'+id).html(tinyMCE.activeEditor.getContent());
             $("#edit-notes-form").trigger('reset');
 
@@ -195,7 +194,46 @@
         });
 
         //Edit Tags
-        
+        $('.edit-tags').on('click', function(){
+            var url = "{{route('manage-accounts.client-ajax')}}";
+            var token = "{{ csrf_token() }}";
+            id = $(this).attr('data-client-id');
+            $('#tag_client_id').val(id);
+            $('.select2 option').removeAttr('selected');
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {id:id, _token:token},
+                success: function(data) {
+                    data.forEach(function(tag) {
+                        $('#tag-option-'+tag.id).attr('selected', 'selected');
+                    });
+                    $('.select2').select2();
+                }
+            });
+        });
+
+        //Save Tags
+        $('#edit-tags-form').on('submit', function(e){
+            e.preventDefault();
+            var url = "{{route('manage-accounts.tags-store')}}";
+            var data = $( this ).serialize();
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function(data) {
+                    $('#td-tags-'+id).html('');
+                    data.forEach(function(tag) {
+                        $('#td-tags-'+id).append('<span class="label label-default">'+tag.name+'</span> ')
+                    });
+                }
+            });
+
+            $('#edit-tags-modal').modal('hide');
+        });
+
+
     </script>
 @endsection
 

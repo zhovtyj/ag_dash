@@ -36,4 +36,17 @@ class ManageAccountsController extends Controller
             return ('created');
         }
     }
+
+    public function clientAjax(Request $request)
+    {
+        $client = Client::find($request->id);
+        return($client->tags);
+    }
+
+    public function tagsStore(Request $request)
+    {
+        $client = Client::find($request->client_id);
+        $client->tags()->sync($request->tags, true);
+        return($client->tags);
+    }
 }
