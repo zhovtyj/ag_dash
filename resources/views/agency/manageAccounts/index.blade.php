@@ -392,7 +392,7 @@
                 }
             });
 
-            $('#email-form').modal('hide');
+            $('#email-modal').modal('hide');
         });
 
     </script>

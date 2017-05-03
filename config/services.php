@@ -36,10 +36,9 @@ return [
     ],
 
     'paypal' => [
-        //'client_id' => 'AbjdhLbkomdbqSSNPA0ZD4wLqmEUkGWbRUNu4t1ShpVKsIWtkNGNJR6LJDEw90o5MEFEUR6GD3macWYK',
-        'client_id' => 'paypal_api1.web20ranker.com',
-        //'secret' => 'EIhWTArEXVRC3DZFJRwr6GRea8OTllfLydhdeX5OZhVOEXgQNDWVmvxOCX1qbWJoBt7r0KeDWpB38y1e'
-        'secret' => '3TXDFVCKN75TRQWC'
+        //SandBox Settings
+        'client_id' => 'AbjdhLbkomdbqSSNPA0ZD4wLqmEUkGWbRUNu4t1ShpVKsIWtkNGNJR6LJDEw90o5MEFEUR6GD3macWYK',
+        'secret' => 'EIhWTArEXVRC3DZFJRwr6GRea8OTllfLydhdeX5OZhVOEXgQNDWVmvxOCX1qbWJoBt7r0KeDWpB38y1e'
     ],
 
 ];
