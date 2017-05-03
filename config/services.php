@@ -38,9 +38,9 @@ return [
     'paypal' => [
         //SandBox Settings
         //'client_id' => 'AbjdhLbkomdbqSSNPA0ZD4wLqmEUkGWbRUNu4t1ShpVKsIWtkNGNJR6LJDEw90o5MEFEUR6GD3macWYK',
-        'client_id' => 'paypal_api1.web20ranker.com',
+        'client_id' => 'AfZlwLFHJiePviAW4moFZJ49iGMvDesVwVkgls_DQ-Uq99M-_0_NWr56Un1u3zV3TrU0S33E_xcXT2J_',
         //'secret' => 'EIhWTArEXVRC3DZFJRwr6GRea8OTllfLydhdeX5OZhVOEXgQNDWVmvxOCX1qbWJoBt7r0KeDWpB38y1e'
-        'secret' => 'access_token$production$v6kfsymnqb3ycsc6$3b45aec81dce2952f3fe0b94cacac17a'
+        'secret' => 'EJA06syBYiuWtbsj36ICxmg0J5kJfxBW3eRgLz_k3Tn0RplKDyzyX3cD3GJkXJ5AQt4_-AIr7C_s3wWI'
     ],
 
 ];
