@@ -65,8 +65,8 @@ class ManageAccountsController extends Controller
     public function sendEmail(Request $request)
     {
         $client = Client::find($request->client_id);
-        $message['message'] = $request->message;
-        Mail::to($client->business_owners_email)->send(new ManageClientsMail($message));
+        //$message['message'] = $request->message;
+        Mail::to($client->business_owners_email)->send(new ManageClientsMail($request));
         return('true');
     }
 }
