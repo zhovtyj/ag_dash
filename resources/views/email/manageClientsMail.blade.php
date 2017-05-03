@@ -5,6 +5,6 @@
 <title>Irank Dashboard</title>
 <body>
 <h1>Hi</h1>
-<div>New Message!</div>
+<div>{!! $message !!}</div>
 </body>
 </html>
