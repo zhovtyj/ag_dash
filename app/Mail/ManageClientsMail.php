@@ -12,15 +12,17 @@ class ManageClientsMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $message;
+    public $email_message;
+    public $subject;
 
-    public function __construct($message)
+    public function __construct($email_message, $subject)
     {
-        $this->message = $message;
+        $this->email_message = $email_message;
+        $this->subject = $subject;
     }
 
     public function build()
     {
-        return $this->from(Auth::user()->email)->view('email.manageClientsMail');
+        return $this->from(Auth::user()->email)->subject($this->subject)->view('email.manageClientsMail');
     }
 }

@@ -375,6 +375,11 @@
                 selector:'.message',
                 plugins:'link code',
                 height:'200',
+                setup: function (editor) {
+                    editor.on('change', function () {
+                        tinymce.triggerSave();
+                    });
+                }
             });
         });
 
