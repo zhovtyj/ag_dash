@@ -100,6 +100,11 @@
                                             <span class="glyphicon glyphicon-stats"></span>
                                             Status
                                         </button>
+
+                                        <button class="email-btn btn btn-primary btn-block" data-client-id="{{$client->id}}" data-toggle="modal" data-target="#email-modal">
+                                            <span class="glyphicon glyphicon-envelope"></span>
+                                            Email
+                                        </button>
                                     </td>
                                 </tr>
                             @endforeach
@@ -194,6 +199,35 @@
         </div>
     </div>
 
+    <!-- Modal Email-->
+    <div id="email-modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Email to Client</h4>
+                </div>
+                {!! Form::open(['url' => 'foo/bar', 'method'=>'post', 'id'=>'email-form']) !!}
+                <div class="modal-body">
+                    <input type="hidden" id="email_client_id" name="client_id" value="">
+                    <div class="form-group">
+                        <label for="subject">Subject:</label>
+                        <input type="text" name="subject" class="form-control" required/>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Message:</label>
+                        <textarea name="message" class="message"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" id="tag-submit" class="btn btn-success">Send Email</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+                {!! Form::close() !!}
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 
@@ -203,9 +237,6 @@
     <script src="/admin-assets/js/dataTables/dataTables.bootstrap.js"></script>
     <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
     {!! Html::script('js/select2.full.js') !!}
-    <script type="text/javascript">
-        //$('.select2').select2();
-    </script>
 
     <script type="text/javascript">
         //dataTables
@@ -334,6 +365,34 @@
             }
             console.log(filterString);
             $('#dataTables-clients').DataTable().search( filterString ).draw();
+        });
+
+        //Email to Client
+        $('.email-btn').on('click', function(){
+            id = $(this).attr('data-client-id');
+            $('#email_client_id').val(id);
+            tinymce.init({
+                selector:'.message',
+                plugins:'link code',
+                height:'200',
+            });
+        });
+
+        //Send Email
+        $('#email-form').on('submit', function(e){
+            e.preventDefault();
+            var url = "{{route('manage-accounts.send-email')}}";
+            var data = $( this ).serialize();
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function(data) {
+                    console.log(data);
+                }
+            });
+
+            $('#email-form').modal('hide');
         });
 
     </script>

@@ -9,6 +9,8 @@ use App\Client;
 use App\ClientStatus;
 use App\Note;
 use App\Tag;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ManageClientsMail;
 
 class ManageAccountsController extends Controller
 {
@@ -58,5 +60,13 @@ class ManageAccountsController extends Controller
         $client->client_status_id = $request->status;
         $client->save();
         return ($client->clientStatus->name);
+    }
+
+    public function sendEmail(Request $request)
+    {
+        $client = Client::find($request->client_id);
+        $message['message'] = $request->message;
+        Mail::to($client->business_owners_email)->send(new ManageClientsMail($message));
+        return('true');
     }
 }

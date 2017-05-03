@@ -6,20 +6,21 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Auth;
 
-class CouponGenerated extends Mailable
+class ManageClientsMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $coupon;
+    public $message;
 
-    public function __construct($coupon)
+    public function __construct($message)
     {
-        $this->coupon = $coupon;
+        $this->message = $message;
     }
 
     public function build()
     {
-        return $this->from('admin@agency.irank.website')->view('email.newCouponGenerated');
+        return $this->from(Auth::user()->email)->view('email.manageClientsMail');
     }
 }

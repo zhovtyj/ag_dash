@@ -82,6 +82,7 @@ Route::group(['middleware'=>'roles', 'roles'=> ['agency']], function(){
     Route::post('/manage-accounts/client', ['uses'=>'ManageAccountsController@clientAjax', 'as'=>'manage-accounts.client-ajax']);
     Route::post('/manage-accounts/tags-store', ['uses'=>'ManageAccountsController@tagsStore', 'as'=>'manage-accounts.tags-store']);
     Route::post('/manage-accounts/status-store', ['uses'=>'ManageAccountsController@statusStore', 'as'=>'manage-accounts.status-store']);
+    Route::post('/manage-accounts/send-email', ['uses'=>'ManageAccountsController@sendEmail', 'as'=>'manage-accounts.send-email']);
 
 });
 
