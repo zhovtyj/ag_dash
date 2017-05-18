@@ -35,7 +35,7 @@ class DepositController extends Controller
 
         $this->_apiContext->setConfig(array(
             'mode' => 'live',
-            'service.EndPoint' => 'https://api.paypal.com/2.0',
+            'service.EndPoint' => 'https://api.paypal.com',
             'http.ConnectionTimeOut' => 30,
             'log.LogEnabled' => true,
             'log.FileName' => storage_path('logs/paypal.log'),
