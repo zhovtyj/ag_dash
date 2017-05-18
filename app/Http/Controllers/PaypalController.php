@@ -58,7 +58,7 @@ class PaypalController extends Controller
             config('services.paypal.secret'));
 
         $this->_apiContext->setConfig(array(
-            'mode' => 'production',
+            'mode' => 'live',
             'service.EndPoint' => 'https://api.paypal.com/',
             'http.ConnectionTimeOut' => 10,
             'log.LogEnabled' => true,
