@@ -34,8 +34,8 @@ class DepositController extends Controller
             config('services.paypal.secret'));
 
         $this->_apiContext->setConfig(array(
-            'mode' => 'production',
-            'service.EndPoint' => 'https://api.paypal.com/',
+            'mode' => 'live',
+            'service.EndPoint' => 'https://api.paypal.com',
             'http.ConnectionTimeOut' => 30,
             'log.LogEnabled' => true,
             'log.FileName' => storage_path('logs/paypal.log'),
