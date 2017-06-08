@@ -51,6 +51,6 @@ class TagsTableSeeder extends Seeder
         $tag4 = new Tag();
         $tag4->name = 'PPC and Paid Traffic';
         $tag4->save();
-        
+
     }
 }
